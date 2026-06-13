@@ -283,17 +283,21 @@ export function computePolyphonyProfile(
 
   // Sample at 16th-note subdivisions (0.25 beats apart)
   const step = 0.25; // beats per 16th note
-  const sampleCount = Math.floor(duration / step);
+  const rawSampleCount = Math.floor(duration / step);
+  // Cap samples to avoid O(n*m) explosion in long sections
+  const sampleCount = Math.min(rawSampleCount, 128);
 
   if (sampleCount === 0) {
     return { mean: 0, max: 0 };
   }
 
+  // Use evenly-spaced samples across the section when capped
+  const sampleStep = rawSampleCount > 128 ? duration / sampleCount : step;
   let totalCount = 0;
   let maxCount = 0;
 
   for (let i = 0; i < sampleCount; i++) {
-    const samplePoint = sectionStart + i * step;
+    const samplePoint = sectionStart + i * sampleStep;
     let count = 0;
 
     for (const note of sectionNotes) {
@@ -566,11 +570,14 @@ function computeSimultaneousIntervals(
 ): number {
   let total = 0;
 
-  for (let i = 0; i < notes.length; i++) {
+  // Cap to first 200 notes to avoid O(n²) explosion in dense sections
+  const cappedLength = Math.min(notes.length, 200);
+
+  for (let i = 0; i < cappedLength; i++) {
     const noteA = notes[i]!;
     const aEnd = noteA.startTime + noteA.duration;
 
-    for (let j = i + 1; j < notes.length; j++) {
+    for (let j = i + 1; j < cappedLength; j++) {
       const noteB = notes[j]!;
       const bEnd = noteB.startTime + noteB.duration;
 
@@ -877,7 +884,7 @@ export function analyzeSynthTracks(
   trackNames: readonly string[],
   trackRoles: ReadonlyMap<string, InstrumentRole>,
 ): SynthAnalysisResult {
-  const startTime = performance.now();
+  const startTime = Date.now();
 
   // Step 1: Filter synth tracks
   const synthTrackNames: string[] = [];
@@ -900,13 +907,21 @@ export function analyzeSynthTracks(
     }
   }
 
-  // Step 2: Compute per-section profiles
+  // Step 2: Compute per-section profiles (with budget check)
   const perSection = new Map<string, Map<string, SynthTrackProfile>>();
+  let step2BudgetExceeded = false;
 
   for (const section of cappedSections) {
+    if (step2BudgetExceeded) break;
     const trackProfiles = new Map<string, SynthTrackProfile>();
 
     for (const trackName of synthTrackNames) {
+      // Check budget every iteration to avoid blocking the event loop
+      if (Date.now() - startTime >= PERFORMANCE_BUDGET_MS) {
+        step2BudgetExceeded = true;
+        break;
+      }
+
       const notes = noteDataByTrack.get(trackName) ?? [];
 
       // Filter notes within this section's time range
@@ -956,13 +971,13 @@ export function analyzeSynthTracks(
   }>();
   const allDiscontinuities: SynthDiscontinuity[] = [];
 
-  const elapsed = performance.now() - startTime;
-  const budgetExceeded = elapsed >= PERFORMANCE_BUDGET_MS;
+  const elapsed = Date.now() - startTime;
+  const budgetExceeded = step2BudgetExceeded || elapsed >= PERFORMANCE_BUDGET_MS;
 
   if (!budgetExceeded) {
     for (const trackName of synthTrackNames) {
       // Check budget before processing each track
-      if (performance.now() - startTime >= PERFORMANCE_BUDGET_MS) {
+      if (Date.now() - startTime >= PERFORMANCE_BUDGET_MS) {
         break;
       }
 

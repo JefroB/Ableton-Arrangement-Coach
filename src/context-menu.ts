@@ -63,6 +63,8 @@ export function registerContextMenu(deps: ContextMenuDependencies): void {
       store.dispatch({ type: "CLEAR_SELECTION_RANGE" });
     }
 
+    // Run analysis synchronously first (energy scores, sections, etc. complete quickly).
+    // The synth/content passes may be slow but are wrapped in try/catch in the orchestrator.
     orchestrator.runAnalysis();
     if (openPanel) {
       openPanel();

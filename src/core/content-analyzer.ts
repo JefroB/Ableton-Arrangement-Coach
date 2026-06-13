@@ -1111,7 +1111,7 @@ export function analyzeContent(
   trackNames: readonly string[],
   drumPadMaps: ReadonlyMap<string, DrumPadMap>,
 ): ContentAnalysisResult {
-  const startTime = performance.now();
+  const startTime = Date.now();
 
   // Empty input guard
   if (sections.length === 0 || trackNoteData.length === 0) {
@@ -1163,6 +1163,12 @@ export function analyzeContent(
   for (const section of validSections) {
     const trackAnalysisMap = new Map<string, TrackContentAnalysis>();
     const sectionSnapshots = new Map<string, ActivePercussionSnapshot>();
+
+    // Budget check at the outer loop level to avoid blocking
+    if (Date.now() - startTime >= PERFORMANCE_BUDGET_MS) {
+      // Degraded mode: stop processing further sections
+      break;
+    }
 
     for (const tnd of trackNoteData) {
       const trackName = tnd.trackName;
@@ -1250,7 +1256,7 @@ export function analyzeContent(
   }
 
   // Check performance budget before cross-section comparison
-  const elapsed = performance.now() - startTime;
+  const elapsed = Date.now() - startTime;
   if (elapsed > PERFORMANCE_BUDGET_MS) {
     // Degraded mode: skip cross-section comparison
     return {

@@ -400,7 +400,7 @@ function extractArrangementLanesFromTrack(
  * Returns null on any failure (logs warning internally).
  */
 export function parseAlsFile(filePath: string): AlsAutomationData | null {
-  const startTime = performance.now();
+  const startTime = Date.now();
 
   try {
     // Step 1: Read file as buffer
@@ -426,7 +426,7 @@ export function parseAlsFile(filePath: string): AlsAutomationData | null {
       console.warn("[Als Parser] No <Tracks> section found in .als file.");
       return {
         envelopes: [],
-        parseTimeMs: performance.now() - startTime,
+        parseTimeMs: Date.now() - startTime,
         trackCount: 0,
       };
     }
@@ -448,7 +448,7 @@ export function parseAlsFile(filePath: string): AlsAutomationData | null {
       allEnvelopes.push(...clipEnvelopes, ...arrangementLanes);
     }
 
-    const parseTimeMs = performance.now() - startTime;
+    const parseTimeMs = Date.now() - startTime;
 
     return {
       envelopes: allEnvelopes,
