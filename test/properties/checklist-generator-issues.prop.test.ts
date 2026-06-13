@@ -73,10 +73,10 @@ describe("Property 6: Auto-generation produces correct items from issues", () =>
    *
    * For any set of issues where each issue references one or more sectionIds,
    * the auto-generation module SHALL produce exactly one SectionChecklistItem
-   * per issue per referenced section, with source="issue".
+   * per issue, assigned to the FIRST valid section in issue.sectionIds.
    */
   test.prop([scenarioArbitrary], { numRuns: 100 })(
-    "produces exactly one item per issue per referenced section with source='issue'",
+    "produces exactly one item per issue in the first valid section with source='issue'",
     ({ sections, issues }) => {
       const result = generateSectionChecklists({
         issues,
@@ -87,16 +87,24 @@ describe("Property 6: Auto-generation produces correct items from issues", () =>
       });
 
       for (const issue of issues) {
-        for (const sectionId of issue.sectionIds) {
-          const sectionItems = result[sectionId] ?? [];
-          const matchingItems = sectionItems.filter(
-            (item) => item.id === `issue-${issue.id}` && item.sectionId === sectionId,
-          );
+        // Determine which section the issue should be assigned to (first valid)
+        const assignedSection = issue.sectionIds.find((id) => sections.includes(id));
+        expect(assignedSection).toBeDefined();
 
-          // Exactly one item per issue per referenced section
-          expect(matchingItems).toHaveLength(1);
-          // Source must be "issue"
-          expect(matchingItems[0]!.source).toBe("issue");
+        // Verify item exists in the assigned section
+        const sectionItems = result[assignedSection!] ?? [];
+        const matchingItems = sectionItems.filter(
+          (item) => item.id === `issue-${issue.id}` && item.sectionId === assignedSection,
+        );
+        expect(matchingItems).toHaveLength(1);
+        expect(matchingItems[0]!.source).toBe("issue");
+
+        // Verify item does NOT appear in any other section
+        for (const otherId of sections) {
+          if (otherId === assignedSection) continue;
+          const otherItems = result[otherId] ?? [];
+          const duplicates = otherItems.filter((item) => item.id === `issue-${issue.id}`);
+          expect(duplicates).toHaveLength(0);
         }
       }
     },
@@ -120,15 +128,14 @@ describe("Property 6: Auto-generation produces correct items from issues", () =>
       });
 
       for (const issue of issues) {
-        for (const sectionId of issue.sectionIds) {
-          const sectionItems = result[sectionId] ?? [];
-          const item = sectionItems.find(
-            (i) => i.id === `issue-${issue.id}` && i.sectionId === sectionId,
-          );
+        const assignedSection = issue.sectionIds.find((id) => sections.includes(id));
+        const sectionItems = result[assignedSection!] ?? [];
+        const item = sectionItems.find(
+          (i) => i.id === `issue-${issue.id}`,
+        );
 
-          expect(item).toBeDefined();
-          expect(item!.text).toBe(issue.message);
-        }
+        expect(item).toBeDefined();
+        expect(item!.text).toBe(issue.message);
       }
     },
   );
@@ -151,17 +158,14 @@ describe("Property 6: Auto-generation produces correct items from issues", () =>
       });
 
       for (const issue of issues) {
-        for (const sectionId of issue.sectionIds) {
-          const sectionItems = result[sectionId] ?? [];
-          // Find by expected ID directly — avoids ambiguity when multiple issues
-          // share the same message text within the same section.
-          const item = sectionItems.find(
-            (i) => i.id === `issue-${issue.id}` && i.sectionId === sectionId,
-          );
+        const assignedSection = issue.sectionIds.find((id) => sections.includes(id));
+        const sectionItems = result[assignedSection!] ?? [];
+        const item = sectionItems.find(
+          (i) => i.id === `issue-${issue.id}`,
+        );
 
-          expect(item).toBeDefined();
-          expect(item!.id).toBe(`issue-${issue.id}`);
-        }
+        expect(item).toBeDefined();
+        expect(item!.id).toBe(`issue-${issue.id}`);
       }
     },
   );
@@ -170,11 +174,11 @@ describe("Property 6: Auto-generation produces correct items from issues", () =>
    * **Validates: Requirements 2.1, 2.3, 2.7**
    *
    * For any issue referencing multiple sectionIds, the auto-generation module
-   * SHALL produce separate SectionChecklistItem instances per referenced section —
-   * each with an independent sectionId field matching its containing section.
+   * SHALL assign the item to the FIRST valid section only — no duplication.
+   * The item's sectionId field matches its containing section.
    */
   test.prop([scenarioArbitrary], { numRuns: 100 })(
-    "issue referencing multiple sections produces separate items per section",
+    "issue referencing multiple sections produces a single item in the first valid section",
     ({ sections, issues }) => {
       const result = generateSectionChecklists({
         issues,
@@ -187,25 +191,23 @@ describe("Property 6: Auto-generation produces correct items from issues", () =>
       for (const issue of issues) {
         if (issue.sectionIds.length <= 1) continue;
 
-        // Each referenced section should have its own item
-        const itemsForIssue: Array<{ sectionId: string; item: (typeof result)[string][number] }> = [];
+        const assignedSection = issue.sectionIds.find((id) => sections.includes(id));
+        expect(assignedSection).toBeDefined();
 
-        for (const sectionId of issue.sectionIds) {
-          const sectionItems = result[sectionId] ?? [];
-          const item = sectionItems.find(
-            (i) => i.id === `issue-${issue.id}` && i.sectionId === sectionId,
-          );
-          expect(item).toBeDefined();
-          itemsForIssue.push({ sectionId, item: item! });
-        }
+        // Item should exist in the first valid section
+        const sectionItems = result[assignedSection!] ?? [];
+        const item = sectionItems.find(
+          (i) => i.id === `issue-${issue.id}`,
+        );
+        expect(item).toBeDefined();
+        expect(item!.sectionId).toBe(assignedSection);
 
-        // The items should be in different sections
-        const uniqueSections = new Set(itemsForIssue.map((x) => x.sectionId));
-        expect(uniqueSections.size).toBe(issue.sectionIds.length);
-
-        // Each item's sectionId should match its containing section
-        for (const { sectionId, item } of itemsForIssue) {
-          expect(item.sectionId).toBe(sectionId);
+        // Item should NOT exist in secondary sections
+        const otherSections = issue.sectionIds.filter((id) => id !== assignedSection && sections.includes(id));
+        for (const otherId of otherSections) {
+          const otherItems = result[otherId] ?? [];
+          const duplicate = otherItems.find((i) => i.id === `issue-${issue.id}`);
+          expect(duplicate).toBeUndefined();
         }
       }
     },
@@ -215,10 +217,10 @@ describe("Property 6: Auto-generation produces correct items from issues", () =>
    * **Validates: Requirements 2.1, 2.3, 2.7**
    *
    * The total number of issue-sourced items across all sections SHALL equal
-   * the sum of sectionIds.length for each issue (one item per issue per section).
+   * the number of issues (one item per issue, each assigned to its first valid section).
    */
   test.prop([scenarioArbitrary], { numRuns: 100 })(
-    "total issue-sourced items equals sum of issue.sectionIds.length",
+    "total issue-sourced items equals number of issues",
     ({ sections, issues }) => {
       const result = generateSectionChecklists({
         issues,
@@ -228,10 +230,7 @@ describe("Property 6: Auto-generation produces correct items from issues", () =>
         selectedGenre: null,
       });
 
-      const expectedTotal = issues.reduce(
-        (sum, issue) => sum + issue.sectionIds.length,
-        0,
-      );
+      const expectedTotal = issues.length;
 
       let actualTotal = 0;
       for (const sectionId of sections) {

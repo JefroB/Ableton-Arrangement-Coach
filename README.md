@@ -13,7 +13,7 @@ Arrangement Coach analyzes your Live Set in real time, scores each section's ene
 1. Download the [arrangement-coach.ablx](arrangement-coach.ablx) file
 2. In Ableton Live, go to **Options → Settings → Extensions**
 3. Drag and drop the `.ablx` file into the Extensions settings
-4. The extension appears in the **Extensions** panel
+4. The extension appears in the context menu when you right-click in Arrangement View
 
 ---
 
@@ -86,8 +86,9 @@ Each section receives an energy score from 1–10 based on a weighted combinatio
 | Pitch range | Melodic spread across active tracks |
 | Audio energy | Normalized RMS from audio track spectral analysis |
 | Synth energy | Contribution from lead/pad/chord/arp synth analysis |
+| Drum energy | Normalized drum element richness (active kick, snare, hi-hat, cymbal, percussion elements) |
 
-**Genre-adjusted weights** — Different genres emphasize different factors. Techno weights automation and frequency coverage heavily; Hip-Hop weights velocity and MIDI density; Ambient prioritizes pitch range and frequency coverage over track count.
+**Genre-adjusted weights** — Different genres emphasize different factors. Techno weights automation and frequency coverage heavily; Hip-Hop weights velocity and MIDI density; Ambient prioritizes pitch range and frequency coverage over track count. Genres with prominent percussion (Techno, D&B, Footwork) also weight drum element richness — sections with a full kit (kick, snare, hi-hat, cymbal, percussion) score higher than sections with just a kick.
 
 **Relative scoring** — Scores are normalized across your arrangement. The section with the most activity gets a higher score, the least gets a lower score. This means scores represent contrast within *your* track, not an absolute standard.
 
@@ -147,6 +148,20 @@ Drop a reference track into your Live Set (name it starting with "REF" or "Refer
 - Extract its section structure from clip boundaries
 - Compare your arrangement's proportions against the reference
 - Show delta indicators for section lengths and timing
+
+### Arrangement Score
+
+The **Arrangement Score** (1–10) in the controls bar gives you an at-a-glance measure of how well your energy curve matches the ideal for your selected genre. It combines two components at 50/50 weighting:
+
+- **Shape similarity** — Are your energy rises and falls happening at the right moments? (cosine similarity of delta vectors)
+- **Absolute proximity** — Are your actual energy levels close to what the genre expects? (average deviation from template)
+
+**Score tiers:**
+- 🟢 **8–10 Good** — Your arrangement closely follows the genre's energy arc
+- 🟡 **5–7 Acceptable** — Some deviation, but the overall shape works
+- 🔴 **1–4 Needs Work** — Significant mismatch with the genre's expected dynamics
+
+The score updates automatically when you analyze or change genres. If your arrangement has fewer sections than the genre template, only the corresponding prefix is compared. If it has more sections, the template is interpolated to match.
 
 ---
 

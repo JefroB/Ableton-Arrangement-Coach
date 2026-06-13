@@ -38,6 +38,7 @@ export type BackendMessage =
   | { type: "reference_cleared" }
   | { type: "analyzing_status"; analyzing: boolean }
   | { type: "dj_score_updated"; djScore: DjScoreResult | null }
+  | { type: "arrangement_score_updated"; score: number | null }
   | { type: "show_issues" }
   | { type: "generation_status"; generating: boolean; error: string | null }
   | { type: "generation_complete"; markersCreated: number };

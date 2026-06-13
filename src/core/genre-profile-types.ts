@@ -117,6 +117,8 @@ export interface EnergyWeights {
   readonly audioEnergyWeight?: number;
   /** Weight for synth energy contribution (0–1). Optional; defaults to 0 when not specified. */
   readonly synthEnergyWeight?: number;
+  /** Weight for drum energy contribution (0–1). Optional; defaults to 0 when not specified (backward-compatible). */
+  readonly drumEnergyWeight?: number;
 }
 
 /** Numeric thresholds for issue detection. */

@@ -2351,3 +2351,148 @@ describe("State Store — M8 SET_ANALYZING and UPDATE_DJ_SCORE", () => {
     });
   });
 });
+
+
+// ─── Feature: arrangement-score, Task 3.4: Store reducer unit tests ─────
+
+/**
+ * **Validates: Requirements 5.1, 5.2, 5.4, 5.5**
+ *
+ * Unit tests for the UPDATE_ARRANGEMENT_SCORE action and arrangementScore state field.
+ */
+describe("State Store — Arrangement Score", () => {
+  beforeEach(() => {
+    resetFactoryCounters();
+  });
+
+  describe("Initial state", () => {
+    it("arrangementScore is null by default", () => {
+      const store = createStore();
+      expect(store.getState().arrangementScore).toBeNull();
+    });
+  });
+
+  describe("UPDATE_ARRANGEMENT_SCORE", () => {
+    it("sets arrangementScore to a numeric value", () => {
+      const store = createStore();
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 7 });
+      expect(store.getState().arrangementScore).toBe(7);
+    });
+
+    it("sets arrangementScore to different valid scores (1–10)", () => {
+      const store = createStore();
+
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 1 });
+      expect(store.getState().arrangementScore).toBe(1);
+
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 10 });
+      expect(store.getState().arrangementScore).toBe(10);
+
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 5 });
+      expect(store.getState().arrangementScore).toBe(5);
+    });
+
+    it("sets arrangementScore to null when dispatched with null", () => {
+      const store = createStore();
+
+      // First set a score
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 8 });
+      expect(store.getState().arrangementScore).toBe(8);
+
+      // Then set to null
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
+      expect(store.getState().arrangementScore).toBeNull();
+    });
+
+    it("does not affect other state fields", () => {
+      const store = createStore();
+      const sections = [createSection({ name: "Intro", startTime: 0, endTime: 32 })];
+      store.dispatch({ type: "INIT", sections, trackInventory: [] });
+      store.dispatch({ type: "SET_GENRE", genreId: "techno" });
+
+      const stateBefore = store.getState();
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 9 });
+      const stateAfter = store.getState();
+
+      expect(stateAfter.sections).toBe(stateBefore.sections);
+      expect(stateAfter.trackInventory).toBe(stateBefore.trackInventory);
+      expect(stateAfter.activeSectionId).toBe(stateBefore.activeSectionId);
+      expect(stateAfter.selectedGenreId).toBe(stateBefore.selectedGenreId);
+      expect(stateAfter.sectionAnalysis).toBe(stateBefore.sectionAnalysis);
+      expect(stateAfter.energyCurve).toBe(stateBefore.energyCurve);
+      expect(stateAfter.djScore).toBe(stateBefore.djScore);
+    });
+
+    it("notifies subscribers when dispatched", () => {
+      const store = createStore();
+      const listener = vi.fn();
+      store.subscribe(listener);
+
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 6 });
+
+      expect(listener).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("INIT resets arrangementScore", () => {
+    it("resets arrangementScore to null when INIT is dispatched", () => {
+      const store = createStore();
+
+      // Set a score first
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 9 });
+      expect(store.getState().arrangementScore).toBe(9);
+
+      // INIT should reset it to null
+      const sections = [createSection({ name: "NewSection", startTime: 0, endTime: 64 })];
+      store.dispatch({ type: "INIT", sections, trackInventory: [] });
+
+      expect(store.getState().arrangementScore).toBeNull();
+    });
+
+    it("resets arrangementScore to null even if it was previously a low score", () => {
+      const store = createStore();
+
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 2 });
+      expect(store.getState().arrangementScore).toBe(2);
+
+      store.dispatch({ type: "INIT", sections: [], trackInventory: [] });
+      expect(store.getState().arrangementScore).toBeNull();
+    });
+  });
+
+  describe("Unrelated actions do not affect arrangementScore", () => {
+    it("UPDATE_PLAYHEAD does not change arrangementScore", () => {
+      const store = createStore();
+      const sections = [
+        createSection({ id: "s-0", name: "Intro", startTime: 0, endTime: 32 }),
+      ];
+      store.dispatch({ type: "INIT", sections, trackInventory: [] });
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 7 });
+
+      store.dispatch({ type: "UPDATE_PLAYHEAD", position: 16 });
+
+      expect(store.getState().arrangementScore).toBe(7);
+    });
+
+    it("SET_GENRE does not change arrangementScore", () => {
+      const store = createStore();
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 4 });
+
+      store.dispatch({ type: "SET_GENRE", genreId: "house" });
+
+      expect(store.getState().arrangementScore).toBe(4);
+    });
+
+    it("UPDATE_ANALYSIS does not change arrangementScore", () => {
+      const store = createStore();
+      store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: 10 });
+
+      const sectionAnalysis = new Map<string, SectionAnalysisState>([
+        ["section-0", { activeTrackCount: 3, midiDensity: 5.0, hasAutomation: true, energyScore: 8 }],
+      ]);
+      store.dispatch({ type: "UPDATE_ANALYSIS", sectionAnalysis, energyCurve: [8] });
+
+      expect(store.getState().arrangementScore).toBe(10);
+    });
+  });
+});

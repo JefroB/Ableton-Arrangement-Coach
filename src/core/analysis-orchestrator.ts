@@ -46,6 +46,7 @@ import { detectReferenceTrack } from "./reference-detector.js";
 import { extractReferenceSectionsFromClips } from "./reference-extractor.js";
 import { computeComparison } from "./structural-comparator.js";
 import { computeDjScore } from "./dj-scorer.js";
+import { computeArrangementScore } from "./arrangement-score-engine.js";
 import { createAnalysisCache } from "../utils/cache.js";
 import { scanParameters } from "./parameter-scanner.js";
 import { parseAlsFile, parseAlsBuffer, mapAutomationToSections, type AlsAutomationData, type SectionAutomationSummary } from "./als-parser.js";
@@ -528,6 +529,29 @@ export function createAnalysisOrchestrator(
           store.dispatch({ type: "UPDATE_SYNTH_ANALYSIS", synthAnalysis: null });
         }
 
+        // Step 3c: Drum Energy — derive normalized drum energy per section from
+        // cached content analysis (DrumElementProfile.activeElements.size).
+        // On the first cycle cachedContentAnalysis is null, so drumEnergyMap is empty
+        // and drumEnergy will be undefined in scoring inputs (preservation-safe).
+        const MAX_DRUM_ELEMENTS = 7;
+        const drumEnergyMap = new Map<string, number>();
+        if (cachedContentAnalysis !== null) {
+          for (const [sectionId, trackMap] of cachedContentAnalysis.perSection) {
+            let maxActive = 0;
+            for (const [, trackAnalysis] of trackMap) {
+              if (trackAnalysis.drumElementProfile !== null) {
+                const size = trackAnalysis.drumElementProfile.activeElements.size;
+                if (size > maxActive) {
+                  maxActive = size;
+                }
+              }
+            }
+            if (maxActive > 0) {
+              drumEnergyMap.set(sectionId, Math.min(1, maxActive / MAX_DRUM_ELEMENTS));
+            }
+          }
+        }
+
         // Step 4–8: Analyze each section and build scoring inputs.
         const sectionAnalysisMap = new Map<string, SectionAnalysisState>();
         const scoringInputs: SectionScoringInput[] = [];
@@ -585,6 +609,7 @@ export function createAnalysisOrchestrator(
           const pitchRange = computePitchRange(section, trackNoteDataList);
 
           const sectionSynthEnergy = synthEnergyMap.get(section.id);
+          const sectionDrumEnergy = drumEnergyMap.get(section.id);
           scoringInputs.push({
             activeTrackCount,
             midiDensity,
@@ -595,13 +620,15 @@ export function createAnalysisOrchestrator(
             polyphonyScore,
             pitchRange,
             ...(sectionSynthEnergy != null ? { synthEnergy: sectionSynthEnergy } : {}),
+            ...(sectionDrumEnergy != null ? { drumEnergy: sectionDrumEnergy } : {}),
           });
 
           console.log(`[Arrangement Coach] Energy input "${section.name}" (${section.id}): ` +
             `tracks=${activeTrackCount}, midiDensity=${midiDensity.toFixed(2)}, ` +
             `trackPres=${trackPresenceRatio.toFixed(2)}, automation=${automationRatio.toFixed(2)}, ` +
             `freqCov=${frequencyCoverage.toFixed(2)}, vel=${velocityIntensity.toFixed(2)}, ` +
-            `poly=${polyphonyScore.toFixed(2)}, pitch=${pitchRange.toFixed(2)}`);
+            `poly=${polyphonyScore.toFixed(2)}, pitch=${pitchRange.toFixed(2)}` +
+            (sectionDrumEnergy != null ? `, drumE=${sectionDrumEnergy.toFixed(2)}` : ``));
 
           // Store partial analysis result (energyScore placeholder — filled after scoring).
           sectionAnalysisMap.set(section.id, {
@@ -674,6 +701,66 @@ export function createAnalysisOrchestrator(
         } catch (contentError) {
           // On failure, log and skip — preserve previous content analysis in state.
           console.error("[Analysis Orchestrator] Error during content analysis:", contentError);
+        }
+
+        // Step 9b-ii: Re-compute energy scores with fresh drum energy from content analysis.
+        // On the first cycle the initial drumEnergyMap was empty (cachedContentAnalysis was null).
+        // Now that content analysis has run, derive drum energy and re-score if weight is non-zero.
+        try {
+          const freshContentAnalysis = cachedContentAnalysis;
+          const currentWeights = getWeightsForGenre(store.getState().selectedGenreId, hasAlsData);
+          if (freshContentAnalysis !== null && (currentWeights.drumEnergyWeight ?? 0) > 0) {
+            const freshDrumEnergyMap = new Map<string, number>();
+            for (const [sectionId, trackMap] of freshContentAnalysis.perSection) {
+              let maxActive = 0;
+              for (const [, trackAnalysis] of trackMap) {
+                if (trackAnalysis.drumElementProfile !== null) {
+                  const size = trackAnalysis.drumElementProfile.activeElements.size;
+                  if (size > maxActive) {
+                    maxActive = size;
+                  }
+                }
+              }
+              if (maxActive > 0) {
+                freshDrumEnergyMap.set(sectionId, Math.min(1, maxActive / MAX_DRUM_ELEMENTS));
+              }
+            }
+
+            if (freshDrumEnergyMap.size > 0) {
+              const updatedScoringInputs: SectionScoringInput[] = scoringInputs.map((input, idx) => ({
+                ...input,
+                drumEnergy: freshDrumEnergyMap.get(sectionsArray[idx]!.id),
+              }));
+              const updatedEnergyScores = computeEnergyScores(updatedScoringInputs, currentWeights);
+
+              for (let i = 0; i < sectionsArray.length; i++) {
+                const section = sectionsArray[i]!;
+                const existing = sectionAnalysisMap.get(section.id)!;
+                sectionAnalysisMap.set(section.id, {
+                  ...existing,
+                  energyScore: updatedEnergyScores[i] ?? 1,
+                });
+              }
+              energyScores.length = 0;
+              energyScores.push(...updatedEnergyScores);
+
+              // Also update the scoring inputs array for downstream re-scores (Step 9c)
+              for (let i = 0; i < scoringInputs.length; i++) {
+                const de = freshDrumEnergyMap.get(sectionsArray[i]!.id);
+                if (de != null) {
+                  (scoringInputs as SectionScoringInput[])[i] = { ...scoringInputs[i]!, drumEnergy: de };
+                }
+              }
+
+              store.dispatch({
+                type: "UPDATE_ANALYSIS",
+                sectionAnalysis: sectionAnalysisMap,
+                energyCurve: updatedEnergyScores,
+              });
+            }
+          }
+        } catch (drumEnergyError) {
+          console.error("[Analysis Orchestrator] Error during drum energy re-scoring:", drumEnergyError);
         }
 
         // Step 9c: Synth Analysis — compute detailed profiles for synth tracks.
@@ -1191,6 +1278,32 @@ export function createAnalysisOrchestrator(
           store.dispatch({ type: "UPDATE_DJ_SCORE", djScore: djResult });
         } catch (djError) {
           console.error("[Analysis Orchestrator] Error during DJ scoring:", djError);
+        }
+
+        // Step 13b: Compute arrangement score and dispatch result.
+        try {
+          const arrState = store.getState();
+          const arrGenreId = arrState.selectedGenreId;
+
+          if (arrGenreId === null) {
+            // No genre selected — dispatch null score
+            store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
+          } else {
+            // Look up genre profile (resolves subgenre override for energyCurveTemplate)
+            const arrProfile = getProfile(arrGenreId) ?? getProfileBySubgenre(arrGenreId) ?? null;
+
+            if (arrProfile !== null) {
+              const arrResult = computeArrangementScore({
+                energyCurve: energyScores,
+                idealCurve: arrProfile.energyCurveTemplate,
+              });
+              store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: arrResult.score });
+            }
+            // If genre ID not found in registry, do NOT dispatch — retain previous score
+          }
+        } catch (arrError) {
+          console.error("[Analysis Orchestrator] Error during arrangement scoring:", arrError);
+          // On error, retain previous score unchanged (do not dispatch)
         }
 
         // Step 14: Run reference comparison pipeline after main analysis.

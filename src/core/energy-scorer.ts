@@ -21,6 +21,8 @@ export interface SectionScoringInput {
   readonly pitchRange: number; // (max - min pitch) / 127
   readonly audioEnergy?: number; // Normalized 0–1 from audio RMS, averaged across audio tracks in section
   readonly synthEnergy?: number; // Normalized 0–1 synth energy contribution for this section
+  /** Normalized 0–1 drum richness derived from active drum element count (e.g., activeElements.size / MAX_DRUM_ELEMENTS). */
+  readonly drumEnergy?: number;
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────────
@@ -85,6 +87,8 @@ export function computeEnergyScores(
   let hasAnyAudioEnergy = false;
   let maxSynthEnergy = 0, minSynthEnergy = Infinity;
   let hasAnySynthEnergy = false;
+  let maxDrumEnergy = 0, minDrumEnergy = Infinity;
+  let hasAnyDrumEnergy = false;
 
   for (const section of sections) {
     if (section.activeTrackCount > maxTrackCount) maxTrackCount = section.activeTrackCount;
@@ -113,6 +117,11 @@ export function computeEnergyScores(
       if (section.synthEnergy > maxSynthEnergy) maxSynthEnergy = section.synthEnergy;
       if (section.synthEnergy < minSynthEnergy) minSynthEnergy = section.synthEnergy;
     }
+    if (section.drumEnergy != null) {
+      hasAnyDrumEnergy = true;
+      if (section.drumEnergy > maxDrumEnergy) maxDrumEnergy = section.drumEnergy;
+      if (section.drumEnergy < minDrumEnergy) minDrumEnergy = section.drumEnergy;
+    }
   }
 
   // If no sections provide audioEnergy, treat the factor as absent (no variance).
@@ -125,6 +134,12 @@ export function computeEnergyScores(
   if (!hasAnySynthEnergy) {
     maxSynthEnergy = 0;
     minSynthEnergy = 0;
+  }
+
+  // If no sections provide drumEnergy, treat the factor as absent (no variance).
+  if (!hasAnyDrumEnergy) {
+    maxDrumEnergy = 0;
+    minDrumEnergy = 0;
   }
 
   // Step 3: Determine which factors have variance (can differentiate sections).
@@ -140,6 +155,7 @@ export function computeEnergyScores(
   const rangePitchRange = maxPitchRange - minPitchRange;
   const rangeAudioEnergy = maxAudioEnergy - minAudioEnergy;
   const rangeSynthEnergy = maxSynthEnergy - minSynthEnergy;
+  const rangeDrumEnergy = maxDrumEnergy - minDrumEnergy;
 
   // Build effective weights: skip zero-variance factors, redistribute their weight.
   const hasVariance = [
@@ -153,10 +169,12 @@ export function computeEnergyScores(
     rangePitchRange > EPS,
     hasAnyAudioEnergy && rangeAudioEnergy > EPS,
     hasAnySynthEnergy && rangeSynthEnergy > EPS,
+    hasAnyDrumEnergy && rangeDrumEnergy > EPS,
   ];
 
   const audioEnergyWeight = weights.audioEnergyWeight ?? 0;
   const synthEnergyWeight = weights.synthEnergyWeight ?? 0;
+  const drumEnergyWeight = weights.drumEnergyWeight ?? 0;
   const rawWeights = [
     weights.trackCountWeight,
     weights.midiDensityWeight,
@@ -168,6 +186,7 @@ export function computeEnergyScores(
     weights.pitchRangeWeight,
     audioEnergyWeight,
     synthEnergyWeight,
+    drumEnergyWeight,
   ];
 
   // Sum of weights for factors WITH variance — these get the redistributed weight.
@@ -236,6 +255,11 @@ export function computeEnergyScores(
       const synthVal = section.synthEnergy ?? 0;
       const norm = (synthVal - minSynthEnergy) / rangeSynthEnergy;
       weightedSum += (0.3 + 0.7 * norm) * rawWeights[9]! * redistributionScale;
+    }
+    if (hasVariance[10]) {
+      const drumVal = section.drumEnergy ?? 0;
+      const norm = (drumVal - minDrumEnergy) / rangeDrumEnergy;
+      weightedSum += (0.3 + 0.7 * norm) * rawWeights[10]! * redistributionScale;
     }
 
     // Scale to 1–10 and clamp

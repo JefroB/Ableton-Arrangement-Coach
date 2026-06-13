@@ -71,31 +71,36 @@ export function generateSectionChecklists(input: ChecklistGeneratorInput): Secti
 
   // ─── Issue-sourced items ───────────────────────────────────────────
 
-  // Collect issue items grouped by section, sorted by severity
+  // Collect issue items grouped by section, sorted by severity.
+  // Each issue is assigned to its FIRST valid section only — the rendered
+  // message references that primary section's name and bar range, so
+  // duplicating it into secondary sections would be misleading.
   const sortedIssues = [...issues].sort(
     (a, b) => SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity]
   );
 
   for (const issue of sortedIssues) {
-    for (const sectionId of issue.sectionIds) {
-      // Only produce items for sections that exist in the current arrangement
-      if (!existingSections.includes(sectionId)) {
-        continue;
-      }
+    // Find the first sectionId that exists in the current arrangement
+    const assignedSectionId = issue.sectionIds.find(
+      (id) => existingSections.includes(id)
+    );
 
-      const itemId = `issue-${issue.id}`;
-      const completed = existingCompletions.get(itemId) ?? false;
-
-      const item: SectionChecklistItem = {
-        id: itemId,
-        sectionId,
-        text: issue.message,
-        source: "issue",
-        completed,
-      };
-
-      issueItems[sectionId]!.push(item);
+    if (assignedSectionId === undefined) {
+      continue; // Issue references no existing sections — skip
     }
+
+    const itemId = `issue-${issue.id}`;
+    const completed = existingCompletions.get(itemId) ?? false;
+
+    const item: SectionChecklistItem = {
+      id: itemId,
+      sectionId: assignedSectionId,
+      text: issue.message,
+      source: "issue",
+      completed,
+    };
+
+    issueItems[assignedSectionId]!.push(item);
   }
 
   // ─── Genre-sourced items ───────────────────────────────────────────
