@@ -1,0 +1,1264 @@
+{
+  "genreFamily": "psybass-tribal-bass",
+  "name": "Psybass & Tribal Bass",
+  "tempoRange": {
+    "min": 70,
+    "max": 150
+  },
+  "structure": [
+    {
+      "name": "Textural Intro",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 3,
+        "max": 4
+      },
+      "optional": false
+    },
+    {
+      "name": "Showcase A",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Transition",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Showcase B",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Deep Section",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Peak",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Dissolve",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 3,
+        "max": 5
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    4,
+    6,
+    5,
+    7,
+    5,
+    8,
+    4
+  ],
+  "transitions": {
+    "preferred": [
+      "sound_design_morph",
+      "granular_dissolve",
+      "bass_timbre_shift",
+      "pitch_manipulation",
+      "dub_delay_swell"
+    ],
+    "discouraged": [
+      "edm_riser",
+      "snare_roll",
+      "white_noise_sweep",
+      "conventional_build"
+    ],
+    "buildDurationRange": {
+      "min": 4,
+      "max": 32
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.05,
+    "midiDensityWeight": 0.15,
+    "trackPresenceWeight": 0.15,
+    "automationWeight": 0.3,
+    "frequencyCoverageWeight": 0.15,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "irregular-phrase-lengths-allowed",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "sound-design-density-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "bass-presence-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "no-forced-standard-structure",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "flat-energy-suppressed",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "abrupt-energy-suppressed",
+      "value": true,
+      "severity": "info"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 3,
+    "missingTransitionMinDelta": 5,
+    "similarityCeilingPercent": 90
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "granular_burst",
+      "bass_timbre_morph",
+      "dub_delay_feedback",
+      "percussion_flurry",
+      "reverse_audio"
+    ],
+    "typicalFillIntervals": [
+      7,
+      11,
+      16,
+      32
+    ],
+    "expectedFillFrequency": 0.75,
+    "coreElements": [
+      "bass",
+      "designed_percussion",
+      "textural_layer"
+    ],
+    "conditionalElements": {
+      "world_percussion": [
+        "showcase_a",
+        "showcase_b"
+      ],
+      "dub_delay": [
+        "deep_section",
+        "dissolve"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -10,
+      "bass": -9,
+      "lowMid": -12,
+      "mid": -12,
+      "highMid": -14,
+      "high": -16
+    },
+    "expectedDrumTransientDensity": 10,
+    "displayName": "Psybass & Tribal Bass",
+    "subBassHint": "Massive evolving sub-bass is the genre's foundation; modulated and morphing rather than static",
+    "rhythmicHint": "Moderate transient density with complex polyrhythmic patterns; non-standard phrase boundaries"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 2,
+    "repetitionSimilarity": 0.88,
+    "abruptChangeDelta": 6,
+    "crowdingTrackCount": 4,
+    "introMinBars": 8,
+    "outroMinBars": 8
+  },
+  "archetypes": [
+    "continuous-evolution",
+    "build-drop"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "psybass",
+      "displayName": "Psybass",
+      "structureVariants": [
+        {
+          "name": "Journey/Showcase",
+          "sections": [
+            {
+              "name": "Textural Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Sound Design Showcase A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Transition",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Showcase B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Deep Section",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Showcase C / Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dissolve Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Drop-Oriented",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Interlude",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Continuous Evolution",
+          "sections": [
+            {
+              "name": "State A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Morph A→B",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "State B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Morph B→C",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "State C",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak State",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dissolve",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Tipper-Style Micro-Edit",
+          "sections": [
+            {
+              "name": "Section A",
+              "lengthRange": {
+                "min": 7,
+                "max": 13
+              }
+            },
+            {
+              "name": "Hard Shift",
+              "lengthRange": {
+                "min": 1,
+                "max": 2
+              }
+            },
+            {
+              "name": "Section B",
+              "lengthRange": {
+                "min": 5,
+                "max": 11
+              }
+            },
+            {
+              "name": "Sound Design Bridge",
+              "lengthRange": {
+                "min": 3,
+                "max": 7
+              }
+            },
+            {
+              "name": "Section C",
+              "lengthRange": {
+                "min": 9,
+                "max": 15
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Dissolve",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Live Set Piece",
+          "sections": [
+            {
+              "name": "Ambient Opening",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Rhythm Emerge",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Sound Design Feature",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Deep Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Ambient Close",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "tribal-bass",
+      "displayName": "Tribal Bass",
+      "structureVariants": [
+        {
+          "name": "Standard Organic Build",
+          "sections": [
+            {
+              "name": "Organic Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove Establish",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Percussion Layering Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dissolve",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Ceremony",
+          "sections": [
+            {
+              "name": "Nature Sounds Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Drum Entry",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Ambient Interlude",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Ambient Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dancefloor Tribal",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Percussion Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Full Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "World Fusion",
+          "sections": [
+            {
+              "name": "Acoustic Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove + World Instruments",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Bass Entry",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Full Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Acoustic Interlude",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "glitch-hop",
+      "displayName": "Glitch-Hop",
+      "structureVariants": [
+        {
+          "name": "Standard Funky",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "DJ Tool",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Album Track / Experimental",
+          "sections": [
+            {
+              "name": "Glitch Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Wonky Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Theme B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Combined Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Glitch Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "psydub",
+      "displayName": "Psydub",
+      "structureVariants": [
+        {
+          "name": "Standard Dub Journey",
+          "sections": [
+            {
+              "name": "Ambient Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dub Groove Entry",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Psychedelic Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Dub Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Second Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Fade Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sunrise Set Piece",
+          "sections": [
+            {
+              "name": "Nature Ambient",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Rhythm Emerging",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dub Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Delay Wash Interlude",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dub Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Dissolve Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Compact Psydub",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Delay Feedback Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Spacious Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove Return",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "midtempo-bass",
+      "displayName": "Midtempo Bass",
+      "structureVariants": [
+        {
+          "name": "Standard Cinematic",
+          "sections": [
+            {
+              "name": "Cinematic Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Single Drop Weapon",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Extended Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Brief Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop Variation",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dark Journey",
+          "sections": [
+            {
+              "name": "Dark Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dark Interlude",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Cinematic Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Live/Festival Edit",
+          "sections": [
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Peak Drop",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

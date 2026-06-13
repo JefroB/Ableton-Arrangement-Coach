@@ -1,0 +1,1239 @@
+{
+  "genreFamily": "dancehall-afrobeats",
+  "name": "Dancehall & Afrobeats",
+  "tempoRange": {
+    "min": 90,
+    "max": 165
+  },
+  "structure": [
+    {
+      "name": "Intro",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 3,
+        "max": 4
+      },
+      "optional": false
+    },
+    {
+      "name": "Verse A",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Pre-Chorus",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Chorus",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Verse B",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Chorus B",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Bridge",
+      "lengthRange": {
+        "min": 8,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": true
+    },
+    {
+      "name": "Final Chorus",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 3,
+        "max": 4
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    4,
+    5,
+    6,
+    7,
+    5,
+    7,
+    7,
+    4
+  ],
+  "transitions": {
+    "preferred": [
+      "percussion_fill",
+      "vocal_adlib",
+      "guitar_lick",
+      "bass_change",
+      "gentle_pad_swell"
+    ],
+    "discouraged": [
+      "hard_cut",
+      "silence_gap",
+      "aggressive_riser",
+      "edm_drop",
+      "filter_sweep"
+    ],
+    "buildDurationRange": {
+      "min": 2,
+      "max": 8
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.1,
+    "midiDensityWeight": 0.2,
+    "trackPresenceWeight": 0.2,
+    "automationWeight": 0.1,
+    "frequencyCoverageWeight": 0.15,
+    "velocityIntensityWeight": 0.15,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "polyrhythmic-pattern-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "max-track-length",
+      "value": 240,
+      "severity": "info",
+      "unit": "seconds"
+    },
+    {
+      "type": "vocal-driven-structure",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "gentle-energy-range",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "no-edm-builds-or-drops",
+      "value": true,
+      "severity": "warning"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 2,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 85
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "percussion_fill",
+      "shaker_accent",
+      "rim_shot",
+      "vocal_adlib",
+      "guitar_strum"
+    ],
+    "typicalFillIntervals": [
+      8,
+      16
+    ],
+    "expectedFillFrequency": 0.75,
+    "coreElements": [
+      "kick",
+      "snare",
+      "shaker",
+      "percussion"
+    ],
+    "conditionalElements": {
+      "horn_stab": [
+        "chorus",
+        "final_chorus"
+      ],
+      "guitar_lick": [
+        "verse_a",
+        "verse_b"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -16,
+      "bass": -13,
+      "lowMid": -11,
+      "mid": -10,
+      "highMid": -13,
+      "high": -16
+    },
+    "expectedDrumTransientDensity": 12,
+    "displayName": "Dancehall & Afrobeats",
+    "subBassHint": "Light bouncy bass; Afrobeats keeps the low end airy while dancehall can be heavier with 808 sub",
+    "rhythmicHint": "Polyrhythmic interlocking patterns with 16th-note shaker as the rhythmic heartbeat"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 1,
+    "repetitionSimilarity": 0.82,
+    "abruptChangeDelta": 4,
+    "crowdingTrackCount": 3,
+    "introMinBars": 4,
+    "outroMinBars": 4
+  },
+  "archetypes": [
+    "verse-chorus"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "dancehall",
+      "displayName": "Dancehall",
+      "structureVariants": [
+        {
+          "name": "Standard Riddim Track",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sound System / Dubplate",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Riddim Compilation Format",
+          "sections": [
+            {
+              "name": "Riddim Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Artist A Verse + Chorus",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Riddim Break",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Artist B Verse + Chorus",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Riddim Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Mix / Refix",
+          "sections": [
+            {
+              "name": "Riddim Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Instrumental / Dub Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "afrobeats",
+      "displayName": "Modern Afrobeats",
+      "structureVariants": [
+        {
+          "name": "Standard Pop-Afrobeats",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Amapiano-Influenced Afrobeats",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Groove Establish",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro / Groove Ride",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Feature / Collab Track",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse A (Artist 1)",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B (Artist 2)",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse C (Both)",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Acoustic / Stripped Version",
+          "sections": [
+            {
+              "name": "Intro (Guitar Lick)",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "afroswing",
+      "displayName": "Afroswing",
+      "structureVariants": [
+        {
+          "name": "Standard UK Format",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Groove",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pre-Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pre-Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Instrumental Ride",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Radio Single",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "soca",
+      "displayName": "Soca",
+      "structureVariants": [
+        {
+          "name": "Standard Carnival",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Breakdown / Call-and-Response",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Power Soca",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Chorus (Doubled)",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Groovy Soca",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove Section (Instrumental)",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Call-and-Response",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "kuduro",
+      "displayName": "Kuduro",
+      "structureVariants": [
+        {
+          "name": "Standard Hook-Driven",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Batida Pattern Showcase",
+          "sections": [
+            {
+              "name": "Beat Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pattern A + Vocal",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern B + Vocal",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Combined Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Party",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse C",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

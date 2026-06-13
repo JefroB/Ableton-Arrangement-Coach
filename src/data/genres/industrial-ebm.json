@@ -1,0 +1,1296 @@
+{
+  "genreFamily": "industrial-ebm",
+  "name": "Industrial & EBM",
+  "tempoRange": {
+    "min": 100,
+    "max": 160
+  },
+  "structure": [
+    {
+      "name": "Intro",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Verse A",
+      "lengthRange": {
+        "min": 16,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Chorus",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 8,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Verse B",
+      "lengthRange": {
+        "min": 16,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Chorus B",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 8,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Bridge",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 7
+      },
+      "optional": true
+    },
+    {
+      "name": "Final Chorus",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 8,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    6,
+    8,
+    9,
+    8,
+    9,
+    9,
+    6
+  ],
+  "transitions": {
+    "preferred": [
+      "sequencer_change",
+      "drum_fill",
+      "vocal_cue",
+      "hard_cut",
+      "filter_sweep"
+    ],
+    "discouraged": [
+      "smooth_build",
+      "emotional_pad_swell",
+      "long_riser",
+      "silence_gap"
+    ],
+    "buildDurationRange": {
+      "min": 2,
+      "max": 8
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.1,
+    "midiDensityWeight": 0.25,
+    "trackPresenceWeight": 0.2,
+    "automationWeight": 0.15,
+    "frequencyCoverageWeight": 0.1,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "sequencer-bass-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "mechanical-rhythm-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "max-breakdown-bars",
+      "value": 16,
+      "severity": "warning",
+      "unit": "bars"
+    },
+    {
+      "type": "min-energy-floor",
+      "value": 6,
+      "severity": "info"
+    },
+    {
+      "type": "cold-aesthetic-expected",
+      "value": true,
+      "severity": "info"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 2,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 88
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "sequencer_shift",
+      "snare_roll",
+      "noise_burst",
+      "mechanical_hit",
+      "kick_double"
+    ],
+    "typicalFillIntervals": [
+      8,
+      16
+    ],
+    "expectedFillFrequency": 1,
+    "coreElements": [
+      "kick",
+      "snare",
+      "sequencer_bass",
+      "hi-hat"
+    ],
+    "conditionalElements": {
+      "noise_burst": [
+        "bridge",
+        "breakdown"
+      ],
+      "mechanical_hit": [
+        "chorus",
+        "final_chorus"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -14,
+      "bass": -10,
+      "lowMid": -9,
+      "mid": -10,
+      "highMid": -12,
+      "high": -16
+    },
+    "expectedDrumTransientDensity": 12,
+    "displayName": "Industrial & EBM",
+    "subBassHint": "Hard mid-bass from sequencer bass lines dominates; sub is present but not overpowering",
+    "rhythmicHint": "Mechanical 4/4 with precise electronic drums; sequencer bass provides constant rhythmic drive"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 2,
+    "repetitionSimilarity": 0.9,
+    "abruptChangeDelta": 4,
+    "crowdingTrackCount": 3,
+    "introMinBars": 8,
+    "outroMinBars": 8
+  },
+  "archetypes": [
+    "verse-chorus",
+    "loop"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "industrial",
+      "displayName": "Industrial",
+      "structureVariants": [
+        {
+          "name": "Linear Build",
+          "sections": [
+            {
+              "name": "Texture Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 32
+              }
+            },
+            {
+              "name": "Rhythm Entry",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Intensity Build",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Collapse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Song Form",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Noise Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Noise Collage",
+          "sections": [
+            {
+              "name": "Section A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Section B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Section C",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rhythmic Industrial",
+          "sections": [
+            {
+              "name": "Beat Pattern A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Texture Layer",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Beat Pattern B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Noise Peak",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern A Return",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "ebm",
+      "displayName": "EBM",
+      "structureVariants": [
+        {
+          "name": "Standard Song Form",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Club Mix",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Sequencer Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sequencer Instrumental",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Pattern B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Combined Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Minimal Early EBM",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "aggrotech",
+      "displayName": "Aggrotech",
+      "structureVariants": [
+        {
+          "name": "Standard Club Track",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Aggressive Mix",
+          "sections": [
+            {
+              "name": "Dark Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Anthem Format",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "power-noise",
+      "displayName": "Power Noise",
+      "structureVariants": [
+        {
+          "name": "Standard Pattern Evolution",
+          "sections": [
+            {
+              "name": "Beat Pattern A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build / Intensify",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Pattern B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Noise Section",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern C / Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Decay Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Minimal Relentless",
+          "sections": [
+            {
+              "name": "Pattern",
+              "lengthRange": {
+                "min": 64,
+                "max": 96
+              }
+            },
+            {
+              "name": "Textural Shift",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern Variation",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Decay",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Noise-Forward",
+          "sections": [
+            {
+              "name": "Noise Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Beat Emerges",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Full Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Noise Overwhelms",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Beat Re-emerges",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Combined Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "dark-electro",
+      "displayName": "Dark Electro",
+      "structureVariants": [
+        {
+          "name": "Standard Gothic Song",
+          "sections": [
+            {
+              "name": "Atmospheric Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Dark Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Club Extended",
+          "sections": [
+            {
+              "name": "Atmospheric Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atmospheric Journey",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Dark Interlude",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Extended Atmospheric Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "electro-industrial",
+      "displayName": "Electro-Industrial",
+      "structureVariants": [
+        {
+          "name": "Standard Layered",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Industrial Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Noise Fade Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sample-Heavy Collage",
+          "sections": [
+            {
+              "name": "Sample Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Sample Interlude",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Noise Build / Collapse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Film Score Hybrid",
+          "sections": [
+            {
+              "name": "Cinematic Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Theme A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Distorted Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Quiet Tense Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Climax",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Fade",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

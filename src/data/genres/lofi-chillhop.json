@@ -1,0 +1,838 @@
+{
+  "genreFamily": "lofi-chillhop",
+  "name": "Lo-fi & Chillhop",
+  "tempoRange": {
+    "min": 70,
+    "max": 100
+  },
+  "structure": [
+    {
+      "name": "Intro",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 3,
+        "max": 4
+      },
+      "optional": false
+    },
+    {
+      "name": "Loop A",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Loop B",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Loop A Return",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 3,
+        "max": 4
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    4,
+    5,
+    5,
+    5,
+    4
+  ],
+  "transitions": {
+    "preferred": [
+      "gentle_filter",
+      "element_swap",
+      "vinyl_noise_shift",
+      "drum_variation",
+      "fade"
+    ],
+    "discouraged": [
+      "riser",
+      "impact",
+      "snare_roll",
+      "hard_cut",
+      "silence_gap",
+      "build",
+      "drop"
+    ],
+    "buildDurationRange": {
+      "min": 2,
+      "max": 4
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.1,
+    "midiDensityWeight": 0.15,
+    "trackPresenceWeight": 0.25,
+    "automationWeight": 0.15,
+    "frequencyCoverageWeight": 0.1,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.1,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "max-energy-range",
+      "value": 2,
+      "severity": "warning"
+    },
+    {
+      "type": "max-track-length",
+      "value": 210,
+      "severity": "info",
+      "unit": "seconds"
+    },
+    {
+      "type": "no-builds-or-drops",
+      "value": true,
+      "severity": "warning"
+    },
+    {
+      "type": "warmth-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "simplicity-expected",
+      "value": true,
+      "severity": "info"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 4,
+    "missingTransitionMinDelta": 5,
+    "similarityCeilingPercent": 97
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "gentle_filter_sweep",
+      "drum_ghost_note",
+      "vinyl_crackle_swell",
+      "element_fade"
+    ],
+    "typicalFillIntervals": [
+      8,
+      16
+    ],
+    "expectedFillFrequency": 0.25,
+    "coreElements": [
+      "kick",
+      "snare",
+      "hi-hat"
+    ],
+    "conditionalElements": {
+      "vinyl_crackle": [
+        "intro",
+        "outro"
+      ],
+      "ghost_note": [
+        "loop_a",
+        "loop_b"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -18,
+      "bass": -14,
+      "lowMid": -11,
+      "mid": -10,
+      "highMid": -15,
+      "high": -20
+    },
+    "expectedDrumTransientDensity": 6,
+    "displayName": "Lo-fi & Chillhop",
+    "subBassHint": "Warm rounded bass with rolled-off highs; vinyl and tape saturation soften all transients",
+    "rhythmicHint": "Low transient density with off-grid humanized drums; sparse and mellow throughout"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 3,
+    "repetitionSimilarity": 0.97,
+    "abruptChangeDelta": 2,
+    "crowdingTrackCount": 2,
+    "introMinBars": 4,
+    "outroMinBars": 4
+  },
+  "archetypes": [
+    "loop"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "lo-fi-hip-hop",
+      "displayName": "Lo-fi Hip-Hop / Study Beats",
+      "structureVariants": [
+        {
+          "name": "Standard Loop Track",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main Loop A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Loop B / Variation",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Loop A Return",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro / Fade",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ultra-Minimal",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Loop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro / Fade",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Tape-Side Format",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Loop A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Loop B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Loop C",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Loop A Return",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Fade",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Study Session",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main Loop",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Variation A (Add Element)",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Loop Return",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Variation B (Different Element)",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Loop",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Fade",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "chillhop",
+      "displayName": "Chillhop",
+      "structureVariants": [
+        {
+          "name": "Standard Hook Track",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook / Melody",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Instrumental Hip-Hop",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Beat A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Beat B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Beat A Return",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Jazz Session",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Theme",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Solo Section (Keys/Sax)",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme Return",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Solo B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Collaborative Tape Track",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Producer A Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Transition",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            },
+            {
+              "name": "Producer B Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "jazzhop",
+      "displayName": "Jazzhop",
+      "structureVariants": [
+        {
+          "name": "Standard Theme-Solo",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Theme A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Solo / Improvisation Section",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme A Return",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Chord Progression Focus",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Progression A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Progression B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Combined / Extended",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Progression A Return",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Live Feel",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Head / Theme",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Solo A (Piano)",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Solo B (Bass/Guitar)",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Head Return",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "study-beats",
+      "displayName": "Study Beats",
+      "structureVariants": [
+        {
+          "name": "Standard Dreamy",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Guitar Loop",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Guitar Pattern A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Guitar Pattern B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern A + Added Layer",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Fade",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ambient Pop",
+          "sections": [
+            {
+              "name": "Intro / Atmosphere",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro / Dissolve",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

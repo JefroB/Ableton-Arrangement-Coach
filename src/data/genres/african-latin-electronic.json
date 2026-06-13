@@ -1,0 +1,352 @@
+{
+  "genreFamily": "african-latin-electronic",
+  "name": "African & Latin Electronic",
+  "tempoRange": {
+    "min": 108,
+    "max": 150
+  },
+  "structure": [
+    { "name": "Intro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 3, "max": 5 }, "optional": false },
+    { "name": "Groove Establishment", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+    { "name": "Main Section", "lengthRange": { "min": 16, "max": 64 }, "energyRange": { "min": 6, "max": 8 }, "optional": false },
+    { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 4, "max": 6 }, "optional": false },
+    { "name": "Peak", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+    { "name": "Outro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 3, "max": 5 }, "optional": false }
+  ],
+  "energyCurveTemplate": [4, 6, 7, 5, 8, 4],
+  "transitions": {
+    "preferred": ["element_addition", "filter_sweep", "percussion_addition", "vocal_entry"],
+    "discouraged": ["aggressive_drop", "hard_cut", "loud_riser"],
+    "buildDurationRange": { "min": 8, "max": 32 },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.10,
+    "midiDensityWeight": 0.20,
+    "trackPresenceWeight": 0.20,
+    "automationWeight": 0.20,
+    "frequencyCoverageWeight": 0.10,
+    "velocityIntensityWeight": 0.10,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    { "type": "tempo-range-enforcement", "value": 108, "severity": "critical", "unit": "bpm" },
+    { "type": "percussion-layers-expected", "value": true, "severity": "info" },
+    { "type": "groove-continuity-expected", "value": true, "severity": "info" }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 2,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 88
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "percussion_fill",
+      "shaker_accent",
+      "log_drum_variation",
+      "conga_roll",
+      "piano_stab"
+    ],
+    "typicalFillIntervals": [8, 16, 32],
+    "expectedFillFrequency": 0.75,
+    "coreElements": [
+      "log_drum",
+      "shaker",
+      "kick",
+      "percussion"
+    ],
+    "conditionalElements": {
+      "piano_stab": ["peak_groove", "feature_section"],
+      "conga_roll": ["breakdown", "groove_establish"]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -14,
+      "bass": -12,
+      "lowMid": -11,
+      "mid": -11,
+      "highMid": -14,
+      "high": -16
+    },
+    "expectedDrumTransientDensity": 14,
+    "displayName": "African & Latin Electronic",
+    "subBassHint": "Warm log-drum sub provides organic low end; leave space in the sub for the groove to breathe",
+    "rhythmicHint": "Polyrhythmic percussion with interlocking shaker and conga patterns; moderate to high transient density"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 2,
+    "repetitionSimilarity": 0.88,
+    "abruptChangeDelta": 3,
+    "crowdingTrackCount": 3,
+    "introMinBars": 16,
+    "outroMinBars": 16
+  },
+  "archetypes": ["continuous-evolution", "loop"],
+  "subgenres": [
+    {
+      "subgenreId": "amapiano",
+      "displayName": "Amapiano",
+      "tempoRange": { "min": 108, "max": 118 },
+      "structure": [
+        { "name": "Intro / Atmosphere", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 3, "max": 4 }, "optional": false },
+        { "name": "Groove Establishment", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Vocal Section", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Piano Feature", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 5, "max": 7 }, "optional": false },
+        { "name": "Peak Groove", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Breakdown / Space", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+        { "name": "Groove Return", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 3, "max": 4 }, "optional": false }
+      ],
+      "energyCurveTemplate": [4, 6, 6, 6, 7, 5, 6, 4],
+      "transitions": {
+        "preferred": ["element_addition", "log_drum_shift", "piano_entry", "shaker_change", "vocal_entry"],
+        "discouraged": ["aggressive_drop", "hard_cut", "loud_riser", "sudden_wall_of_sound"],
+        "buildDurationRange": { "min": 8, "max": 16 },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.15,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.20,
+        "frequencyCoverageWeight": 0.10,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "tempo-range-enforcement", "value": 108, "severity": "critical", "unit": "bpm" },
+        { "type": "log-drum-bassline-expected", "value": true, "severity": "warning" },
+        { "type": "spacious-arrangement-required", "value": true, "severity": "info" },
+        { "type": "max-energy-jump", "value": 2, "severity": "warning" },
+        { "type": "no-aggressive-drops", "value": true, "severity": "warning" },
+        { "type": "piano-stabs-expected", "value": true, "severity": "info" }
+      ],
+      "structureVariants": [
+        {
+          "name": "Classic Spacious Journey",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Groove Establishment", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Vocal Section", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Piano Feature", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Peak Groove", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Breakdown", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Groove Return", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        },
+        {
+          "name": "DJ Tool",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove A", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Groove B", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Piano Moment", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Groove C", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Vocal Feature",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Verse A", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Verse B", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Piano Breakdown", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Final Chorus", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Extended Piano Showcase",
+          "sections": [
+            { "name": "Atmospheric Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove Establish", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Piano Theme A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove Peak", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Piano Theme B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Breakdown", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Combined Peak", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "afro-tech",
+      "displayName": "Afro Tech",
+      "tempoRange": { "min": 120, "max": 125 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+        { "name": "Percussive Build", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Main Groove A", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Breakdown / Shift", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Main Groove B", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 4, "max": 5 }, "optional": false }
+      ],
+      "energyCurveTemplate": [5, 6, 7, 6, 8, 5],
+      "transitions": {
+        "preferred": ["percussion_addition", "filter_sweep", "vocal_hook_entry", "arpeggio_shift", "subtle_automation"],
+        "discouraged": ["aggressive_drop", "long_emotional_breakdown", "sudden_silence"],
+        "buildDurationRange": { "min": 8, "max": 32 },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.20,
+        "frequencyCoverageWeight": 0.10,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "tempo-range-enforcement", "value": 120, "severity": "critical", "unit": "bpm" },
+        { "type": "african-percussion-expected", "value": true, "severity": "info" },
+        { "type": "dj-friendly-intro-outro", "value": 32, "severity": "warning", "unit": "bars" },
+        { "type": "hypnotic-repetition-expected", "value": true, "severity": "info" },
+        { "type": "max-breakdown-bars", "value": 16, "severity": "warning", "unit": "bars" }
+      ],
+      "structureVariants": [
+        {
+          "name": "Standard DJ Tool",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Percussive Build", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Main Groove A", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Main Groove B", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Extended Hypnotic",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Percussion Layer A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Percussion Layer B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Full Groove", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Groove Evolution", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "De-escalation", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Vocal Mantra",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove Establish", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Vocal Hook Entry", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Vocal Peak", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Groove Strip", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Festival Edit",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Main Groove", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Breakdown", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Peak Groove", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "baile-funk",
+      "displayName": "Baile Funk",
+      "tempoRange": { "min": 130, "max": 150 },
+      "structure": [
+        { "name": "Intro Beat", "lengthRange": { "min": 4, "max": 8 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Main Hook", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Intensity Build", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Peak Section", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Break", "lengthRange": { "min": 4, "max": 8 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Hook Return", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 4, "max": 8 }, "energyRange": { "min": 5, "max": 6 }, "optional": false }
+      ],
+      "energyCurveTemplate": [6, 8, 9, 9, 6, 8, 6],
+      "transitions": {
+        "preferred": ["hard_cut", "vocal_cue", "808_hit", "tamborzao_shift", "call_response"],
+        "discouraged": ["long_build", "gradual_filter", "atmospheric_breakdown"],
+        "buildDurationRange": { "min": 2, "max": 8 },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.20,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.10,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "tempo-range-enforcement", "value": 130, "severity": "critical", "unit": "bpm" },
+        { "type": "tamborzao-beat-expected", "value": true, "severity": "warning" },
+        { "type": "vocal-chants-expected", "value": true, "severity": "info" },
+        { "type": "max-track-length", "value": 240, "severity": "info", "unit": "seconds" },
+        { "type": "max-break-length", "value": 8, "severity": "warning", "unit": "bars" },
+        { "type": "high-energy-immediate", "value": true, "severity": "info" }
+      ],
+      "structureVariants": [
+        {
+          "name": "Standard Hook Track",
+          "sections": [
+            { "name": "Intro Beat", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Main Hook", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Intensity Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Peak Section", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Break", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Hook Return", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Outro", "lengthRange": { "min": 4, "max": 8 } }
+          ]
+        },
+        {
+          "name": "MC Battle Version",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 4, "max": 4 } },
+            { "name": "MC Verse A", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Hook", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "MC Verse B", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Hook", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Outro", "lengthRange": { "min": 4, "max": 4 } }
+          ]
+        },
+        {
+          "name": "Extended Club Edit",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Hook A", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Beat Switch", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Hook B", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Break", "lengthRange": { "min": 4, "max": 4 } },
+            { "name": "Peak", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 8, "max": 8 } }
+          ]
+        },
+        {
+          "name": "Tamborzão Showcase",
+          "sections": [
+            { "name": "Tamborzão Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Vocal Entry", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Drum Pattern Switch", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Vocal Peak", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        }
+      ]
+    }
+  ]
+}

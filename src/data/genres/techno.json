@@ -1,0 +1,2941 @@
+{
+  "genreFamily": "techno",
+  "name": "Techno",
+  "tempoRange": {
+    "min": 120,
+    "max": 150
+  },
+  "structure": [
+    {
+      "name": "Intro",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Build",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Main A",
+      "lengthRange": {
+        "min": 32,
+        "max": 64
+      },
+      "energyRange": {
+        "min": 8,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Breakdown",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Build B",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Main B",
+      "lengthRange": {
+        "min": 32,
+        "max": 64
+      },
+      "energyRange": {
+        "min": 9,
+        "max": 10
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 7
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    5,
+    7,
+    9,
+    6,
+    8,
+    10,
+    6
+  ],
+  "transitions": {
+    "preferred": [
+      "hard_cut",
+      "snare_roll",
+      "impact",
+      "filter_sweep"
+    ],
+    "discouraged": [
+      "long_riser",
+      "emotional_breakdown",
+      "gradual_layering"
+    ],
+    "buildDurationRange": {
+      "min": 4,
+      "max": 16
+    },
+    "dropsExpected": true
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.1,
+    "midiDensityWeight": 0.3,
+    "trackPresenceWeight": 0.15,
+    "automationWeight": 0.15,
+    "frequencyCoverageWeight": 0.1,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "max-breakdown-bars",
+      "value": 16,
+      "severity": "warning",
+      "unit": "bars"
+    },
+    {
+      "type": "min-energy-in-main",
+      "value": 7,
+      "severity": "warning"
+    },
+    {
+      "type": "max-energy-delta",
+      "value": 5,
+      "severity": "info"
+    },
+    {
+      "type": "kick-present-in-main",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "min-track-length",
+      "value": 300,
+      "severity": "info",
+      "unit": "seconds"
+    },
+    {
+      "type": "min-intro-bars",
+      "value": 16,
+      "severity": "warning",
+      "unit": "bars"
+    },
+    {
+      "type": "min-outro-bars",
+      "value": 16,
+      "severity": "warning",
+      "unit": "bars"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 2,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 88
+  },
+  "archetypes": [
+    "dj-tool",
+    "continuous-evolution"
+  ],
+  "fillProfile": {
+    "expectedFillTypes": [
+      "hat-roll",
+      "snare-roll",
+      "cymbal-fill"
+    ],
+    "typicalFillIntervals": [
+      8,
+      16
+    ],
+    "expectedFillFrequency": 1,
+    "coreElements": [
+      "kick",
+      "hi-hat",
+      "clap"
+    ],
+    "conditionalElements": {
+      "ride": [
+        "breakdown"
+      ],
+      "crash": [
+        "drop"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -18,
+      "bass": -12,
+      "lowMid": -20,
+      "mid": -24,
+      "highMid": -28,
+      "high": -32
+    },
+    "expectedDrumTransientDensity": 12,
+    "displayName": "techno",
+    "subBassHint": "layering a sub under your kick or bass track",
+    "rhythmicHint": "adding hi-hat rolls or percussion layers"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 2,
+    "repetitionSimilarity": 0.92,
+    "abruptChangeDelta": 5,
+    "crowdingTrackCount": 3,
+    "introMinBars": 32,
+    "outroMinBars": 32
+  },
+  "subgenres": [
+    {
+      "subgenreId": "peak-time-techno",
+      "displayName": "Peak Time Techno",
+      "tempoRange": {
+        "min": 130,
+        "max": 140
+      },
+      "transitions": {
+        "preferred": [
+          "hard_cut",
+          "snare_roll",
+          "impact",
+          "filter_sweep"
+        ],
+        "discouraged": [
+          "long_riser",
+          "emotional_breakdown",
+          "gradual_layering"
+        ],
+        "buildDurationRange": {
+          "min": 4,
+          "max": 8
+        },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.3,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "max-breakdown-bars",
+          "value": 16,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "min-energy-in-main",
+          "value": 7,
+          "severity": "warning"
+        },
+        {
+          "type": "max-energy-delta",
+          "value": 5,
+          "severity": "info"
+        },
+        {
+          "type": "kick-present-in-main",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "min-track-length",
+          "value": 300,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "structureVariants": [
+        {
+          "name": "Standard DJ Tool",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Relentless Drive",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Shift",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Triple Section",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Festival Extended",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "hard-techno",
+      "displayName": "Hard Techno",
+      "tempoRange": {
+        "min": 140,
+        "max": 155
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.3,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.1,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "max-breakdown-bars",
+          "value": 16,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "min-energy-in-main",
+          "value": 7,
+          "severity": "warning"
+        },
+        {
+          "type": "max-energy-delta",
+          "value": 5,
+          "severity": "info"
+        },
+        {
+          "type": "kick-present-in-main",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "min-track-length",
+          "value": 300,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "structureVariants": [
+        {
+          "name": "Aggressive Standard",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drive",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drive",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Break",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drive",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Slam Structure",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Slam",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Silence",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            },
+            {
+              "name": "Slam",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Escalating Assault",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Level 1",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Level 2",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Level 3",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Loop-Locked",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Loop",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Variation",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak Loop",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "industrial-techno",
+      "displayName": "Industrial Techno",
+      "tempoRange": {
+        "min": 140,
+        "max": 150
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.1,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "max-breakdown-bars",
+          "value": 16,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "min-energy-in-main",
+          "value": 7,
+          "severity": "warning"
+        },
+        {
+          "type": "noise-texture-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "min-track-length",
+          "value": 300,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "structureVariants": [
+        {
+          "name": "Factory Standard",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Machine A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Industrial Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Machine B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Noise Shift",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Machine C",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Noise Architecture",
+          "sections": [
+            {
+              "name": "Intro / Texture",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Rhythm Entry",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build to Dense",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak Industrial",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Strip to Noise",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Rebuild",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Relentless Conveyor",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Production Line",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Gear Shift",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Production Line B",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "minimal-techno",
+      "displayName": "Minimal Techno",
+      "tempoRange": {
+        "min": 120,
+        "max": 125
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 4
+          },
+          "optional": false
+        },
+        {
+          "name": "Evolution A",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Evolution B",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Peak",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "De-escalation",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 4
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        4,
+        5,
+        6,
+        7,
+        6,
+        4
+      ],
+      "transitions": {
+        "preferred": [
+          "element_swap",
+          "automation",
+          "gradual_layering"
+        ],
+        "discouraged": [
+          "hard_cut",
+          "impact",
+          "snare_roll"
+        ],
+        "buildDurationRange": {
+          "min": 8,
+          "max": 16
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.15,
+        "trackPresenceWeight": 0.1,
+        "automationWeight": 0.35,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "max-energy-delta",
+          "value": 2,
+          "severity": "warning"
+        },
+        {
+          "type": "hypnotic-variation-limit",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "min-track-length",
+          "value": 420,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 3,
+        "missingTransitionMinDelta": 4,
+        "similarityCeilingPercent": 95
+      },
+      "structureVariants": [
+        {
+          "name": "Continuous Evolution",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Evolution A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Evolution B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "De-escalation",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Micro-Shift",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Phase A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Phase B",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Phase C",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Phase D",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sparse Groove",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Subtraction",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dialogue",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Element A Solo",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Element B Solo",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Combined",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Reduction",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "acid-techno",
+      "displayName": "Acid Techno",
+      "tempoRange": {
+        "min": 130,
+        "max": 145
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.2,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "max-breakdown-bars",
+          "value": 16,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "min-energy-in-main",
+          "value": 7,
+          "severity": "warning"
+        },
+        {
+          "type": "acid-line-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "min-track-length",
+          "value": 300,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "structureVariants": [
+        {
+          "name": "303 Driven",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Acid Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Filter Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Acid Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Filter Close",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Acid Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Acid Escalation",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "303 Entry",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Resonance Build",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Full Acid",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Resonance Drop",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Full Acid",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Multi-Line Acid",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Acid Line A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Acid Line B Entry",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Dual Acid Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Strip to Line A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Combined Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Raw Acid Jam",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Jam",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Tweak Section",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "dub-techno",
+      "displayName": "Dub Techno",
+      "tempoRange": {
+        "min": 120,
+        "max": 130
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 4
+          },
+          "optional": false
+        },
+        {
+          "name": "Groove A",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Groove B",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Peak",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Groove A Return",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 4
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        4,
+        6,
+        6,
+        7,
+        6,
+        4
+      ],
+      "transitions": {
+        "preferred": [
+          "reverb_swell",
+          "delay_feedback",
+          "gradual_filter"
+        ],
+        "discouraged": [
+          "hard_cut",
+          "impact",
+          "snare_roll"
+        ],
+        "buildDurationRange": {
+          "min": 8,
+          "max": 32
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.1,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.25,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "abrupt-transition-detected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "chord-stab-reverb-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "min-track-length",
+          "value": 420,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 3,
+        "missingTransitionMinDelta": 4,
+        "similarityCeilingPercent": 94
+      },
+      "structureVariants": [
+        {
+          "name": "Deep Space",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Groove A Return",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Infinite Horizon",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Phase A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Phase B",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Phase C",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Chord Arc",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Chord A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Chord B",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Chord C / Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Return",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dubby Pulse",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Delay Build",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Full Dub",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "detroit-techno",
+      "displayName": "Detroit Techno",
+      "tempoRange": {
+        "min": 124,
+        "max": 130
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "max-breakdown-bars",
+          "value": 16,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "min-energy-in-main",
+          "value": 6,
+          "severity": "warning"
+        },
+        {
+          "type": "min-track-length",
+          "value": 300,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "structureVariants": [
+        {
+          "name": "Futuristic Soul",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Strings/Pad Entry",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Hardware Jam",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Descent",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sci-Fi Narrative",
+          "sections": [
+            {
+              "name": "Intro / Atmosphere",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Theme A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Theme B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Combined",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Resolution",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "DJ Extended",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "hypnotic-techno",
+      "displayName": "Hypnotic Techno",
+      "tempoRange": {
+        "min": 128,
+        "max": 136
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 4
+          },
+          "optional": false
+        },
+        {
+          "name": "Evolution A",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Evolution B",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Peak",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "De-escalation",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 4
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        4,
+        5,
+        6,
+        7,
+        6,
+        4
+      ],
+      "transitions": {
+        "preferred": [
+          "element_swap",
+          "automation",
+          "gradual_layering"
+        ],
+        "discouraged": [
+          "hard_cut",
+          "impact",
+          "snare_roll"
+        ],
+        "buildDurationRange": {
+          "min": 8,
+          "max": 16
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.15,
+        "trackPresenceWeight": 0.1,
+        "automationWeight": 0.35,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "max-energy-delta",
+          "value": 2,
+          "severity": "warning"
+        },
+        {
+          "type": "hypnotic-variation-limit",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "min-track-length",
+          "value": 420,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 3,
+        "missingTransitionMinDelta": 4,
+        "similarityCeilingPercent": 96
+      },
+      "structureVariants": [
+        {
+          "name": "Trance-State",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Loop A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Micro-Shift",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak Density",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Reduction",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Endless Loop",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Main Loop",
+              "lengthRange": {
+                "min": 128,
+                "max": 128
+              }
+            },
+            {
+              "name": "Variation",
+              "lengthRange": {
+                "min": 128,
+                "max": 128
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Spiral",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Cycle A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Cycle B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Cycle C",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Descent",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Stripped Mantra",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Mantra",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Mantra + Layer",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Mantra Return",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "raw-techno",
+      "displayName": "Raw Techno",
+      "tempoRange": {
+        "min": 135,
+        "max": 150
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "max-breakdown-bars",
+          "value": 16,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "min-energy-in-main",
+          "value": 7,
+          "severity": "warning"
+        },
+        {
+          "type": "min-track-length",
+          "value": 300,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "structureVariants": []
+    },
+    {
+      "subgenreId": "schranz",
+      "displayName": "Schranz",
+      "tempoRange": {
+        "min": 145,
+        "max": 155
+      },
+      "structure": [
+        {
+          "name": "Intro Loops",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Body",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Utility Break",
+          "lengthRange": {
+            "min": 4,
+            "max": 4
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Body Continue",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        7,
+        9,
+        8,
+        9,
+        7
+      ],
+      "transitions": {
+        "preferred": [
+          "hard_cut",
+          "noise_burst",
+          "percussion_fill"
+        ],
+        "discouraged": [
+          "emotional_breakdown",
+          "gradual_layering",
+          "pad_swell"
+        ],
+        "buildDurationRange": {
+          "min": 4,
+          "max": 8
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.1,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "no-melodic-breakdown",
+          "value": true,
+          "severity": "critical"
+        },
+        {
+          "type": "min-energy-floor",
+          "value": 6,
+          "severity": "warning"
+        },
+        {
+          "type": "no-32-bar-breakdown",
+          "value": true,
+          "severity": "critical"
+        },
+        {
+          "type": "loop-locked-structure",
+          "value": true,
+          "severity": "info"
+        }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 4,
+        "missingTransitionMinDelta": 5,
+        "similarityCeilingPercent": 97
+      },
+      "structureVariants": []
+    },
+    {
+      "subgenreId": "ghettotech",
+      "displayName": "Ghettotech",
+      "tempoRange": {
+        "min": 145,
+        "max": 160
+      },
+      "structure": [
+        {
+          "name": "Intro Beat",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Loop A",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Vocal Hook",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Loop B",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Peak",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        6,
+        8,
+        9,
+        8,
+        9,
+        6
+      ],
+      "transitions": {
+        "preferred": [
+          "hard_cut",
+          "vocal_chop",
+          "percussion_fill"
+        ],
+        "discouraged": [
+          "gradual_layering",
+          "pad_swell",
+          "long_riser"
+        ],
+        "buildDurationRange": {
+          "min": 2,
+          "max": 4
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.1,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "vocal-trigger-frequency",
+          "value": 4,
+          "severity": "info",
+          "unit": "bars"
+        },
+        {
+          "type": "min-energy-in-main",
+          "value": 7,
+          "severity": "warning"
+        },
+        {
+          "type": "no-standard-house-framework",
+          "value": true,
+          "severity": "info"
+        }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 3,
+        "missingTransitionMinDelta": 4,
+        "similarityCeilingPercent": 90
+      },
+      "structureVariants": []
+    },
+    {
+      "subgenreId": "hardgroove",
+      "displayName": "Hardgroove",
+      "tempoRange": {
+        "min": 135,
+        "max": 142
+      },
+      "structure": [
+        {
+          "name": "Intro Beats",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Tribal Core",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Drop Switch",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Core B",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        5,
+        7,
+        8,
+        7,
+        5
+      ],
+      "transitions": {
+        "preferred": [
+          "percussion_fill",
+          "filter_sweep",
+          "element_swap"
+        ],
+        "discouraged": [
+          "hard_cut",
+          "impact",
+          "noise_burst"
+        ],
+        "buildDurationRange": {
+          "min": 8,
+          "max": 16
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.3,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "no-industrial-distortion",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "min-percussion-layers",
+          "value": 3,
+          "severity": "warning"
+        },
+        {
+          "type": "no-melodic-breakdown",
+          "value": true,
+          "severity": "info"
+        }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 2,
+        "missingTransitionMinDelta": 3,
+        "similarityCeilingPercent": 92
+      },
+      "structureVariants": []
+    },
+    {
+      "subgenreId": "birmingham-techno",
+      "displayName": "Birmingham Techno",
+      "tempoRange": {
+        "min": 130,
+        "max": 136
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Loop A",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Loop B",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Peak Density",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        5,
+        7,
+        7,
+        8,
+        5
+      ],
+      "transitions": {
+        "preferred": [
+          "element_swap",
+          "automation",
+          "noise_burst"
+        ],
+        "discouraged": [
+          "hard_cut",
+          "impact",
+          "vocal_chop"
+        ],
+        "buildDurationRange": {
+          "min": 8,
+          "max": 16
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.2,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.2,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "no-uplifting-chords",
+          "value": true,
+          "severity": "critical"
+        },
+        {
+          "type": "no-melodic-content",
+          "value": true,
+          "severity": "critical"
+        },
+        {
+          "type": "max-energy-delta",
+          "value": 2,
+          "severity": "warning"
+        },
+        {
+          "type": "min-track-length",
+          "value": 420,
+          "severity": "info",
+          "unit": "seconds"
+        }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 3,
+        "missingTransitionMinDelta": 4,
+        "similarityCeilingPercent": 96
+      },
+      "structureVariants": []
+    }
+  ]
+}

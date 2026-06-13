@@ -1,0 +1,1359 @@
+{
+  "genreFamily": "hard-dance-happy-hardcore",
+  "name": "Hard Dance & Happy Hardcore",
+  "tempoRange": {
+    "min": 140,
+    "max": 190
+  },
+  "structure": [
+    {
+      "name": "Intro",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Verse",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Build",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Drop A",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 9,
+        "max": 10
+      },
+      "optional": false
+    },
+    {
+      "name": "Breakdown",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Build B",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Drop B",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 9,
+        "max": 10
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    6,
+    7,
+    8,
+    10,
+    6,
+    8,
+    10,
+    6
+  ],
+  "transitions": {
+    "preferred": [
+      "piano_roll",
+      "pitched_vocal_rise",
+      "snare_roll",
+      "reverse_cymbal",
+      "impact_hit"
+    ],
+    "discouraged": [
+      "silence_gap",
+      "noise_burst",
+      "distorted_industrial",
+      "dark_drone"
+    ],
+    "buildDurationRange": {
+      "min": 4,
+      "max": 16
+    },
+    "dropsExpected": true
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.1,
+    "midiDensityWeight": 0.25,
+    "trackPresenceWeight": 0.2,
+    "automationWeight": 0.15,
+    "frequencyCoverageWeight": 0.1,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "piano-element-expected",
+      "value": true,
+      "severity": "warning"
+    },
+    {
+      "type": "euphoric-energy-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "melodic-breakdown-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "kick-not-distorted",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "min-track-length",
+      "value": 240,
+      "severity": "info",
+      "unit": "seconds"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 2,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 80
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "piano_run",
+      "snare_roll",
+      "pitched_vocal_riser",
+      "reverse_cymbal",
+      "supersaw_swell"
+    ],
+    "typicalFillIntervals": [
+      8,
+      16
+    ],
+    "expectedFillFrequency": 2,
+    "coreElements": [
+      "kick",
+      "snare",
+      "hi-hat",
+      "piano"
+    ],
+    "conditionalElements": {
+      "piano_run": [
+        "build",
+        "build_b"
+      ],
+      "supersaw_swell": [
+        "breakdown"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -14,
+      "bass": -12,
+      "lowMid": -10,
+      "mid": -8,
+      "highMid": -10,
+      "high": -12
+    },
+    "expectedDrumTransientDensity": 16,
+    "displayName": "Hard Dance & Happy Hardcore",
+    "subBassHint": "Punchy sub-bass from clean kicks; not distorted — maintain clarity at high BPM",
+    "rhythmicHint": "Very high transient density due to fast tempo; 32nd-note snare rolls and rapid piano stabs"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 1,
+    "repetitionSimilarity": 0.8,
+    "abruptChangeDelta": 5,
+    "crowdingTrackCount": 4,
+    "introMinBars": 8,
+    "outroMinBars": 8
+  },
+  "archetypes": [
+    "build-drop",
+    "verse-chorus"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "hard-trance",
+      "displayName": "Hard Trance",
+      "structureVariants": [
+        {
+          "name": "Standard Double-Climax",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main B / Climax",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Acid-Driven",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Acid Pattern A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Acid Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Acid Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended DJ Tool",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Main A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Brief Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Triple Peak",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "hard-nrg",
+      "displayName": "Hard NRG",
+      "structureVariants": [
+        {
+          "name": "Standard Functional",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Main A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Relentless DJ Weapon",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Groove",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Brief Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Peak Groove",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Build-Peak",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Main A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main B / Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "happy-hardcore",
+      "displayName": "Happy Hardcore",
+      "structureVariants": [
+        {
+          "name": "Standard Euphoric",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Piano Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Piano Anthem",
+          "sections": [
+            {
+              "name": "Piano Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Piano Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Extended Piano Breakdown",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Piano Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rave Nostalgia",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Peak Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Radio/Streaming Edit",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "uk-hardcore",
+      "displayName": "UK Hardcore",
+      "structureVariants": [
+        {
+          "name": "Standard Modern",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Vocal Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Anthem Format",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Vocal Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Festival Edit",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Peak Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "freeform",
+      "displayName": "Freeform",
+      "structureVariants": [
+        {
+          "name": "Standard Trance-Influenced",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Theme A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Extended Breakdown",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Climax",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Progressive Freeform",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Layer A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Layer B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Full Theme",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Climax",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Experimental/Album Track",
+          "sections": [
+            {
+              "name": "Ambient Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Theme A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Theme B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Extended Breakdown B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Climax",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "trancecore",
+      "displayName": "Trancecore",
+      "structureVariants": [
+        {
+          "name": "Standard Extended Breakdown",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Kick Section A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Extended Breakdown",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Climax / Drop",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Double Breakdown",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Climax",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "DJ Tool",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Main Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Climax",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

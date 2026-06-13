@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrangement Coach</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 900px;
+  height: 600px;
+  overflow: hidden;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+/* Controls bar */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #252525;
+  border-bottom: 1px solid #333;
+  flex-shrink: 0;
+}
+.genre-btn {
+  background: #333;
+  border: 1px solid #444;
+  color: #e0e0e0;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.genre-btn:hover {
+  border-color: #6C9BFF;
+}
+.analyze-btn {
+  background: #6C9BFF;
+  border: none;
+  color: #1a1a1a;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+.analyze-btn:hover {
+  background: #8BB0FF;
+}
+/* Generate Sections button */
+.generate-btn {
+  background: #7c4dff;
+  border: none;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  position: relative;
+  transition: opacity 0.3s, background 0.3s, box-shadow 0.3s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.generate-btn:hover {
+  background: #9c6fff;
+  box-shadow: 0 2px 8px rgba(124, 77, 255, 0.4);
+}
+.generate-btn:focus {
+  outline: 2px solid #b39ddb;
+  outline-offset: 2px;
+}
+.generate-btn:active {
+  background: #6200ea;
+}
+.generate-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.generate-btn--disabled:hover {
+  background: #7c4dff;
+  box-shadow: none;
+}
+.generate-btn--disabled:focus {
+  outline: none;
+}
+.generate-btn--loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.generate-btn__spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: generate-spin 0.8s linear infinite;
+}
+.generate-btn--loading .generate-btn__spinner {
+  display: inline-block;
+}
+.generate-btn--loading .generate-btn__label {
+  display: none;
+}
+@keyframes generate-spin {
+  to { transform: rotate(360deg); }
+}
+/* Error notification bar */
+.error-notification {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #d32f2f;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 12px;
+  z-index: 300;
+  align-items: center;
+  gap: 8px;
+  animation: error-slide-in 0.3s ease-out;
+}
+.error-notification.visible {
+  display: flex;
+}
+.error-notification__message {
+  flex: 1;
+}
+.error-notification__dismiss {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0.8;
+}
+.error-notification__dismiss:hover {
+  opacity: 1;
+}
+@keyframes error-slide-in {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+.save-close-btn {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  background: #4caf50;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+  z-index: 100;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.save-close-btn:hover {
+  background: #66bb6a;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.6);
+  transform: translateY(-1px);
+}
+.save-close-btn:active {
+  background: #388e3c;
+  transform: translateY(0);
+}
+.help-btn {
+  background: transparent;
+  border: 1px solid #555;
+  color: #999;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.help-btn:hover {
+  border-color: #6C9BFF;
+  color: #6C9BFF;
+}
+.als-btn--missing {
+  border-color: #f44336;
+  color: #f44336;
+  animation: als-pulse 2s ease-in-out infinite;
+}
+.als-btn--missing:hover {
+  border-color: #ff7043;
+  color: #ff7043;
+}
+.als-btn--resolved {
+  border-color: #4caf50;
+  color: #4caf50;
+}
+@keyframes als-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.title-text {
+  font-weight: 700;
+  font-size: 14px;
+  color: #e0e0e0;
+  margin-right: 12px;
+}
+.controls-spacer {
+  flex: 1;
+}
+.author-link {
+  color: #6C9BFF;
+  text-decoration: none;
+  font-size: 11px;
+  margin-left: 8px;
+}
+.author-link:hover {
+  text-decoration: underline;
+}
+.help-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 200;
+}
+.help-overlay.open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-panel {
+  width: 720px;
+  max-height: 540px;
+  background: #252525;
+  border: 1px solid #444;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.help-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #333;
+  font-size: 14px;
+  font-weight: 600;
+}
+.help-close {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.help-close:hover {
+  color: #fff;
+}
+.help-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #ccc;
+}
+.help-body::-webkit-scrollbar {
+  width: 6px;
+}
+.help-body::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+.help-body h3 {
+  color: #e0e0e0;
+  font-size: 13px;
+  margin: 16px 0 6px 0;
+}
+.help-body h3:first-child {
+  margin-top: 0;
+}
+.help-body p {
+  margin: 0 0 8px 0;
+}
+.help-body ul {
+  margin: 0 0 8px 0;
+  padding-left: 18px;
+}
+.help-body li {
+  margin-bottom: 4px;
+}
+/* Section pills row */
+.sections-row {
+  display: flex;
+  align-items: stretch;
+  padding: 8px 16px 0 16px;
+  flex-shrink: 0;
+  min-height: 36px;
+}
+.section-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  padding: 4px 6px;
+  margin-right: 2px;
+  background: #333;
+  border: 2px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 11px;
+  color: #ccc;
+  transition: border-color 0.15s, background 0.15s;
+}
+.section-pill:last-child {
+  margin-right: 0;
+}
+.section-pill:hover {
+  border-color: #6C9BFF;
+}
+.section-pill.active {
+  border-color: #6C9BFF;
+  background: rgba(108, 155, 255, 0.15);
+  color: #fff;
+}
+/* Energy bars row */
+.energy-row {
+  display: flex;
+  align-items: flex-end;
+  padding: 4px 16px 8px 16px;
+  flex-shrink: 0;
+  height: 52px;
+  border-bottom: 1px solid #333;
+}
+.energy-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 40px;
+  margin-right: 2px;
+  height: 44px;
+}
+.energy-bar-wrapper:last-child {
+  margin-right: 0;
+}
+.energy-label {
+  font-size: 9px;
+  color: #aaa;
+  margin-bottom: 2px;
+}
+.energy-bar {
+  width: 80%;
+  border-radius: 3px 3px 0 0;
+  min-height: 4px;
+}
+/* Three-column panel */
+.panels {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #333;
+  min-width: 0;
+}
+.panel:last-child {
+  border-right: none;
+}
+.panel-header {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #333;
+  background: #252525;
+  flex-shrink: 0;
+}
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+}
+.panel-content::-webkit-scrollbar {
+  width: 6px;
+}
+.panel-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.panel-content::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+/* Issue items */
+.issue-item {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: #2a2a2a;
+  border-radius: 4px;
+  border-left: 3px solid #6C9BFF;
+}
+.issue-item.warning {
+  border-left-color: #ffca28;
+}
+.issue-item.error {
+  border-left-color: #f44336;
+}
+.issue-severity {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+.issue-severity.info {
+  background: rgba(108, 155, 255, 0.2);
+  color: #6C9BFF;
+}
+.issue-severity.warning {
+  background: rgba(255, 202, 40, 0.2);
+  color: #ffca28;
+}
+.issue-severity.error {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+}
+.issue-message {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+.issue-suggestion {
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+}
+/* Suggestion items */
+.suggestion-item {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+.suggestion-boundary {
+  font-size: 11px;
+  color: #6C9BFF;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.suggestion-techniques {
+  font-size: 11px;
+  color: #ccc;
+  margin-bottom: 3px;
+}
+.suggestion-rationale {
+  font-size: 11px;
+  color: #999;
+}
+/* Notes items */
+.note-item {
+  margin-bottom: 8px;
+  padding: 6px 8px;
+  background: #2a2a2a;
+  border-radius: 4px;
+  font-size: 12px;
+  position: relative;
+}
+.note-item:hover .note-delete-btn {
+  opacity: 1;
+}
+.note-delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  padding: 0 4px;
+  line-height: 1;
+}
+.note-delete-btn:hover {
+  color: #f44336;
+}
+.note-date {
+  font-size: 10px;
+  color: #666;
+  margin-top: 2px;
+}
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.checklist-box {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #555;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checklist-box.checked {
+  background: #6C9BFF;
+  border-color: #6C9BFF;
+}
+.checklist-box.checked::after {
+  content: "\2713";
+  font-size: 10px;
+  color: #fff;
+}
+.checklist-text {
+  color: #ccc;
+}
+.checklist-text.completed {
+  text-decoration: line-through;
+  color: #777;
+}
+/* Empty state */
+.empty-state {
+  color: #666;
+  font-size: 12px;
+  font-style: italic;
+  padding: 16px 0;
+}
+/* Note input */
+.note-input-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #333;
+}
+.note-input {
+  flex: 1;
+  padding: 6px 8px;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 12px;
+  outline: none;
+  min-width: 0;
+}
+.note-input:focus {
+  border-color: #6C9BFF;
+}
+.note-add-btn {
+  background: #333;
+  border: 1px solid #444;
+  color: #e0e0e0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.note-add-btn:hover {
+  border-color: #6C9BFF;
+}
+/* Genre picker overlay */
+.genre-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+.genre-overlay.open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.genre-picker {
+  width: 400px;
+  max-height: 460px;
+  background: #252525;
+  border: 1px solid #444;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.genre-search {
+  padding: 10px 12px;
+  border-bottom: 1px solid #333;
+}
+.genre-search input {
+  width: 100%;
+  padding: 6px 10px;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 13px;
+  outline: none;
+}
+.genre-search input:focus {
+  border-color: #6C9BFF;
+}
+.genre-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+.genre-list::-webkit-scrollbar {
+  width: 6px;
+}
+.genre-list::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+.genre-clear {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #f44336;
+  font-size: 12px;
+}
+.genre-clear:hover {
+  background: #2a2a2a;
+}
+.genre-family {
+  padding: 0;
+}
+.genre-family-header {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.genre-family-header:hover {
+  background: #2a2a2a;
+}
+.genre-family-header .arrow {
+  font-size: 10px;
+  color: #777;
+  transition: transform 0.15s;
+}
+.genre-family-header .arrow.expanded {
+  transform: rotate(90deg);
+}
+.genre-family-header .count {
+  font-size: 10px;
+  color: #666;
+  margin-left: auto;
+}
+.genre-subgenres {
+  display: none;
+  padding-left: 20px;
+}
+.genre-subgenres.open {
+  display: block;
+}
+.genre-subgenre {
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #bbb;
+}
+.genre-subgenre:hover {
+  background: #2a2a2a;
+  color: #e0e0e0;
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="error-notification" id="errorNotification" role="alert">
+    <span class="error-notification__message" id="errorNotificationMsg"></span>
+    <button class="error-notification__dismiss" id="errorNotificationDismiss" aria-label="Dismiss error">&times;</button>
+  </div>
+  <div class="controls-bar">
+    <span class="title-text">Arrangement Coach</span>
+    <button class="genre-btn" id="genreBtn">Select genre…</button>
+    <button class="analyze-btn" id="analyzeBtn">Analyze</button>
+    <button class="generate-btn" id="generateBtn" title="">
+      <span class="generate-btn__label">Generate Sections</span>
+      <span class="generate-btn__spinner" aria-hidden="true"></span>
+    </button>
+    <span class="controls-spacer"></span>
+    <button class="help-btn als-btn--missing" id="alsBtn" title="Locate .als file for automation detection">&#128269;</button>
+    <button class="help-btn" id="helpBtn">?</button>
+    <a class="author-link" href="https://TH3RDWAVE.com" target="_blank">TH3RDWAVE.com</a>
+  </div>
+  <div class="sections-row" id="sectionsRow"></div>
+  <div class="energy-row" id="energyRow"></div>
+  <div class="panels">
+    <div class="panel">
+      <div class="panel-header">Suggestions</div>
+      <div class="panel-content" id="issuesPanel"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">Transitions</div>
+      <div class="panel-content" id="suggestionsPanel"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">Notes</div>
+      <div class="panel-content" id="notesPanel"></div>
+    </div>
+  </div>
+</div>
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-panel">
+    <div class="help-header">
+      <span>How to use Arrangement Coach</span>
+      <button class="help-close" id="helpClose">&times;</button>
+    </div>
+    <div class="help-body">
+      <h3>🔍 Load .als File (Important!)</h3>
+      <p>For full analysis including automation (filter sweeps, volume curves, send levels), you need to load your <code>.als</code> file. Click the <strong>🔍 button</strong> in the toolbar (red/pulsing = not loaded, green = loaded).</p>
+      <ol>
+        <li><strong>Save your Live Set</strong> (Ctrl+S / Cmd+S) so automation is written to the file</li>
+        <li>Click the <strong>🔍 button</strong> → overlay opens</li>
+        <li>Click <strong>Browse…</strong> and select your <code>.als</code> file</li>
+        <li>Click <strong>Submit</strong> — automation data is parsed and analysis re-runs</li>
+      </ol>
+      <p>You only need to do this once per session. If you add or change automation later, save your Live Set and re-load the file to update the analysis.</p>
+
+      <h3>Energy Bars</h3>
+      <p>Each bar represents a section's <strong>energy level</strong> on a 1–10 scale, computed from track activity, MIDI density, automation, frequency coverage, and more.</p>
+      <p><strong>Colors:</strong></p>
+      <ul>
+        <li><span style="color:#4caf50">&#9632;</span> Green (1–3): Low energy — intros, breakdowns, ambient passages</li>
+        <li><span style="color:#ffca28">&#9632;</span> Yellow (4–6): Medium energy — verses, builds, transitions</li>
+        <li><span style="color:#ff9800">&#9632;</span> Orange (7–8): High energy — choruses, drops, peak sections</li>
+        <li><span style="color:#f44336">&#9632;</span> Red (9–10): Maximum energy — climactic moments</li>
+      </ul>
+      <p><strong>What to look for:</strong> Contrast between sections. If all bars are the same height/color, the arrangement may feel flat. Good arrangements typically show a wave pattern — rising tension followed by release.</p>
+
+      <h3>Section Pills</h3>
+      <p>Click a section to focus the panels on that section. The active section is highlighted in blue. Pill widths are proportional to section length.</p>
+
+      <h3>Suggestions (left panel)</h3>
+      <p>Arrangement-wide feedback: flat energy warnings, repetition alerts, structural ideas, and automation opportunities. These apply to the whole song regardless of which section is selected.</p>
+
+      <h3>Transitions (center panel)</h3>
+      <p>Specific techniques for moving between sections — filtered to the active section. Shows recommended approaches for entering/exiting that section (risers, filter sweeps, fills, etc.).</p>
+
+      <h3>Notes (right panel)</h3>
+      <p>Your personal notes for each section. Type in the input field and press Enter or click + to add a note. Notes are saved per-project.</p>
+
+      <h3>Checklist</h3>
+      <p>Auto-generated action items based on detected issues and suggestions. Click an item to mark it complete. Use these as a to-do list while working on your arrangement.</p>
+
+      <h3>Genre Selection</h3>
+      <p>Selecting a genre adjusts how energy is calculated (different weights for different styles) and tailors suggestions to genre conventions. Energy scores may change when you pick a genre — this is expected.</p>
+
+      <h3>Analyze Button</h3>
+      <p><strong>Always save your Live Set (Ctrl+S / Cmd+S) before clicking Analyze.</strong> The extension reads your saved <code>.als</code> file on disk, so unsaved changes won't be reflected in the analysis.</p>
+      <p>Re-reads your Live Set and refreshes all analysis. Use this after making changes to your arrangement (adding/removing clips, locators, or tracks).</p>
+
+      <h3>Automation Detection</h3>
+      <p>Arrangement Coach reads automation data directly from your saved <code>.als</code> file. <strong>You must save your Live Set before analyzing</strong> for automation (filter sweeps, volume rides, etc.) to be detected. Unsaved changes won't appear in the analysis.</p>
+      <p>After drawing automation or making changes, press <strong>Ctrl+S</strong> (Cmd+S on Mac), then click Analyze to get updated results.</p>
+    </div>
+  </div>
+</div>
+<div class="genre-overlay" id="genreOverlay">
+  <div class="genre-picker">
+    <div class="genre-search">
+      <input type="text" id="genreSearchInput" placeholder="Search genres…" />
+    </div>
+    <div class="genre-list" id="genreList"></div>
+  </div>
+</div>
+<div class="help-overlay" id="alsOverlay">
+  <div class="help-panel" style="width: 480px; max-height: 280px;">
+    <div class="help-header">
+      <span>Locate .als File</span>
+      <button class="help-close" id="alsClose">&times;</button>
+    </div>
+    <div class="help-body">
+      <p style="margin-bottom: 12px;">Automation detection requires access to your saved <code>.als</code> file. Select the file or type its name below. The project folder is detected automatically from your audio clips.</p>
+      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+        <input type="text" id="alsPathInput" placeholder="My Track.als (filename or full path)" style="flex:1; background:#1a1a1a; border:1px solid #444; color:#ccc; padding:4px 8px; border-radius:3px; font-size:12px;" />
+        <button id="alsBrowseBtn" style="background:#333; border:1px solid #555; color:#ccc; padding:4px 10px; border-radius:3px; cursor:pointer; font-size:11px; white-space:nowrap;">Browse…</button>
+      </div>
+      <input type="file" id="alsFilePicker" accept=".als" style="display:none;" />
+      <p id="alsError" style="color:#f44336; font-size:11px; min-height:16px; margin:0 0 8px 0;"></p>
+      <p style="font-size:10px; color:#777; margin:0 0 8px 0;">Tip: The file picker shows only the filename, which is fine — the project folder is detected from your audio clips.</p>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button id="alsSubmitBtn" style="background:#4caf50; border:none; color:#fff; padding:5px 16px; border-radius:3px; cursor:pointer; font-size:12px; font-weight:600;">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="save-close-btn" id="saveCloseBtn">Save &amp; Close</button>
+<script>
+// State variables
+var sections = [];
+var activeSectionId = null;
+var energyCurve = [];
+var sectionAnalysis = {};
+var selectedGenre = null;
+var issues = [];
+var transitionRecommendations = [];
+var notes = [];
+var sectionChecklists = {};
+var djScore = null;
+
+// Generation state
+var isGenerating = false;
+var generationError = null;
+
+// Hydrate from injected initial state
+if (window.__INITIAL_STATE__) {
+  var _s = window.__INITIAL_STATE__;
+  if (_s.sections) sections = _s.sections;
+  if (_s.energyCurve) energyCurve = _s.energyCurve;
+  if (_s.sectionAnalysis) sectionAnalysis = _s.sectionAnalysis;
+  if (_s.selectedGenre) selectedGenre = _s.selectedGenre;
+  if (_s.issues) issues = _s.issues;
+  if (_s.transitionRecommendations) transitionRecommendations = _s.transitionRecommendations;
+  if (_s.notes) notes = _s.notes;
+  if (_s.sectionChecklists) sectionChecklists = _s.sectionChecklists;
+  if (_s.djScore) djScore = _s.djScore;
+  if (_s.isGenerating) isGenerating = _s.isGenerating;
+  if (_s.generationError) generationError = _s.generationError;
+
+  // Filter sections to selection range if provided
+  if (_s.selectionRange && sections.length > 0) {
+    var selStart = _s.selectionRange.startTime;
+    var selEnd = _s.selectionRange.endTime;
+    sections = sections.filter(function(sec) {
+      var secEnd = sec.endTime === Infinity ? selEnd + 1 : sec.endTime;
+      return sec.startTime < selEnd && secEnd > selStart;
+    });
+  }
+}
+// Default active section to first
+if (!activeSectionId && sections.length > 0) {
+  activeSectionId = sections[0].id;
+}
+
+var genres = [
+  {id: "techno", name: "Techno"},
+  {id: "house", name: "House"},
+  {id: "melodic-techno-progressive", name: "Melodic Techno & Progressive"},
+  {id: "trance", name: "Trance"},
+  {id: "drum-and-bass", name: "Drum & Bass"},
+  {id: "dubstep-bass", name: "Dubstep & Bass"},
+  {id: "hiphop-trap", name: "Hip-Hop & Trap"},
+  {id: "pop-electronic", name: "Pop/Electronic"},
+  {id: "ambient-downtempo", name: "Ambient & Downtempo"},
+  {id: "synthwave-darkwave", name: "Synthwave & Darkwave"},
+  {id: "hardcore-bouncy", name: "Hardcore & Bouncy"},
+  {id: "footwork-juke", name: "Footwork & Juke"},
+  {id: "idm-experimental", name: "IDM & Experimental"},
+  {id: "electro-breakbeat", name: "Electro & Breakbeat"},
+  {id: "african-latin-electronic", name: "African & Latin Electronic"},
+  {id: "garage-uk-bass", name: "Garage & UK Bass"}
+];
+
+var genreFamilies = [{"id":"techno","name":"Techno","subgenreCount":13,"_subgenres":[{"id":"peak-time-techno","name":"Peak Time Techno"},{"id":"hard-techno","name":"Hard Techno"},{"id":"industrial-techno","name":"Industrial Techno"},{"id":"minimal-techno","name":"Minimal Techno"},{"id":"acid-techno","name":"Acid Techno"},{"id":"dub-techno","name":"Dub Techno"},{"id":"detroit-techno","name":"Detroit Techno"},{"id":"hypnotic-techno","name":"Hypnotic Techno"},{"id":"raw-techno","name":"Raw Techno"},{"id":"schranz","name":"Schranz"},{"id":"ghettotech","name":"Ghettotech"},{"id":"hardgroove","name":"Hardgroove"},{"id":"birmingham-techno","name":"Birmingham Techno"}]},{"id":"house","name":"House","subgenreCount":17,"_subgenres":[{"id":"deep-house","name":"Deep House"},{"id":"tech-house","name":"Tech House"},{"id":"progressive-house","name":"Progressive House"},{"id":"funky-house","name":"Funky House"},{"id":"afro-house","name":"Afro House"},{"id":"jackin-house","name":"Jackin House"},{"id":"soulful-house","name":"Soulful House"},{"id":"uk-garage","name":"UK Garage"},{"id":"electro-house","name":"Electro House"},{"id":"bass-house","name":"Bass House"},{"id":"chicago-house","name":"Chicago House"},{"id":"ghetto-house","name":"Ghetto House"},{"id":"uk-funky","name":"UK Funky"},{"id":"gqom","name":"Gqom"},{"id":"french-touch","name":"French Touch"},{"id":"lo-fi-house","name":"Lo-Fi House"},{"id":"future-garage","name":"Future Garage"}]},{"id":"melodic-techno-progressive","name":"Melodic Techno & Progressive","subgenreCount":5,"_subgenres":[{"id":"melodic-techno","name":"Melodic Techno"},{"id":"melodic-progressive-house","name":"Melodic Progressive House"},{"id":"organic-house","name":"Organic House"},{"id":"melodic-afro-house","name":"Melodic Afro House"},{"id":"indie-dance","name":"Indie Dance"}]},{"id":"trance","name":"Trance","subgenreCount":8,"_subgenres":[{"id":"uplifting-trance","name":"Uplifting Trance"},{"id":"psytrance","name":"Psytrance"},{"id":"goa-trance","name":"Goa Trance"},{"id":"progressive-trance","name":"Progressive Trance"},{"id":"tech-trance","name":"Tech Trance"},{"id":"vocal-trance","name":"Vocal Trance"},{"id":"dark-psy","name":"Dark Psy"},{"id":"forest-trance","name":"Forest"}]},{"id":"drum-and-bass","name":"Drum & Bass","subgenreCount":12,"_subgenres":[{"id":"liquid-dnb","name":"Liquid D&B"},{"id":"neurofunk","name":"Neurofunk"},{"id":"jump-up","name":"Jump-Up"},{"id":"jungle","name":"Jungle"},{"id":"classic-jungle","name":"Classic Jungle"},{"id":"halftime","name":"Halftime"},{"id":"darkside-dnb","name":"Darkside"},{"id":"minimal-dnb","name":"Minimal D&B"},{"id":"rollers","name":"Rollers"},{"id":"dancefloor-dnb","name":"Dancefloor D&B"},{"id":"crossbreed","name":"Crossbreed"},{"id":"atmospheric-intelligent-dnb","name":"Atmospheric / Intelligent D&B"}]},{"id":"dubstep-bass","name":"Dubstep & Bass","subgenreCount":8,"_subgenres":[{"id":"riddim","name":"Riddim"},{"id":"melodic-dubstep","name":"Melodic Dubstep"},{"id":"brostep","name":"Brostep"},{"id":"tearout","name":"Tearout"},{"id":"uk-bass","name":"UK Bass"},{"id":"future-bass","name":"Future Bass"},{"id":"colour-bass","name":"Colour Bass"},{"id":"wave","name":"Wave"}]},{"id":"hiphop-trap","name":"Hip-Hop & Trap","subgenreCount":9,"_subgenres":[{"id":"boom-bap","name":"Boom Bap"},{"id":"trap","name":"Trap"},{"id":"lo-fi-hiphop","name":"Lo-Fi Hip-Hop"},{"id":"phonk","name":"Phonk"},{"id":"drill","name":"Drill"},{"id":"cloud-rap","name":"Cloud Rap"},{"id":"memphis","name":"Memphis"},{"id":"rage","name":"Rage"},{"id":"plugg","name":"Plugg"}]},{"id":"pop-electronic","name":"Pop/Electronic","subgenreCount":6,"_subgenres":[{"id":"synthpop","name":"Synthpop"},{"id":"electropop","name":"Electropop"},{"id":"future-pop","name":"Future Pop"},{"id":"hyperpop","name":"Hyperpop"},{"id":"dance-pop","name":"Dance Pop"},{"id":"k-pop","name":"K-Pop"}]},{"id":"ambient-downtempo","name":"Ambient & Downtempo","subgenreCount":8,"_subgenres":[{"id":"ambient","name":"Ambient"},{"id":"chillout","name":"Chillout"},{"id":"trip-hop","name":"Trip-Hop"},{"id":"downtempo","name":"Downtempo"},{"id":"idm-downtempo","name":"IDM (Downtempo)"},{"id":"dub","name":"Dub"},{"id":"lo-fi-house-downtempo","name":"Lo-Fi House (Downtempo)"},{"id":"film-score","name":"Film Score"}]},{"id":"synthwave-darkwave","name":"Synthwave & Darkwave","subgenreCount":9,"_subgenres":[{"id":"synthwave","name":"Synthwave"},{"id":"retrowave","name":"Retrowave"},{"id":"outrun","name":"Outrun"},{"id":"darkwave","name":"Darkwave"},{"id":"darksynth","name":"Darksynth"},{"id":"coldwave","name":"Coldwave"},{"id":"post-punk","name":"Post-Punk"},{"id":"ebm","name":"EBM"},{"id":"witch-house","name":"Witch House"}]},{"id":"hardcore-bouncy","name":"Hardcore & Bouncy","subgenreCount":7,"_subgenres":[{"id":"gabber","name":"Gabber / Mainstyle Hardcore"},{"id":"frenchcore","name":"Frenchcore"},{"id":"donk","name":"Donk / Bouncy Techno"},{"id":"breakcore","name":"Breakcore"},{"id":"hardstyle-euphoric","name":"Hardstyle Euphoric"},{"id":"hardstyle-raw","name":"Hardstyle Raw"},{"id":"speedcore","name":"Speedcore"}]},{"id":"footwork-juke","name":"Footwork & Juke","subgenreCount":3,"_subgenres":[{"id":"chicago-footwork","name":"Chicago Footwork"},{"id":"juke","name":"Juke"},{"id":"teklife-style","name":"Teklife-style"}]},{"id":"idm-experimental","name":"IDM & Experimental","subgenreCount":3,"_subgenres":[{"id":"idm","name":"IDM"},{"id":"glitch","name":"Glitch"},{"id":"bubblegum-bass","name":"Bubblegum Bass / Hyperpop Roots"}]},{"id":"electro-breakbeat","name":"Electro & Breakbeat","subgenreCount":3,"_subgenres":[{"id":"classic-detroit-electro","name":"Classic Detroit Electro"},{"id":"nu-skool-breakbeat","name":"Nu-Skool Breakbeat"},{"id":"electro-funk","name":"Electro-Funk"}]},{"id":"african-latin-electronic","name":"African & Latin Electronic","subgenreCount":3,"_subgenres":[{"id":"amapiano","name":"Amapiano"},{"id":"afro-tech","name":"Afro Tech"},{"id":"baile-funk","name":"Baile Funk"}]},{"id":"garage-uk-bass","name":"Garage & UK Bass","subgenreCount":6,"_subgenres":[{"id":"two-step-garage","name":"2-Step Garage"},{"id":"speed-garage","name":"Speed Garage"},{"id":"bassline","name":"Bassline"},{"id":"grime","name":"Grime"},{"id":"four-four-garage","name":"4x4 Garage"},{"id":"deep-garage","name":"Deep Garage"}]},{"id":"disco-nudisco","name":"Disco & Nu-Disco","subgenreCount":4,"_subgenres":[{"id":"classic-disco","name":"Classic Disco"},{"id":"italo-disco","name":"Italo Disco"},{"id":"nu-disco","name":"Nu-Disco"},{"id":"cosmic-disco","name":"Cosmic Disco"}]},{"id":"reggaeton-latin-club","name":"Reggaeton & Latin Club","subgenreCount":4,"_subgenres":[{"id":"reggaeton","name":"Reggaeton"},{"id":"dembow","name":"Dembow"},{"id":"moombahton","name":"Moombahton"},{"id":"guaracha","name":"Guaracha"}]},{"id":"deconstructed-club","name":"Deconstructed Club","subgenreCount":3,"_subgenres":[{"id":"pc-music-bubblegum-bass","name":"PC Music / Bubblegum Bass"},{"id":"experimental-ballroom","name":"Experimental Ballroom"},{"id":"noise-club","name":"Noise Club"}]},{"id":"jersey-baltimore-club","name":"Jersey & Baltimore Club","subgenreCount":3,"_subgenres":[{"id":"jersey-club","name":"Jersey Club"},{"id":"baltimore-club","name":"Baltimore Club"},{"id":"modern-jersey","name":"Modern Jersey"}]},{"id":"hard-dance-happy-hardcore","name":"Hard Dance & Happy Hardcore","subgenreCount":5,"_subgenres":[{"id":"happy-hardcore","name":"Happy Hardcore"},{"id":"uk-hardcore","name":"UK Hardcore"},{"id":"hard-trance","name":"Hard Trance"},{"id":"hard-nrg","name":"Hard NRG"},{"id":"freeform","name":"Freeform"}]},{"id":"industrial-ebm","name":"Industrial & EBM","subgenreCount":4,"_subgenres":[{"id":"ebm","name":"EBM"},{"id":"aggrotech","name":"Aggrotech"},{"id":"power-noise","name":"Power Noise"},{"id":"dark-electro","name":"Dark Electro"}]},{"id":"psybass-tribal-bass","name":"Psybass & Tribal Bass","subgenreCount":4,"_subgenres":[{"id":"psybass","name":"Psybass"},{"id":"tribal-bass","name":"Tribal Bass"},{"id":"glitch-hop","name":"Glitch-Hop"},{"id":"midtempo-bass","name":"Midtempo Bass"}]},{"id":"minimal-microhouse","name":"Minimal & Microhouse","subgenreCount":4,"_subgenres":[{"id":"microhouse","name":"Microhouse"},{"id":"rominimal","name":"Rominimal"},{"id":"minimal-house","name":"Minimal House"},{"id":"schaffel","name":"Schaffel"}]},{"id":"lofi-chillhop","name":"Lo-fi & Chillhop","subgenreCount":3,"_subgenres":[{"id":"lofi-hiphop","name":"Lo-fi Hip-Hop"},{"id":"chillhop","name":"Chillhop"},{"id":"jazzhop","name":"Jazzhop"}]},{"id":"hardwave-trance-revival","name":"Hardwave & Trance Revival","subgenreCount":4,"_subgenres":[{"id":"hardwave","name":"Hardwave"},{"id":"hard-trance-revival","name":"Hard Trance Revival"},{"id":"rave-revival","name":"Rave Revival"},{"id":"trance-techno","name":"Trance Techno"}]},{"id":"dancehall-afrobeats","name":"Dancehall & Afrobeats","subgenreCount":5,"_subgenres":[{"id":"modern-afrobeats","name":"Modern Afrobeats"},{"id":"dancehall","name":"Dancehall"},{"id":"afroswing","name":"Afroswing"},{"id":"soca","name":"Soca"},{"id":"kuduro","name":"Kuduro"}]},{"id":"electroclash-electrotech","name":"Electroclash & Electrotech","subgenreCount":5,"_subgenres":[{"id":"electrotech","name":"Electrotech"},{"id":"electroclash","name":"Electroclash"},{"id":"blog-house","name":"Blog House / Ed Banger"},{"id":"fidget-house","name":"Fidget House"},{"id":"electro-punk","name":"Electro-Punk"}]}];
+
+// Communication helpers
+function closeWithResult(result) {
+  var message = { method: "close_and_send", params: [JSON.stringify(result)] };
+  if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.live) {
+    window.webkit.messageHandlers.live.postMessage(message);
+  } else if (window.chrome && window.chrome.webview) {
+    window.chrome.webview.postMessage(message);
+  }
+}
+
+function selectGenre(genreId) {
+  selectedGenre = genreId;
+  closeWithResult({ type: "select_genre", genreId: genreId });
+}
+
+// Utility: find genre name by id
+function getGenreName(id) {
+  if (!id) return null;
+  for (var i = 0; i < genres.length; i++) {
+    if (genres[i].id === id) return genres[i].name;
+  }
+  for (var i = 0; i < genreFamilies.length; i++) {
+    if (genreFamilies[i].id === id) return genreFamilies[i].name;
+    var subs = genreFamilies[i]._subgenres;
+    for (var j = 0; j < subs.length; j++) {
+      if (subs[j].id === id) return subs[j].name;
+    }
+  }
+  return id;
+}
+
+// Compute total duration for proportional widths
+function getTotalDuration() {
+  if (sections.length === 0) return 1;
+  var total = 0;
+  for (var i = 0; i < sections.length; i++) {
+    total += getSectionDuration(sections[i], i);
+  }
+  return total || 1;
+}
+
+function getSectionDuration(sec, idx) {
+  if (sec.endTime === Infinity || sec.endTime === null || sec.endTime === undefined) {
+    // Use 32 beats or match previous section length
+    if (idx > 0) {
+      var prev = sections[idx - 1];
+      return prev.endTime - prev.startTime;
+    }
+    return 32;
+  }
+  return sec.endTime - sec.startTime;
+}
+
+function getEnergyForSection(idx) {
+  if (energyCurve && energyCurve[idx] !== undefined && energyCurve[idx] !== null) {
+    return energyCurve[idx];
+  }
+  return 5;
+}
+
+function getEnergyColor(score) {
+  if (score <= 3) return "#4caf50";
+  if (score <= 6) return "#ffca28";
+  if (score <= 8) return "#ff9800";
+  return "#f44336";
+}
+
+// Render section pills
+function renderSections() {
+  var container = document.getElementById("sectionsRow");
+  container.innerHTML = "";
+  if (sections.length === 0) {
+    container.innerHTML = '<div class="empty-state" style="padding:8px">No sections detected</div>';
+    return;
+  }
+  var totalDur = getTotalDuration();
+  for (var i = 0; i < sections.length; i++) {
+    (function(idx) {
+      var sec = sections[idx];
+      var dur = getSectionDuration(sec, idx);
+      var pct = (dur / totalDur) * 100;
+      var pill = document.createElement("div");
+      pill.className = "section-pill" + (sec.id === activeSectionId ? " active" : "");
+      pill.style.width = "calc(" + pct + "% - 2px)";
+      pill.textContent = sec.name || sec.id || ("Section " + (idx + 1));
+      pill.title = (sec.name || sec.id) + " (" + dur + " beats)";
+      pill.addEventListener("click", function() {
+        activeSectionId = sec.id;
+        renderAll();
+      });
+      container.appendChild(pill);
+    })(i);
+  }
+}
+
+// Render energy bars
+function renderEnergy() {
+  var container = document.getElementById("energyRow");
+  container.innerHTML = "";
+  if (sections.length === 0) return;
+  var totalDur = getTotalDuration();
+  for (var i = 0; i < sections.length; i++) {
+    var sec = sections[i];
+    var dur = getSectionDuration(sec, i);
+    var pct = (dur / totalDur) * 100;
+    var score = getEnergyForSection(i);
+    var barH = (score / 10) * 40;
+    var wrapper = document.createElement("div");
+    wrapper.className = "energy-bar-wrapper";
+    wrapper.style.width = "calc(" + pct + "% - 2px)";
+    var label = document.createElement("div");
+    label.className = "energy-label";
+    label.textContent = score;
+    var bar = document.createElement("div");
+    bar.className = "energy-bar";
+    bar.style.height = barH + "px";
+    bar.style.background = getEnergyColor(score);
+    wrapper.appendChild(label);
+    wrapper.appendChild(bar);
+    container.appendChild(wrapper);
+  }
+}
+
+// Render issues panel
+function renderIssues() {
+  var container = document.getElementById("issuesPanel");
+  container.innerHTML = "";
+  var filtered = issues;
+  if (activeSectionId) {
+    filtered = issues.filter(function(iss) {
+      return iss.sectionId === activeSectionId;
+    });
+    if (filtered.length === 0) filtered = issues;
+  }
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state">No issues detected</div>';
+    return;
+  }
+  for (var i = 0; i < filtered.length; i++) {
+    var iss = filtered[i];
+    var sev = iss.severity || "info";
+    var div = document.createElement("div");
+    div.className = "issue-item " + sev;
+    var badge = document.createElement("span");
+    badge.className = "issue-severity " + sev;
+    badge.textContent = sev;
+    var msg = document.createElement("div");
+    msg.className = "issue-message";
+    msg.textContent = iss.message || "";
+    div.appendChild(badge);
+    div.appendChild(msg);
+    if (iss.suggestion) {
+      var sug = document.createElement("div");
+      sug.className = "issue-suggestion";
+      sug.textContent = iss.suggestion;
+      div.appendChild(sug);
+    }
+    container.appendChild(div);
+  }
+}
+
+// Render suggestions panel
+function renderSuggestions() {
+  var container = document.getElementById("suggestionsPanel");
+  container.innerHTML = "";
+  var filtered = transitionRecommendations;
+  if (activeSectionId) {
+    filtered = transitionRecommendations.filter(function(rec) {
+      return rec.fromSectionId === activeSectionId || rec.toSectionId === activeSectionId;
+    });
+    if (filtered.length === 0) filtered = transitionRecommendations;
+  }
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state">No suggestions yet</div>';
+    return;
+  }
+  for (var i = 0; i < filtered.length; i++) {
+    var rec = filtered[i];
+    var div = document.createElement("div");
+    div.className = "suggestion-item";
+    var boundary = document.createElement("div");
+    boundary.className = "suggestion-boundary";
+    var fromName = findSectionName(rec.fromSectionId);
+    var toName = findSectionName(rec.toSectionId);
+    boundary.textContent = fromName + " \u2192 " + toName;
+    div.appendChild(boundary);
+    if (rec.techniques && rec.techniques.length > 0) {
+      var techs = document.createElement("div");
+      techs.className = "suggestion-techniques";
+      var techNames = rec.techniques.map(function(t) { return t.name || t.category; });
+      techs.textContent = techNames.join(", ");
+      div.appendChild(techs);
+    }
+    if (rec.rationale) {
+      var rat = document.createElement("div");
+      rat.className = "suggestion-rationale";
+      rat.textContent = rec.rationale;
+      div.appendChild(rat);
+    }
+    container.appendChild(div);
+  }
+}
+
+function findSectionName(id) {
+  for (var i = 0; i < sections.length; i++) {
+    if (sections[i].id === id) return sections[i].name || sections[i].id;
+  }
+  return id || "?";
+}
+
+// Render notes panel
+function renderNotes() {
+  var container = document.getElementById("notesPanel");
+  container.innerHTML = "";
+  // Notes for active section
+  var filteredNotes = notes.filter(function(n) {
+    return n.sectionId === activeSectionId;
+  });
+  // Checklist for active section
+  var checklist = (sectionChecklists && activeSectionId && sectionChecklists[activeSectionId]) ? sectionChecklists[activeSectionId] : [];
+
+  if (filteredNotes.length === 0 && checklist.length === 0) {
+    container.innerHTML = '<div class="empty-state">No notes for this section</div>';
+  } else {
+    // Render checklist first
+    for (var i = 0; i < checklist.length; i++) {
+      (function(idx) {
+        var item = checklist[idx];
+        var div = document.createElement("div");
+        div.className = "checklist-item";
+        div.style.cursor = "pointer";
+        var box = document.createElement("div");
+        box.className = "checklist-box" + (item.completed ? " checked" : "");
+        var text = document.createElement("span");
+        text.className = "checklist-text" + (item.completed ? " completed" : "");
+        text.textContent = item.text;
+        div.appendChild(box);
+        div.appendChild(text);
+        div.addEventListener("click", function() {
+          item.completed = !item.completed;
+          renderNotes();
+        });
+        container.appendChild(div);
+      })(i);
+    }
+    // Render notes
+    for (var i = 0; i < filteredNotes.length; i++) {
+      (function(noteIndex) {
+        var n = filteredNotes[noteIndex];
+        var div = document.createElement("div");
+        div.className = "note-item";
+        div.style.position = "relative";
+        var textSpan = document.createElement("span");
+        textSpan.textContent = n.text || "";
+        div.appendChild(textSpan);
+        var delBtn = document.createElement("button");
+        delBtn.className = "note-delete-btn";
+        delBtn.textContent = "\u00D7";
+        delBtn.title = "Delete note";
+        delBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          var idx = notes.indexOf(n);
+          if (idx !== -1) notes.splice(idx, 1);
+          renderNotes();
+        });
+        div.appendChild(delBtn);
+        if (n.createdAt) {
+          var date = document.createElement("div");
+          date.className = "note-date";
+          date.textContent = n.createdAt;
+          div.appendChild(date);
+        }
+        container.appendChild(div);
+      })(i);
+    }
+  }
+  // Always show the note input at the bottom
+  var inputRow = document.createElement("div");
+  inputRow.className = "note-input-row";
+  var input = document.createElement("input");
+  input.type = "text";
+  input.className = "note-input";
+  input.placeholder = "Add a note\u2026";
+  var addBtn = document.createElement("button");
+  addBtn.className = "note-add-btn";
+  addBtn.textContent = "+";
+  function submitNote() {
+    var text = input.value.trim();
+    if (text && activeSectionId) {
+      notes.push({ id: "note-" + Date.now(), sectionId: activeSectionId, text: text, createdAt: new Date().toLocaleString() });
+      input.value = "";
+      renderNotes();
+    }
+  }
+  addBtn.addEventListener("click", submitNote);
+  input.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") submitNote();
+  });
+  inputRow.appendChild(input);
+  inputRow.appendChild(addBtn);
+  container.appendChild(inputRow);
+}
+
+// Render genre button
+function renderGenreBtn() {
+  var btn = document.getElementById("genreBtn");
+  if (selectedGenre) {
+    btn.textContent = getGenreName(selectedGenre) || selectedGenre;
+  } else {
+    btn.textContent = "Select genre\u2026";
+  }
+}
+
+// Genre picker
+var expandedFamily = null;
+
+function renderGenreList(filter) {
+  var container = document.getElementById("genreList");
+  container.innerHTML = "";
+  var query = (filter || "").toLowerCase().trim();
+
+  // Clear selection option
+  var clearDiv = document.createElement("div");
+  clearDiv.className = "genre-clear";
+  clearDiv.textContent = "\u2715 Clear selection";
+  clearDiv.addEventListener("click", function() {
+    selectGenre(null);
+    closeGenrePicker();
+  });
+  container.appendChild(clearDiv);
+
+  for (var i = 0; i < genreFamilies.length; i++) {
+    var fam = genreFamilies[i];
+    var famMatches = !query || fam.name.toLowerCase().indexOf(query) !== -1;
+    var matchingSubs = [];
+    for (var j = 0; j < fam._subgenres.length; j++) {
+      if (!query || fam._subgenres[j].name.toLowerCase().indexOf(query) !== -1) {
+        matchingSubs.push(fam._subgenres[j]);
+      }
+    }
+    if (!famMatches && matchingSubs.length === 0) continue;
+
+    var familyDiv = document.createElement("div");
+    familyDiv.className = "genre-family";
+
+    var header = document.createElement("div");
+    header.className = "genre-family-header";
+
+    var isExpanded = expandedFamily === fam.id || (query && matchingSubs.length > 0);
+    var arrow = document.createElement("span");
+    arrow.className = "arrow" + (isExpanded ? " expanded" : "");
+    arrow.textContent = "\u25B6";
+
+    var nameSpan = document.createElement("span");
+    nameSpan.textContent = fam.name;
+
+    var countSpan = document.createElement("span");
+    countSpan.className = "count";
+    countSpan.textContent = fam.subgenreCount + " subgenres";
+
+    header.appendChild(arrow);
+    header.appendChild(nameSpan);
+    header.appendChild(countSpan);
+
+    (function(family, arrowEl) {
+      header.addEventListener("click", function(e) {
+        if (e.shiftKey || e.ctrlKey) {
+          // Select the family itself
+          selectGenre(family.id);
+          closeGenrePicker();
+          return;
+        }
+        if (expandedFamily === family.id) {
+          expandedFamily = null;
+        } else {
+          expandedFamily = family.id;
+        }
+        renderGenreList(document.getElementById("genreSearchInput").value);
+      });
+    })(fam, arrow);
+
+    familyDiv.appendChild(header);
+
+    // Subgenres
+    var subsDiv = document.createElement("div");
+    subsDiv.className = "genre-subgenres" + (isExpanded ? " open" : "");
+    var subsToShow = query ? matchingSubs : fam._subgenres;
+    for (var k = 0; k < subsToShow.length; k++) {
+      (function(sub) {
+        var subDiv = document.createElement("div");
+        subDiv.className = "genre-subgenre";
+        subDiv.textContent = sub.name;
+        subDiv.addEventListener("click", function() {
+          selectGenre(sub.id);
+          closeGenrePicker();
+        });
+        subsDiv.appendChild(subDiv);
+      })(subsToShow[k]);
+    }
+    familyDiv.appendChild(subsDiv);
+    container.appendChild(familyDiv);
+  }
+}
+
+function openGenrePicker() {
+  document.getElementById("genreOverlay").classList.add("open");
+  var input = document.getElementById("genreSearchInput");
+  input.value = "";
+  expandedFamily = null;
+  renderGenreList("");
+  setTimeout(function() { input.focus(); }, 50);
+}
+
+function closeGenrePicker() {
+  document.getElementById("genreOverlay").classList.remove("open");
+}
+
+// Event listeners
+document.getElementById("genreBtn").addEventListener("click", openGenrePicker);
+document.getElementById("genreOverlay").addEventListener("click", function(e) {
+  if (e.target === document.getElementById("genreOverlay")) {
+    closeGenrePicker();
+  }
+});
+document.getElementById("genreSearchInput").addEventListener("input", function() {
+  renderGenreList(this.value);
+});
+document.getElementById("analyzeBtn").addEventListener("click", function() {
+  closeWithResult({ type: "analyze" });
+});
+document.getElementById("saveCloseBtn").addEventListener("click", function() {
+  closeWithResult({ type: "save_notes" });
+});
+document.getElementById("helpBtn").addEventListener("click", function() {
+  document.getElementById("helpOverlay").classList.add("open");
+});
+document.getElementById("helpClose").addEventListener("click", function() {
+  document.getElementById("helpOverlay").classList.remove("open");
+});
+document.getElementById("helpOverlay").addEventListener("click", function(e) {
+  if (e.target === document.getElementById("helpOverlay")) {
+    document.getElementById("helpOverlay").classList.remove("open");
+  }
+});
+
+// ── ALS File Overlay ──────────────────────────────────────────────────
+var alsPathResolved = false;
+
+// Hydrate als button state from initial state
+if (window.__INITIAL_STATE__ && window.__INITIAL_STATE__.alsLoaded) {
+  alsPathResolved = true;
+  var _alsBtn = document.getElementById("alsBtn");
+  if (_alsBtn) {
+    _alsBtn.classList.remove("als-btn--missing");
+    _alsBtn.classList.add("als-btn--resolved");
+  }
+}
+
+document.getElementById("alsBtn").addEventListener("click", function() {
+  document.getElementById("alsOverlay").classList.add("open");
+  document.getElementById("alsPathInput").focus();
+});
+document.getElementById("alsClose").addEventListener("click", function() {
+  document.getElementById("alsOverlay").classList.remove("open");
+});
+document.getElementById("alsOverlay").addEventListener("click", function(e) {
+  if (e.target === document.getElementById("alsOverlay")) {
+    document.getElementById("alsOverlay").classList.remove("open");
+  }
+});
+document.getElementById("alsBrowseBtn").addEventListener("click", function() {
+  document.getElementById("alsFilePicker").click();
+});
+document.getElementById("alsFilePicker").addEventListener("change", function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var fileName = file.name || "unknown.als";
+  document.getElementById("alsPathInput").value = fileName;
+  document.getElementById("alsError").textContent = "";
+
+  // Read the file content as base64 for sending to the backend
+  var reader = new FileReader();
+  reader.onload = function() {
+    var arrayBuffer = reader.result;
+    var bytes = new Uint8Array(arrayBuffer);
+    var binary = "";
+    for (var i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    var base64 = btoa(binary);
+    document.getElementById("alsFilePicker").dataset.base64 = base64;
+    document.getElementById("alsFilePicker").dataset.fileName = fileName;
+  };
+  reader.readAsArrayBuffer(file);
+});
+document.getElementById("alsPathInput").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") document.getElementById("alsSubmitBtn").click();
+  if (e.key === "Escape") document.getElementById("alsOverlay").classList.remove("open");
+});
+document.getElementById("alsSubmitBtn").addEventListener("click", function() {
+  var picker = document.getElementById("alsFilePicker");
+  var base64 = picker.dataset.base64;
+
+  if (!base64) {
+    document.getElementById("alsError").textContent = "Please select a file using the Browse button.";
+    return;
+  }
+
+  document.getElementById("alsError").textContent = "";
+  alsPathResolved = true;
+  var btn = document.getElementById("alsBtn");
+  btn.classList.remove("als-btn--missing");
+  btn.classList.add("als-btn--resolved");
+  document.getElementById("alsOverlay").classList.remove("open");
+  closeWithResult({ type: "set_als_data", fileName: picker.dataset.fileName, data: base64 });
+});
+
+function updateAlsButtonState(hasPath) {
+  alsPathResolved = hasPath;
+  var btn = document.getElementById("alsBtn");
+  if (hasPath) {
+    btn.classList.remove("als-btn--missing");
+    btn.classList.add("als-btn--resolved");
+  } else {
+    btn.classList.remove("als-btn--resolved");
+    btn.classList.add("als-btn--missing");
+  }
+}
+
+// ── Generate Sections Button ──────────────────────────────────────────
+var errorDismissTimeout = null;
+
+function getGenerateButtonState() {
+  if (isGenerating) return "loading";
+  if (!selectedGenre) return "disabled-no-genre";
+  if (sections.length > 0) return "disabled-sections-exist";
+  return "enabled";
+}
+
+function getGenerateTooltip(state) {
+  if (state === "disabled-no-genre") return "Select a genre to enable section generation";
+  if (state === "disabled-sections-exist") return "Remove existing sections to generate new ones";
+  if (state === "loading") return "Generating sections…";
+  return "";
+}
+
+function renderGenerateButton() {
+  var btn = document.getElementById("generateBtn");
+  var state = getGenerateButtonState();
+  var tooltip = getGenerateTooltip(state);
+
+  // Reset classes
+  btn.classList.remove("generate-btn--disabled", "generate-btn--loading");
+  btn.removeAttribute("aria-disabled");
+
+  if (state === "disabled-no-genre" || state === "disabled-sections-exist") {
+    btn.classList.add("generate-btn--disabled");
+    btn.setAttribute("aria-disabled", "true");
+  } else if (state === "loading") {
+    btn.classList.add("generate-btn--loading");
+    btn.setAttribute("aria-disabled", "true");
+  }
+
+  btn.title = tooltip;
+}
+
+function showErrorNotification(message) {
+  var bar = document.getElementById("errorNotification");
+  var msgEl = document.getElementById("errorNotificationMsg");
+  msgEl.textContent = message;
+  bar.classList.add("visible");
+
+  // Clear any existing auto-dismiss timeout
+  if (errorDismissTimeout) {
+    clearTimeout(errorDismissTimeout);
+  }
+  // Allow dismissal only after 5 seconds (but keep visible until user dismisses or next event)
+  errorDismissTimeout = null;
+}
+
+function hideErrorNotification() {
+  var bar = document.getElementById("errorNotification");
+  bar.classList.remove("visible");
+  generationError = null;
+  if (errorDismissTimeout) {
+    clearTimeout(errorDismissTimeout);
+    errorDismissTimeout = null;
+  }
+}
+
+document.getElementById("generateBtn").addEventListener("click", function() {
+  var state = getGenerateButtonState();
+  if (state !== "enabled") return;
+  closeWithResult({ type: "generate_sections" });
+});
+
+document.getElementById("errorNotificationDismiss").addEventListener("click", function() {
+  hideErrorNotification();
+});
+
+// Show error notification if initial state has an error
+function renderErrorState() {
+  if (generationError) {
+    showErrorNotification(generationError);
+  }
+}
+
+// Render all
+function renderAll() {
+  renderGenreBtn();
+  renderGenerateButton();
+  renderSections();
+  renderEnergy();
+  renderIssues();
+  renderSuggestions();
+  renderNotes();
+  renderErrorState();
+}
+
+renderAll();
+
+// Track whether we already sent a close message (to avoid double-sending)
+var closeSent = false;
+var _originalCloseWithResult = closeWithResult;
+closeWithResult = function(result) {
+  closeSent = true;
+  // Always include notes and checklist state in the result
+  result.notes = notes;
+  result.sectionChecklists = sectionChecklists;
+  _originalCloseWithResult(result);
+};
+
+// Save notes when the dialog is closed by the user (X button or escape)
+window.addEventListener("pagehide", function() {
+  if (closeSent) return;
+  closeSent = true;
+  var message = { method: "close_and_send", params: [JSON.stringify({ type: "save_state", notes: notes, sectionChecklists: sectionChecklists })] };
+  if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.live) {
+    window.webkit.messageHandlers.live.postMessage(message);
+  } else if (window.chrome && window.chrome.webview) {
+    window.chrome.webview.postMessage(message);
+  }
+});
+</script>
+</body>
+</html>

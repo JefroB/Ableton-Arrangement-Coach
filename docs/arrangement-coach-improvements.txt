@@ -1,0 +1,320 @@
+
+ABLETON ARRANGEMENT COACH – LANGUAGE & SUGGESTION SYSTEM IMPROVEMENT ROADMAP
+============================================================================
+
+OVERVIEW
+--------
+The detection layer appears solid. Most of the perceived "formulaic" behavior comes from the language generation layer, recommendation selection logic, and lack of contextual awareness.
+
+The highest-impact improvements are not new detectors. They are improvements to suggestion generation, variation, memory, and contextual reasoning.
+
+PRIORITY 1: MOVE FROM TEMPLATE RENDERING TO SUGGESTION STRATEGIES
+-----------------------------------------------------------------
+Current:
+  Issue -> Template -> Output
+
+Recommended:
+  Issue -> Strategy -> Technique Selection -> Language Renderer
+
+Example:
+
+Flat Energy
+  Strategy A: Add Energy
+  Strategy B: Add Contrast
+  Strategy C: Remove Elements First
+  Strategy D: Automation Movement
+  Strategy E: Rhythmic Change
+
+Instead of always recommending additions, sometimes recommend subtraction.
+
+Examples:
+  - Remove the bass for 4 bars before the drop.
+  - Mute percussion briefly to create contrast.
+  - Thin the arrangement before introducing a new layer.
+
+This immediately increases variety.
+
+PRIORITY 2: ADD PRODUCER-STYLE PERSONAS
+---------------------------------------
+Create recommendation personalities:
+
+  Minimalist
+  Club DJ
+  Sound Designer
+  Arranger
+  Mixing Engineer
+  Genre Specialist
+
+The same issue can generate different advice depending on persona.
+
+Example:
+
+Flat Energy
+
+Minimalist:
+  "Try removing an element rather than adding one."
+
+Club DJ:
+  "Introduce a gradual tension layer over the final 8 bars."
+
+Mixing Engineer:
+  "Automation movement could create perceived energy without adding tracks."
+
+Sound Designer:
+  "Morph the lead timbre over the section to create evolution."
+
+This produces dramatically more natural output.
+
+PRIORITY 3: BUILD A TECHNIQUE KNOWLEDGE BASE
+--------------------------------------------
+Replace tiny technique pools with categorized libraries.
+
+Suggested categories:
+
+  Automation
+  Arrangement
+  Sound Design
+  Rhythm
+  Harmony
+  FX
+  Dynamics
+  Stereo Image
+  Texture
+  Groove
+
+Each category should contain 50+ techniques.
+
+Example:
+
+Automation:
+  Filter sweep
+  Resonance movement
+  Delay feedback increase
+  Reverb size automation
+  Pan movement
+  Distortion drive increase
+  Width automation
+  Pitch drift
+
+Arrangement:
+  Call and response
+  Layer swap
+  Percussion introduction
+  Bass variation
+  Chord inversion change
+  Drum reduction
+  Transitional silence
+
+The system should select from hundreds of possible techniques rather than dozens.
+
+PRIORITY 4: ADD TRACK MEMORY
+----------------------------
+The coach should remember what it already suggested.
+
+If it already recommended:
+  - Riser
+  - Sweep
+  - Snare Roll
+
+Then future suggestions should avoid those unless necessary.
+
+Introduce:
+
+  suggestedTechniques[]
+
+Score techniques lower if they were already used recently.
+
+This prevents repetitive advice within the same analysis.
+
+PRIORITY 5: POSITIVE FEEDBACK ENGINE
+------------------------------------
+Add a separate strength detector.
+
+Examples:
+
+  Strong energy ramp.
+  Effective breakdown contrast.
+  Well-spaced frequency spectrum.
+  DJ-friendly intro.
+  Memorable drop transition.
+
+Target:
+  15% to 25% of all output.
+
+Example:
+
+  "The contrast between Breakdown and Drop A works well. The reduced drum density makes the drop feel larger."
+
+This makes the coach feel significantly more intelligent.
+
+PRIORITY 6: MULTI-LAYER REASONING
+---------------------------------
+Do not generate suggestions directly from issues.
+
+Instead:
+
+Issue
+  -> Why is it happening?
+  -> What musical goal would improve it?
+  -> Which techniques achieve that goal?
+
+Example:
+
+Flat Energy
+
+Reason:
+  No new elements introduced.
+
+Goal:
+  Increase perceived momentum.
+
+Techniques:
+  Automation
+  Layering
+  Rhythm change
+  Removal before impact
+
+Output:
+  Choose one or combine several.
+
+This produces more musical recommendations.
+
+PRIORITY 7: COMPOUND SUGGESTIONS
+--------------------------------
+Approximately 30% of suggestions should contain multiple coordinated actions.
+
+Example:
+
+  "Introduce a percussion build during the final 4 bars and gradually open the filter on the lead to increase momentum."
+
+or
+
+  "Remove the bass for 2 beats before the drop, then reintroduce it with additional saturation."
+
+These read far more like real producer advice.
+
+PRIORITY 8: GENRE MICRO-KNOWLEDGE
+---------------------------------
+Expand genre profiles dramatically.
+
+Instead of:
+
+  Trance -> riser
+
+Use:
+
+Trance:
+  supersaw detune modulation
+  arp octave shift
+  gated pad variation
+  uplifter stack
+  harmonic lift
+  snare acceleration
+
+Techno:
+  percussion substitution
+  hat pattern evolution
+  dub delay throw
+  modular modulation
+  filter resonance ride
+
+House:
+  vocal chop variation
+  bass groove change
+  conga layer
+  piano fill
+  call-and-response vocal
+
+Genres should influence:
+  techniques
+  vocabulary
+  sentence structure
+  recommendation priorities
+
+PRIORITY 9: ADD CONFIDENCE SCORING
+----------------------------------
+Every suggestion should carry a confidence value.
+
+Example:
+
+  High confidence:
+    Missing transition
+
+  Medium confidence:
+    Repetition
+
+  Low confidence:
+    Potential energy issue
+
+Language should reflect certainty.
+
+High:
+  "This transition needs additional preparation."
+
+Medium:
+  "This section could benefit from more variation."
+
+Low:
+  "You may want to experiment with additional movement here."
+
+This feels more human.
+
+PRIORITY 10: CREATE MULTIPLE LANGUAGE MODES
+-------------------------------------------
+Support:
+
+  Technical
+  Producer
+  Mentor
+  Concise
+  Detailed
+
+Example:
+
+Technical:
+  "Energy delta of 5 detected without transitional material."
+
+Producer:
+  "The drop arrives suddenly. A short tension builder could make it land harder."
+
+Mentor:
+  "Try creating anticipation before the drop so the payoff feels bigger."
+
+LANGUAGE ENGINE IMPROVEMENTS
+----------------------------
+Instead of rotating individual verbs, rotate complete sentence structures.
+
+Examples:
+
+Observation:
+  "The energy remains largely unchanged through this section."
+
+Question:
+  "What would happen if a new rhythmic layer entered halfway through?"
+
+Comparison:
+  "This section mirrors the previous one closely."
+
+Cause/Effect:
+  "Because no new elements appear here, momentum begins to flatten."
+
+Goal-Oriented:
+  "A small amount of movement could help carry the listener into the next section."
+
+Rotating structures is more impactful than rotating verbs.
+
+LONG-TERM VISION
+----------------
+Move toward:
+
+  Issue Detection
+        ↓
+  Musical Intent Inference
+        ↓
+  Context Analysis
+        ↓
+  Technique Selection
+        ↓
+  Natural Language Generation
+
+The coach should eventually sound less like a validator and more like an experienced producer reviewing a work-in-progress arrangement.

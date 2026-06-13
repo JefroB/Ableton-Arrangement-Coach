@@ -1,0 +1,1365 @@
+{
+  "genreFamily": "electro-breakbeat",
+  "name": "Electro & Breakbeat",
+  "tempoRange": {
+    "min": 110,
+    "max": 140
+  },
+  "structure": [
+    {
+      "name": "Intro",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Groove A",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Bridge",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Core A",
+      "lengthRange": {
+        "min": 32,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Variation",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Core B",
+      "lengthRange": {
+        "min": 32,
+        "max": 48
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    5,
+    6,
+    6,
+    7,
+    6,
+    8,
+    5
+  ],
+  "transitions": {
+    "preferred": [
+      "break_roll",
+      "808_fill",
+      "bass_sweep",
+      "filter_sweep",
+      "layer_addition"
+    ],
+    "discouraged": [
+      "four_on_the_floor_kick",
+      "long_riser",
+      "dramatic_drop"
+    ],
+    "buildDurationRange": {
+      "min": 4,
+      "max": 16
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.1,
+    "midiDensityWeight": 0.25,
+    "trackPresenceWeight": 0.2,
+    "automationWeight": 0.15,
+    "frequencyCoverageWeight": 0.1,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "no-four-on-the-floor",
+      "value": true,
+      "severity": "critical"
+    },
+    {
+      "type": "tempo-range-enforcement",
+      "value": 110,
+      "severity": "critical",
+      "unit": "bpm"
+    },
+    {
+      "type": "syncopated-breakbeat-expected",
+      "value": true,
+      "severity": "warning"
+    },
+    {
+      "type": "max-energy-jump",
+      "value": 3,
+      "severity": "warning"
+    },
+    {
+      "type": "min-intro-bars",
+      "value": 16,
+      "severity": "warning",
+      "unit": "bars"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 2,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 85
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "snare-roll",
+      "hat-roll",
+      "generic-fill"
+    ],
+    "typicalFillIntervals": [
+      8,
+      16
+    ],
+    "expectedFillFrequency": 1.5,
+    "coreElements": [
+      "kick",
+      "snare",
+      "hi-hat"
+    ],
+    "conditionalElements": {
+      "crash": [
+        "drop",
+        "transition"
+      ],
+      "break": [
+        "core section"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -16,
+      "bass": -10,
+      "lowMid": -18,
+      "mid": -22,
+      "highMid": -24,
+      "high": -28
+    },
+    "expectedDrumTransientDensity": 14,
+    "displayName": "electro/breakbeat",
+    "subBassHint": "boosting the sub on your electro bass line",
+    "rhythmicHint": "layering additional break chops or syncopated percussion"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 2,
+    "repetitionSimilarity": 0.85,
+    "abruptChangeDelta": 4,
+    "crowdingTrackCount": 3,
+    "introMinBars": 16,
+    "outroMinBars": 16
+  },
+  "archetypes": [
+    "loop",
+    "continuous-evolution"
+  ],
+  "aliases": [
+    "electro",
+    "breakbeat",
+    "breaks",
+    "nu-skool breaks"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "classic-detroit-electro",
+      "displayName": "Classic Detroit Electro",
+      "structureVariants": [
+        {
+          "name": "Standard Loop Evolution",
+          "sections": [
+            {
+              "name": "Syncopated 808 Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Vocoder Phrase A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Synthesizer Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Core Break A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Variation / Phrase B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Core Break B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Sci-Fi Journey",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "808 Pattern A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Synth Interlude",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern B / Evolution",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Vocoder Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dissolution",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "DJ Tool",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Core Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Subtle Shift",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pattern Variation",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Vocoder Feature",
+          "sections": [
+            {
+              "name": "808 Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Vocoder Theme A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Break Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Vocoder Theme B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Combined Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 120,
+        "max": 130
+      },
+      "structure": [
+        {
+          "name": "808 Intro",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Vocoder Phrase A",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Synthesizer Bridge",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Core Break A",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Variation",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Core Break B",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        5,
+        6,
+        6,
+        7,
+        6,
+        7,
+        5
+      ],
+      "transitions": {
+        "preferred": [
+          "layer_addition",
+          "808_fill",
+          "vocoder_entry",
+          "synth_stab",
+          "filter_sweep"
+        ],
+        "discouraged": [
+          "riser",
+          "impact",
+          "four_on_the_floor_kick",
+          "dramatic_drop"
+        ],
+        "buildDurationRange": {
+          "min": 4,
+          "max": 8
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.2,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "no-four-on-the-floor",
+          "value": true,
+          "severity": "critical"
+        },
+        {
+          "type": "tempo-range-enforcement",
+          "value": 120,
+          "severity": "critical",
+          "unit": "bpm"
+        },
+        {
+          "type": "syncopated-808-pattern-required",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "max-energy-jump",
+          "value": 2,
+          "severity": "warning"
+        },
+        {
+          "type": "loop-based-evolution-expected",
+          "value": true,
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "subgenreId": "nu-skool-breakbeat",
+      "displayName": "Nu-Skool Breakbeat",
+      "structureVariants": [
+        {
+          "name": "Standard Double-Drop",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop B",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Mix",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove Establish",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove C",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Single-Drop DJ Weapon",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Brief Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop Variation",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Progressive Breaks",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Layer A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Layer B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Full Break Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 125,
+        "max": 140
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Groove A",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Build",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Drop A",
+          "lengthRange": {
+            "min": 32,
+            "max": 48
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Breakdown",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Build 2",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Drop B",
+          "lengthRange": {
+            "min": 32,
+            "max": 48
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        5,
+        7,
+        8,
+        9,
+        6,
+        8,
+        9,
+        5
+      ],
+      "transitions": {
+        "preferred": [
+          "break_roll",
+          "bass_sweep",
+          "filter_automation",
+          "impact",
+          "vocal_chop"
+        ],
+        "discouraged": [
+          "four_on_the_floor_kick",
+          "long_emotional_breakdown"
+        ],
+        "buildDurationRange": {
+          "min": 4,
+          "max": 16
+        },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.2,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "no-four-on-the-floor",
+          "value": true,
+          "severity": "critical"
+        },
+        {
+          "type": "tempo-range-enforcement",
+          "value": 125,
+          "severity": "critical",
+          "unit": "bpm"
+        },
+        {
+          "type": "breakbeat-pattern-required",
+          "value": true,
+          "severity": "critical"
+        },
+        {
+          "type": "drop-energy-minimum",
+          "value": 7,
+          "severity": "warning"
+        },
+        {
+          "type": "bass-presence-in-drop",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "max-breakdown-bars",
+          "value": 16,
+          "severity": "info",
+          "unit": "bars"
+        }
+      ]
+    },
+    {
+      "subgenreId": "electro-funk",
+      "displayName": "Electro-Funk",
+      "structureVariants": [
+        {
+          "name": "Standard Groove",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove Establishment",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Bridge / Variation",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove Return",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Funk Jam",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Solo / Lead Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Radio Edit",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse / Groove",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Hook 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "DJ Tool",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Subtle Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 110,
+        "max": 125
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Groove Establishment",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Bridge",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Main Groove",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Breakdown",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Groove Return",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        5,
+        7,
+        6,
+        8,
+        6,
+        7,
+        5
+      ],
+      "transitions": {
+        "preferred": [
+          "bass_sweep",
+          "808_fill",
+          "talkbox_entry",
+          "filter_sweep",
+          "funk_fill"
+        ],
+        "discouraged": [
+          "four_on_the_floor_kick",
+          "hard_cut",
+          "dramatic_drop"
+        ],
+        "buildDurationRange": {
+          "min": 4,
+          "max": 8
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.2,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "no-four-on-the-floor",
+          "value": true,
+          "severity": "critical"
+        },
+        {
+          "type": "tempo-range-enforcement",
+          "value": 110,
+          "severity": "critical",
+          "unit": "bpm"
+        },
+        {
+          "type": "funk-syncopation-expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "groove-continuity-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "max-energy-jump",
+          "value": 3,
+          "severity": "warning"
+        }
+      ]
+    }
+  ]
+}

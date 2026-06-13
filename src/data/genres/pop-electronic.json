@@ -1,0 +1,2184 @@
+{
+  "genreFamily": "pop-electronic",
+  "name": "Pop/Electronic",
+  "tempoRange": {
+    "min": 80,
+    "max": 180
+  },
+  "structure": [
+    {
+      "name": "Intro",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 3,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Verse 1",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Pre-Chorus 1",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Chorus 1",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Verse 2",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Pre-Chorus 2",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Chorus 2",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 8,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Bridge",
+      "lengthRange": {
+        "min": 8,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 6
+      },
+      "optional": true
+    },
+    {
+      "name": "Final Chorus",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 9,
+        "max": 10
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 6
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    4,
+    5,
+    6,
+    8,
+    5,
+    7,
+    9,
+    10,
+    5
+  ],
+  "transitions": {
+    "preferred": [
+      "pre_chorus_build",
+      "drum_fill",
+      "vocal_lead",
+      "beat_dropout",
+      "cymbal_crash"
+    ],
+    "discouraged": [
+      "no_transition",
+      "overly_long_build"
+    ],
+    "buildDurationRange": {
+      "min": 2,
+      "max": 8
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.15,
+    "midiDensityWeight": 0.2,
+    "trackPresenceWeight": 0.2,
+    "automationWeight": 0.15,
+    "frequencyCoverageWeight": 0.1,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "chorus_expected",
+      "value": true,
+      "severity": "warning"
+    },
+    {
+      "type": "hook_section_expected",
+      "value": true,
+      "severity": "warning"
+    },
+    {
+      "type": "max_track_length",
+      "value": 240,
+      "severity": "info",
+      "unit": "seconds"
+    },
+    {
+      "type": "pre_chorus_present",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "final_chorus_is_peak",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "bridge_provides_contrast",
+      "value": true,
+      "severity": "info"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 2,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 85
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "snare-roll",
+      "tom-fill",
+      "cymbal-fill"
+    ],
+    "typicalFillIntervals": [
+      4,
+      8
+    ],
+    "expectedFillFrequency": 2,
+    "coreElements": [
+      "kick",
+      "snare",
+      "hi-hat"
+    ],
+    "conditionalElements": {
+      "crash": [
+        "chorus"
+      ],
+      "tom": [
+        "pre-chorus",
+        "fill"
+      ],
+      "clap": [
+        "chorus"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -20,
+      "bass": -14,
+      "lowMid": -16,
+      "mid": -14,
+      "highMid": -18,
+      "high": -24
+    },
+    "expectedDrumTransientDensity": 10,
+    "displayName": "pop/electronic",
+    "subBassHint": "adding low-end weight to support your chorus impact",
+    "rhythmicHint": "adding percussion fills or shaker patterns for groove"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 1,
+    "repetitionSimilarity": 0.8,
+    "abruptChangeDelta": 5,
+    "crowdingTrackCount": 4,
+    "introMinBars": 4,
+    "outroMinBars": 4
+  },
+  "archetypes": [
+    "verse-chorus"
+  ],
+  "aliases": [
+    "pop",
+    "electropop",
+    "synthpop",
+    "dance pop",
+    "hyperpop"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "synthpop",
+      "displayName": "Synthpop",
+      "structureVariants": [
+        {
+          "name": "Classic Song Form",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse 1",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Bridge / Synth Solo",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Instrumental",
+          "sections": [
+            {
+              "name": "Intro / Arp",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Solo Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme A Return",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme B Elevated",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Minimal Synthpop",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dance Floor Extended",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Instrumental Break",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Extended Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 110,
+        "max": 130
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.2,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      }
+    },
+    {
+      "subgenreId": "electropop",
+      "displayName": "Electropop",
+      "structureVariants": [
+        {
+          "name": "Polished Standard",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 1",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dance Floor",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus / Drop",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Post-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus / Drop",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Stripped Intimate",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse 1",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 118,
+        "max": 130
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.15,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      }
+    },
+    {
+      "subgenreId": "future-pop",
+      "displayName": "Future Pop",
+      "structureVariants": [
+        {
+          "name": "Modern Lush",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 1",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Drop-Influenced",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Drop / Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Drop / Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Drop",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Experimental Arc",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Section A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Section B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Section C / Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Return",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 100,
+        "max": 120
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.15,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.2,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      }
+    },
+    {
+      "subgenreId": "hyperpop",
+      "displayName": "Hyperpop",
+      "structureVariants": [
+        {
+          "name": "Chaotic Standard",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge / Breakdown",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Genre-Switch",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            },
+            {
+              "name": "Pop Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Metal Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Trap Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Hyperpop Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Single-Explosion",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 2,
+                "max": 2
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Massive Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 12
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Deconstructed",
+          "sections": [
+            {
+              "name": "Fragment A",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Fragment B",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Fragment C",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Combined Chaos",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Silence",
+              "lengthRange": {
+                "min": 2,
+                "max": 2
+              }
+            },
+            {
+              "name": "Final Fragment",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 130,
+        "max": 180
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 2,
+            "max": 4
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Verse 1",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Chorus 1",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 10
+          },
+          "optional": false
+        },
+        {
+          "name": "Verse 2",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Chorus 2",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 10
+          },
+          "optional": false
+        },
+        {
+          "name": "Bridge",
+          "lengthRange": {
+            "min": 4,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 8
+          },
+          "optional": true
+        },
+        {
+          "name": "Chorus 3",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 9,
+            "max": 10
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 2,
+            "max": 4
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 5
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        5,
+        6,
+        9,
+        6,
+        9,
+        10,
+        4
+      ],
+      "transitions": {
+        "preferred": [
+          "hard_cut",
+          "beat_switch",
+          "vocal_glitch",
+          "distortion_burst"
+        ],
+        "discouraged": [
+          "smooth_crossfade",
+          "gradual_filter"
+        ],
+        "buildDurationRange": {
+          "min": 1,
+          "max": 4
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.15,
+        "midiDensityWeight": 0.2,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.1,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "chorus_expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "hook_section_expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "max_track_length",
+          "value": 180,
+          "severity": "info",
+          "unit": "seconds"
+        },
+        {
+          "type": "chaos_expected",
+          "value": true,
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "subgenreId": "dance-pop",
+      "displayName": "Dance Pop",
+      "structureVariants": [
+        {
+          "name": "Radio Standard",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 1",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus / Drop",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus / Drop",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Club",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus / Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus / Drop",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Immediate Hook",
+          "sections": [
+            {
+              "name": "Chorus Hook",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse 1",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Full Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Stripped Build",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse 1 / Minimal",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2 / Fuller",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge / Stripped",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus / Maximum",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 118,
+        "max": 130
+      },
+      "transitions": {
+        "preferred": [
+          "filter_sweep",
+          "riser",
+          "snare_build",
+          "vocal_chop",
+          "beat_dropout"
+        ],
+        "discouraged": [
+          "no_transition",
+          "abrupt_silence"
+        ],
+        "buildDurationRange": {
+          "min": 4,
+          "max": 8
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.15,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      }
+    },
+    {
+      "subgenreId": "k-pop",
+      "displayName": "K-Pop",
+      "structureVariants": [
+        {
+          "name": "Multi-Section Standard",
+          "sections": [
+            {
+              "name": "Intro Hook",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse 1",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Post-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 12
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Dance Break",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Outro / Tag",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dark Concept",
+          "sections": [
+            {
+              "name": "Cinematic Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse 1",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Rap Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Breakdown / Whisper Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 12
+              }
+            },
+            {
+              "name": "Tag",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Vocal Showcase",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse 1 / Singer A",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 1B / Singer B",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chorus / All",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2 / Singers C+D",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Bridge / Main Vocal",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 12
+              }
+            }
+          ]
+        },
+        {
+          "name": "EDM-Influenced",
+          "sections": [
+            {
+              "name": "Intro Hook",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Drop / Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Drop / Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Drop",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Tag",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 80,
+        "max": 140
+      },
+      "structure": [
+        {
+          "name": "Intro Hook",
+          "lengthRange": {
+            "min": 2,
+            "max": 4
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Verse 1",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Pre-Chorus",
+          "lengthRange": {
+            "min": 4,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Chorus",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Post-Chorus",
+          "lengthRange": {
+            "min": 4,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Verse 2",
+          "lengthRange": {
+            "min": 8,
+            "max": 12
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Pre-Chorus 2",
+          "lengthRange": {
+            "min": 4,
+            "max": 4
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Chorus 2",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Bridge",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 7
+          },
+          "optional": true
+        },
+        {
+          "name": "Dance Break",
+          "lengthRange": {
+            "min": 4,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Final Chorus",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 9,
+            "max": 10
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 2,
+            "max": 4
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 6
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        6,
+        5,
+        7,
+        9,
+        8,
+        5,
+        7,
+        9,
+        8,
+        10,
+        5
+      ],
+      "transitions": {
+        "preferred": [
+          "genre_switch",
+          "vocal_chop",
+          "beat_dropout",
+          "drum_fill",
+          "dance_break_entry"
+        ],
+        "discouraged": [
+          "overly_long_build",
+          "no_transition"
+        ],
+        "buildDurationRange": {
+          "min": 2,
+          "max": 8
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.15,
+        "midiDensityWeight": 0.2,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "chorus_expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "hook_section_expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "max_track_length",
+          "value": 240,
+          "severity": "info",
+          "unit": "seconds"
+        },
+        {
+          "type": "pre_chorus_present",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "post_chorus_present",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "dance_break_present",
+          "value": true,
+          "severity": "info"
+        }
+      ]
+    }
+  ]
+}

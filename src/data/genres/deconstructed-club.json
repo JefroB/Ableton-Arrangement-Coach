@@ -1,0 +1,316 @@
+{
+  "genreFamily": "deconstructed-club",
+  "name": "Deconstructed Club",
+  "tempoRange": {
+    "min": 90,
+    "max": 170
+  },
+  "structure": [
+    {
+      "name": "Fragment A",
+      "lengthRange": { "min": 4, "max": 32 },
+      "energyRange": { "min": 2, "max": 8 },
+      "optional": false
+    },
+    {
+      "name": "Fragment B",
+      "lengthRange": { "min": 4, "max": 32 },
+      "energyRange": { "min": 2, "max": 9 },
+      "optional": false
+    },
+    {
+      "name": "Fragment C",
+      "lengthRange": { "min": 4, "max": 32 },
+      "energyRange": { "min": 1, "max": 10 },
+      "optional": false
+    },
+    {
+      "name": "Resolution",
+      "lengthRange": { "min": 4, "max": 32 },
+      "energyRange": { "min": 1, "max": 10 },
+      "optional": true
+    }
+  ],
+  "energyCurveTemplate": [5, 6, 6],
+  "transitions": {
+    "preferred": ["hard_cut", "glitch", "silence", "granular_dissolve", "pitch_shift"],
+    "discouraged": [],
+    "buildDurationRange": { "min": 0, "max": 32 },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.10,
+    "midiDensityWeight": 0.15,
+    "trackPresenceWeight": 0.15,
+    "automationWeight": 0.20,
+    "frequencyCoverageWeight": 0.15,
+    "velocityIntensityWeight": 0.15,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    { "type": "irregular-phrase-lengths-valid", "value": true, "severity": "info" },
+    { "type": "tempo-changes-valid", "value": true, "severity": "info" },
+    { "type": "no-required-sections", "value": true, "severity": "info" },
+    { "type": "extreme-dynamic-range-valid", "value": true, "severity": "info" },
+    { "type": "suppress-conventional-warnings", "value": true, "severity": "info" }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 10,
+    "missingTransitionMinDelta": 10,
+    "similarityCeilingPercent": 99
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "noise_burst",
+      "glitch_stutter",
+      "pitch_sweep",
+      "granular_scatter",
+      "silence"
+    ],
+    "typicalFillIntervals": [4, 8, 12],
+    "expectedFillFrequency": 1.5,
+    "coreElements": [
+      "processed_percussion",
+      "noise",
+      "glitch_textures"
+    ],
+    "conditionalElements": {
+      "vocal_chop": ["section_a", "section_b"],
+      "sub_drop": ["climax"]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -12,
+      "bass": -11,
+      "lowMid": -12,
+      "mid": -10,
+      "highMid": -11,
+      "high": -13
+    },
+    "expectedDrumTransientDensity": 14,
+    "displayName": "Deconstructed Club",
+    "subBassHint": "Heavy sub-bass drops are expected; extreme low-end weight contrasts with sparse upper frequencies",
+    "rhythmicHint": "Irregular rhythmic density with sudden shifts between sparse and dense; expect non-standard grid usage"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 3,
+    "repetitionSimilarity": 0.92,
+    "abruptChangeDelta": 8,
+    "crowdingTrackCount": 5,
+    "introMinBars": 4,
+    "outroMinBars": 4
+  },
+  "archetypes": ["multi-section-journey"],
+  "subgenres": [
+    {
+      "subgenreId": "pc-music-bubblegum-bass",
+      "displayName": "PC Music / Bubblegum Bass",
+      "tempoRange": { "min": 140, "max": 160 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 4, "max": 8 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Verse", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Pre-Drop", "lengthRange": { "min": 4, "max": 8 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Drop", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Verse B", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Final Drop", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 9, "max": 10 }, "optional": false }
+      ],
+      "energyCurveTemplate": [8, 8, 9, 10, 8, 10],
+      "transitions": {
+        "preferred": ["pitch_riser", "vocal_stutter", "white_noise_sweep", "digital_silence_snap"],
+        "discouraged": ["gentle_fade", "gradual_layering"],
+        "buildDurationRange": { "min": 2, "max": 8 },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.20,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.15,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "max-track-length", "value": 240, "severity": "info", "unit": "seconds" },
+        { "type": "maximalist-production-expected", "value": true, "severity": "info" },
+        { "type": "drops-expected", "value": true, "severity": "info" }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 3,
+        "missingTransitionMinDelta": 3,
+        "similarityCeilingPercent": 85
+      },
+      "structureVariants": [
+        {
+          "name": "Hyper-Pop Single",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Verse", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Pre-Drop", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Drop", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Verse B", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Final Drop", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Sugar Rush",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 2, "max": 4 } },
+            { "name": "Verse", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Verse", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Extended Club Edit",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Drop A", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Breakdown", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Build", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Drop B", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Deconstructed Outro", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Album Deep Cut",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Verse A", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Bridge", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Verse B", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Climax (Maximalist Wall)", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Quiet Ending / Comedown", "lengthRange": { "min": 8, "max": 8 } }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "experimental-ballroom",
+      "displayName": "Experimental Ballroom",
+      "tempoRange": { "min": 120, "max": 140 },
+      "structure": [
+        { "name": "Intro / Walk", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+        { "name": "Beat A", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Dip", "lengthRange": { "min": 8, "max": 8 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+        { "name": "Beat B", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Peak / Vogue", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 4, "max": 5 }, "optional": false }
+      ],
+      "energyCurveTemplate": [5, 7, 5, 8, 9, 5],
+      "transitions": {
+        "preferred": ["ha_crash", "vocal_sample", "beat_switch", "silence_kick_reentry"],
+        "discouraged": ["long_riser", "gradual_filter"],
+        "buildDurationRange": { "min": 4, "max": 8 },
+        "dropsExpected": false
+      },
+      "detectionRules": [
+        { "type": "rhythmic-complexity-expected", "value": true, "severity": "info" },
+        { "type": "dance-functional", "value": true, "severity": "info" }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 3,
+        "missingTransitionMinDelta": 3,
+        "similarityCeilingPercent": 88
+      },
+      "structureVariants": [
+        {
+          "name": "Standard Ballroom Category",
+          "sections": [
+            { "name": "Intro / Walk", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Beat A (Ha-Crash)", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Breakdown / Dip", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Beat B (Variation)", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Peak / Vogue Section", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Outro / Walk Out", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Battle / Runway Format",
+          "sections": [
+            { "name": "Walk-In", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Beat A", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Dip Moment", "lengthRange": { "min": 4, "max": 4 } },
+            { "name": "Beat B", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Dip Moment", "lengthRange": { "min": 4, "max": 4 } },
+            { "name": "Final Beat / Death Drop Peak", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Extended Vogue Mix",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Old Way Section", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "New Way Section", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Vogue Fem Section", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Peak", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "noise-club",
+      "displayName": "Noise Club",
+      "tempoRange": { "min": 120, "max": 160 },
+      "structure": [
+        { "name": "Texture Wall", "lengthRange": { "min": 16, "max": 64 }, "energyRange": { "min": 6, "max": 9 }, "optional": false },
+        { "name": "Rhythm Emergence", "lengthRange": { "min": 8, "max": 32 }, "energyRange": { "min": 5, "max": 8 }, "optional": true },
+        { "name": "Peak Noise", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 8, "max": 10 }, "optional": false },
+        { "name": "Cut / End", "lengthRange": { "min": 1, "max": 8 }, "energyRange": { "min": 1, "max": 5 }, "optional": false }
+      ],
+      "energyCurveTemplate": [8, 9, 3],
+      "transitions": {
+        "preferred": ["feedback_swell", "hard_cut", "digital_clip", "noise_wall"],
+        "discouraged": ["gentle_fade", "filter_sweep", "reverb_throw"],
+        "buildDurationRange": { "min": 1, "max": 16 },
+        "dropsExpected": false
+      },
+      "detectionRules": [
+        { "type": "extreme-dynamic-range-valid", "value": true, "severity": "info" },
+        { "type": "noise-texture-expected", "value": true, "severity": "info" },
+        { "type": "suppress-conventional-warnings", "value": true, "severity": "info" }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 10,
+        "missingTransitionMinDelta": 10,
+        "similarityCeilingPercent": 99
+      },
+      "structureVariants": [
+        {
+          "name": "Beat Anchor",
+          "sections": [
+            { "name": "Noise Layer A (over 4x4 Kick)", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Noise Layer B", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Peak Noise", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Emergence",
+          "sections": [
+            { "name": "Texture Wall", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Rhythm Emerges", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Peak (Beat + Noise)", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Submerge", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Collapse Form",
+          "sections": [
+            { "name": "Full Beat", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Progressive Destruction", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Pure Noise", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Silence", "lengthRange": { "min": 1, "max": 4 } }
+          ]
+        }
+      ]
+    }
+  ]
+}

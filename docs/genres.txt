@@ -1,0 +1,89 @@
+The Exhaustive Electronic Music Taxonomy & Structural Archetype Blueprint
+Version 2.0: Deep Underground Subgenre Cataloging for Precision LOM Parsing in Ableton Live
+1. Deep-Tier Mapping Overview
+Missing a niche subgenre means your Ableton Live arrangement extension could fundamentally misinterpret a producer's intent. For instance, evaluating 'Schranz' using standard Peak Time Techno parameters will cause the parser to look for a sweeping, melodic 32-bar breakdown that doesn't exist, failing to realize that Schranz relies on relentless, loop-locked 8-bar iterations with zero emotional release. 
+This revised documentation expands the taxonomy into the deepest subterranean vectors of electronic music, delivering explicit definitions for tempo boundaries, core rhythmic signatures, and layout philosophies.
+1. The Techno Spectrum (Expanded)
+Built primarily on continuous, metric experimentation. Structural transitions favor additive/subtractive channel manipulation over traditional harmonic arrangement progressions.
+?Detroit Techno [124-130 BPM]: Futuristic, hardware-driven origin category; high syncopation, sci-fi strings, and soul-infused machine loops.
+?Minimal Techno [120-125 BPM]: Sparse structural canvas; focuses on microtonal shifts and microscopic parameter automation over long periods.
+?Peak Time / Driving Techno [128-135 BPM]: The main-room festival standard; heavy rumble kicks, striking rides, and a single definitive mid-track structural breakdown.
+?Schranz [145-155 BPM]: Highly aggressive, fast, and unyielding European hard techno. Dominated by heavily distorted, compressed, high-passed linear loops, screeching metallic percussion, and strict 4-bar/8-bar phrase locks with little to no melodic breakdowns.
+?Hardgroove [135-142 BPM]: Fast, hypnotic, but deeply rolling and percussive. Rejects the industrial distortion of Schranz in favor of tribal percussion loops, funky swing rhythms, and fluid multi-layered track dynamics.
+?Acid Techno [135-145 BPM]: High-velocity club style driven by overdriven Roland TB-303 square/sawtooth filter sweeps over heavy 909 kick drums.
+?Dub Techno [115-125 BPM]: Deep, atmospheric, and texture-dense; relies on heavily delayed, reverberated synth stabs ('dub chords') shifting imperceptibly across 64-bar timelines.
+?Birmingham Techno [130-136 BPM]: Dark, cold, and hypnotic loop-focused style pioneered by Surgeon and Regis. Atonal, industrial, and completely strips away the uplifting chords of early techno styles.
+?Industrial Techno [140-150+ BPM]: Abrasive, punishing styles using distorted factory clangs, metallic impacts, and rhythmic noise borrowing workflow styles from EBM.
+2. The House Spectrum (Expanded)
+Anchored to an unyielding four-on-the-floor kick pattern and grid-locked phrase shifts. Sections generally change on explicit 16-bar or 32-bar thresholds.
+?Chicago House [120-125 BPM]: The foundational jack-groove style; heavy reliance on raw Roland TR-707/808/909 drum matrices and continuous rhythmic vocal chants.
+?Deep House [115-122 BPM]: Jazz-inflected chords, electric basslines, and moody pads. Linear, smooth tracking with no aggressive drops.
+?Progressive House [120-128 BPM]: Hypnotic, euphoric club arcs extending across 8-10 minute arrangement lifespans with vast automated filter extensions.
+?Tech House [122-126 BPM]: Combines house grooves with techno minimalism. Highly loop-driven, relying on quick percussive variations and micro vocal snippets.
+?Ghetto House / Chicago Juke Roots [125-135 BPM]: Raw, fast, minimalist house utilizing explicit, hyper-repetitive vocals and aggressive TR-808 patterns layered over driving syncopated structures.
+?Lo-Fi House / Outsider House [118-124 BPM]: Intentionally saturated, distorted production. Uses heavy tape warble, filtered chords, and unquantized drum machine elements within classical house grids.
+?Electro House / Complextro [125-130 BPM]: Distorted, sidechained sawtooth bass leads structured around a hard-hitting, pop-adjacent verse-chorus-drop sequence.
+?Future House / Bass House [124-128 BPM]: Modern club formats leaning heavily on metallic, FM-synthesized bass leads in high-impact, brief 16-bar drops.
+?Afro House / Amapiano [110-122 BPM]: Polyrhythmic hand percussion, organic acoustic layers, and deep Amapiano log-drum bass loops evolving smoothly over 16-bar iterations.
+?French Touch [120-126 BPM]: Phased disco sample loops, extreme sidechain compression, and dramatic filter sweeps driving high-contrast section changes.
+3. The Drum & Bass & Breakbeat Spectrum (Expanded)
+Frantic syncopated tempos balanced by deep, half-time bass arrangements.
+?Classic Jungle [160-170 BPM]: Complex, chaotic chopping of funk breakbeats (Amen, Think, Apache) layered with deep sub-bass frequencies and reggae soundclash vocal styling.
+?Liquid Funk [170-175 BPM]: Deeply melodic, atmospheric, and soul-influenced; relies on jazz instrumentation, lush vocals, and rolling acoustic breaks.
+?Neurofunk [172-178 BPM]: Dark, scientific sound design focused on multi-layer modulated 'reese' bass figures and ultra-staccato, mechanical drum grids.
+?Crossbreed [175-180+ BPM]: A brutal fusion of Neurofunk drum-and-bass structures and aggressive, distorted Hardcore/Gabber four-on-the-floor kick drums, cycling between breakbeats and straight distorted patterns.
+?Jump-Up [174-176 BPM]: High-energy, dancefloor-centric style featuring stripped back arrangements built around massive, simplified mid-range synth hooks.
+?Atmospheric / Intelligent D&B [160-170 BPM]: Pioneered by LTJ Bukem; relies on space-age, ambient synthesizer pads, jazz-fusion samples, and clean rolling breaks, creating wide horizontal space.
+?Halftime D&B [85 / 170 BPM]: Keeps high project tempo markings but restructures percussion into a definitive, spacious halftime trap/hip-hop groove layout.
+?Nu-Skool Breakbeat [130-140 BPM]: Syncopated, futuristic syncopations paired with modern club low-end compression frameworks and electro-house synthesizer lines.
+4. Hardcore, Speed Styles & Extreme Electronica (Expanded)
+Terminal velocities, intense audio clip saturation, and aggressive energy lines dominating the entire frequency spectrum.
+?Hardstyle (Euphoric / Raw) [150-155 BPM]: Features the iconic overdriven, pitch-shifting inverted kick drum, switching sharply from melodic vocal builds to raw rhythm drop blocks.
+?Gabber / Mainstyle Hardcore [165-185 BPM]: Hyper-fast warehouse styles relying on square-wave clipped 909 kicks, distorted synth chords, and aggressive vocal tags.
+?Frenchcore [190-200+ BPM]: Evolved out of hard hardcore; features a distinctly fast, bouncy tempo with an off-beat distorted bassline, syncopated reverse bass kicks, and psychotropic, sweeping sound design lines.
+?Speedcore [250-500+ BPM]: Extreme tempo territories where kick drum frequencies are accelerated until they transform into a continuous tonal drone; highly chaotic arrangement blocks.
+?Breakcore [180+ BPM]: Slices classic drum breaks down to a microscopic, non-linear level. Intentionally breaks all 4-bar formatting in favor of erratic, unpredictable rhythmic chaos.
+5. The Garage, Dubstep & Leftfield Bass Spectrum (Expanded)
+UK sound-system roots highlighting complex swing profiles and elastic sub-bass dynamics.
+?2-Step / UK Garage (UKG) [130-135 BPM]: Skipped snare placements, heavily swung hi-hat configurations, and vocal slice manipulation organized in tight 8-bar intervals.
+?Future Garage [118-126 BPM]: Cinematic, melancholic, and deeply organic. Utilizes unquantized percussion grids, heavy vinyl crackle artifacts, and spatial atmospheres.
+?Deep Dubstep [140 BPM]: The original South London soundscape; half-time sparse rhythms focusing purely on low-frequency physics, space, and dub-delay trails.
+?Brostep / Riddim [140 / 70 BPM]: High-impact wavetable bass modulations, heavy mid-range tearing textures, and rigid verse-to-drop transition grids.
+?Witch House [65-80 BPM]: Dark, dragged-down electronic subgenre blending chopped-and-screwed hip-hop pacing with occult ambient pads, eerie industrial noise, and trap-style triplet hi-hat runs.
+?Chicago Footwork / Juke [155-160 BPM]: Fast, polyrhythmic triplet patterns, frantic sub-bass syncopation, and highly repetitive, rapid-fire vocal sampling designed for street dance syncopations.
+6. Classic Electro & Synth Waves
+Splits away from four-on-the-floor architectures to anchor arrangements around syncopated, mechanical break patterns.
+?Classic Detroit Electro [120-130 BPM]: Pioneered by Cybotron and Drexciya. Rigid, syncopated 808 breakbeat patterns, vocoded human elements, and sci-fi synth layers. Rejects house drum formatting entirely.
+?Synthwave / Retrowave [90-115 BPM]: Cinematic neon nostalgia tracking standard pop/rock configurations (Verse-Chorus-Bridge) with gated reverb snares and linear 8th-note bass synths.
+?Darksynth [110-130 BPM]: Aggressive, dark synthwave infused with heavy industrial distortion, horror-themed melodies, and metal-style pacing curves.
+?EBM (Electronic Body Music) [115-125 BPM]: Cold, militaristic 4/4 synthetic loops, rigid analog step-sequencer basslines, and commanding spoken or shouted vocal grids.
+3. High-Contrast Code Parameters
+Genre Identity
+Target BPM
+Loop Framework
+Structural Architecture Expectation
+Schranz
+145 - 152
+4 / 8 Bars
+Intro Loops (16b) -> Continuous Percussive Body (64b) -> Minimalist 4b Utility Break -> Loop Body Outro
+Hardgroove
+135 - 140
+8 / 16 Bars
+Intro Beats (32b) -> Rolling Tribal Core (64b) -> Syncopated Drop Switches -> Rhythmic Filter Outro
+Classic Electro
+122 - 128
+8 Bars
+Syncopated 808 Intro (16b) -> Vocoder Phrase A (16b) -> Synthesizer Bridge (8b) -> Core Break A -> Outro
+Frenchcore
+190 - 200
+16 Bars
+Intro Track (32b) -> Offbeat Reverse Climax (48b) -> Dynamic Rave Melodic Break (32b) -> Apex Drop
+Witch House
+70 - 78
+8 / 16 Bars
+Occult Atmospheric Pad Intro (16b) -> Triplet Hi-Hat Trap Break (32b) -> Slow Industrial Build -> Outro
+Crossbreed
+175 - 178
+16 Bars
+Neurofunk Atmospheric Intro (32b) -> Breakbeat Drive (16b) -> Four-on-the-Floor Gabber Drop (32b) -> Outro
+

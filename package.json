@@ -1,0 +1,29 @@
+{
+  "name": "arrangement-coach",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/extension.js",
+  "scripts": {
+    "build": "tsc --noEmit && tsx build.ts --production",
+    "build:dev": "tsx build.ts",
+    "deploy": "tsx build.ts && powershell -File scripts/deploy.ps1",
+    "start": "tsx build.ts && extensions-cli run",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@ableton-extensions/sdk": "file:.piggie/sdk",
+    "audio-decode": "^3.10.2",
+    "meyda": "^5.6.3"
+  },
+  "devDependencies": {
+    "@ableton-extensions/cli": "file:.piggie/cli",
+    "@fast-check/vitest": "0.3.0",
+    "@types/node": "^25.9.2",
+    "@vitest/coverage-v8": "3.2.1",
+    "esbuild": "0.28.0",
+    "fast-check": "3.23.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3",
+    "vitest": "3.2.1"
+  }
+}

@@ -1,0 +1,1596 @@
+{
+  "genreFamily": "disco-nudisco",
+  "name": "Disco & Nu-Disco",
+  "tempoRange": {
+    "min": 110,
+    "max": 135
+  },
+  "structure": [
+    {
+      "name": "Intro",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 3,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Groove Establish",
+      "lengthRange": {
+        "min": 32,
+        "max": 64
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Build",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Main Groove A",
+      "lengthRange": {
+        "min": 32,
+        "max": 64
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Breakdown",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Filter Build",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Main Groove B",
+      "lengthRange": {
+        "min": 32,
+        "max": 64
+      },
+      "energyRange": {
+        "min": 8,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 5
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    4,
+    6,
+    7,
+    8,
+    6,
+    7,
+    9,
+    5
+  ],
+  "transitions": {
+    "preferred": [
+      "filter_sweep",
+      "layer_addition",
+      "sidechain_increase",
+      "reverb_throw"
+    ],
+    "discouraged": [
+      "hard_cut",
+      "aggressive_riser",
+      "impact",
+      "silence_gap"
+    ],
+    "buildDurationRange": {
+      "min": 8,
+      "max": 64
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.15,
+    "midiDensityWeight": 0.15,
+    "trackPresenceWeight": 0.2,
+    "automationWeight": 0.2,
+    "frequencyCoverageWeight": 0.1,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "min-track-length",
+      "value": 360,
+      "severity": "info",
+      "unit": "seconds"
+    },
+    {
+      "type": "filter-sweep-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "no-edm-style-drops",
+      "value": true,
+      "severity": "warning"
+    },
+    {
+      "type": "groove-continuity-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "min-intro-bars",
+      "value": 16,
+      "severity": "info",
+      "unit": "bars"
+    },
+    {
+      "type": "min-outro-bars",
+      "value": 16,
+      "severity": "info",
+      "unit": "bars"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 3,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 88
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "percussion-fill",
+      "tom-fill",
+      "generic-fill"
+    ],
+    "typicalFillIntervals": [
+      8,
+      16
+    ],
+    "expectedFillFrequency": 1,
+    "coreElements": [
+      "kick",
+      "hi-hat",
+      "clap"
+    ],
+    "conditionalElements": {
+      "congas": [
+        "groove"
+      ],
+      "tambourine": [
+        "build",
+        "peak"
+      ],
+      "brass": [
+        "chorus"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -20,
+      "bass": -12,
+      "lowMid": -16,
+      "mid": -18,
+      "highMid": -22,
+      "high": -28
+    },
+    "expectedDrumTransientDensity": 12,
+    "displayName": "disco/nu-disco",
+    "subBassHint": "adding more bass guitar sub-harmonic presence",
+    "rhythmicHint": "adding congas, shakers, or tambourine layers for funk"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 3,
+    "repetitionSimilarity": 0.88,
+    "abruptChangeDelta": 4,
+    "crowdingTrackCount": 4,
+    "introMinBars": 16,
+    "outroMinBars": 16
+  },
+  "archetypes": [
+    "dj-tool",
+    "continuous-evolution"
+  ],
+  "aliases": [
+    "disco",
+    "nu-disco",
+    "nu disco",
+    "nudisco",
+    "italo disco"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "classic-disco",
+      "displayName": "Classic Disco",
+      "structureVariants": [
+        {
+          "name": "12\" Extended Mix",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Instrumental Break",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "DJ Edit",
+          "sections": [
+            {
+              "name": "Extended Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Vocal Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Instrumental Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Radio Single",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Orchestral Suite",
+          "sections": [
+            {
+              "name": "Orchestral Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "String Interlude",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Extended Orchestral Build",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Fade Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 110,
+        "max": 130
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Verse A",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Chorus",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Instrumental Break",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Verse B",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Chorus B",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Peak Groove",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 6
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        4,
+        6,
+        8,
+        7,
+        6,
+        8,
+        9,
+        5
+      ],
+      "transitions": {
+        "preferred": [
+          "orchestral_swell",
+          "drum_fill",
+          "brass_stab",
+          "bass_walk"
+        ],
+        "discouraged": [
+          "hard_cut",
+          "aggressive_riser",
+          "filter_sweep"
+        ],
+        "buildDurationRange": {
+          "min": 4,
+          "max": 16
+        },
+        "dropsExpected": false
+      },
+      "detectionRules": [
+        {
+          "type": "min-track-length",
+          "value": 360,
+          "severity": "info",
+          "unit": "seconds"
+        },
+        {
+          "type": "orchestral-elements-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "vocal-presence-expected",
+          "value": true,
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "subgenreId": "italo-disco",
+      "displayName": "Italo Disco",
+      "structureVariants": [
+        {
+          "name": "Standard Pop Form",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Instrumental Break",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Chorus Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended 12\" Mix",
+          "sections": [
+            {
+              "name": "Arpeggio Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Extended Instrumental",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Instrumental Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Synth Instrumental",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Theme A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Bridge",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Theme B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Combined Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Diva Vocal Feature",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse A",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Verse B",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Final Chorus",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 118,
+        "max": 135
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Verse A",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Chorus",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Verse B",
+          "lengthRange": {
+            "min": 16,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Chorus B",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Instrumental",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        5,
+        6,
+        8,
+        6,
+        8,
+        7,
+        6
+      ],
+      "transitions": {
+        "preferred": [
+          "drum_fill",
+          "arpeggio_change",
+          "synth_swell",
+          "snare_roll"
+        ],
+        "discouraged": [
+          "long_riser",
+          "silence_gap",
+          "gradual_layering"
+        ],
+        "buildDurationRange": {
+          "min": 2,
+          "max": 8
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.1,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "arpeggio-presence-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "drum-machine-aesthetic",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "verse-chorus-structure-expected",
+          "value": true,
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "subgenreId": "nu-disco",
+      "displayName": "Nu-Disco",
+      "structureVariants": [
+        {
+          "name": "Standard Filter Arc",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove Establish",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Filter Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Main Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended DJ Mix",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Filtered Groove A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Filter Open",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Full Groove",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Filter Close",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Filter Rebuild",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak Groove",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Vocal Disco Edit",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove + Vocal A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Filter Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak + Vocal B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Festival Edit",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Filter Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 115,
+        "max": 125
+      },
+      "detectionRules": [
+        {
+          "type": "min-track-length",
+          "value": 360,
+          "severity": "info",
+          "unit": "seconds"
+        },
+        {
+          "type": "filter-sweep-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "no-edm-style-drops",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "long-filter-build-valid",
+          "value": 64,
+          "severity": "info",
+          "unit": "bars"
+        }
+      ]
+    },
+    {
+      "subgenreId": "cosmic-disco",
+      "displayName": "Cosmic Disco",
+      "structureVariants": [
+        {
+          "name": "Standard Journey",
+          "sections": [
+            {
+              "name": "Ambient Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove Entry",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Journey A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Psychedelic Interlude",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Journey B",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Dissolve Outro",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Baldelli-Style Extended",
+          "sections": [
+            {
+              "name": "Ambient Opening",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove Emerge",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Phase A",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Psychedelic Drift",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Phase B",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Phase C",
+              "lengthRange": {
+                "min": 64,
+                "max": 64
+              }
+            },
+            {
+              "name": "Dissolve",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cosmic Edit",
+          "sections": [
+            {
+              "name": "Spacey Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Effect Wash Transition",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Ambient Outro",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 110,
+        "max": 125
+      },
+      "structure": [
+        {
+          "name": "Ambient Intro",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 2,
+            "max": 3
+          },
+          "optional": false
+        },
+        {
+          "name": "Groove Entry",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Journey A",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 7
+          },
+          "optional": false
+        },
+        {
+          "name": "Psychedelic Interlude",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Journey B",
+          "lengthRange": {
+            "min": 64,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 6,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Peak",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Dissolve Outro",
+          "lengthRange": {
+            "min": 32,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 3,
+            "max": 5
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        3,
+        5,
+        6,
+        5,
+        7,
+        8,
+        4
+      ],
+      "transitions": {
+        "preferred": [
+          "phaser_wash",
+          "reverb_dissolve",
+          "tape_echo",
+          "gradual_morph"
+        ],
+        "discouraged": [
+          "hard_cut",
+          "impact",
+          "snare_roll",
+          "riser"
+        ],
+        "buildDurationRange": {
+          "min": 16,
+          "max": 64
+        },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.1,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.3,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "min-track-length",
+          "value": 480,
+          "severity": "info",
+          "unit": "seconds"
+        },
+        {
+          "type": "irregular-section-lengths-valid",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "no-defined-drops",
+          "value": true,
+          "severity": "info"
+        }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 4,
+        "missingTransitionMinDelta": 5,
+        "similarityCeilingPercent": 92
+      }
+    }
+  ]
+}

@@ -1,0 +1,441 @@
+{
+  "genreFamily": "electroclash-electrotech",
+  "name": "Electroclash & Electrotech",
+  "tempoRange": {
+    "min": 120,
+    "max": 145
+  },
+  "structure": [
+    { "name": "Intro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+    { "name": "Build", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+    { "name": "Main A", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+    { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+    { "name": "Build B", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+    { "name": "Peak", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+    { "name": "Outro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false }
+  ],
+  "energyCurveTemplate": [5, 7, 9, 6, 8, 10, 6],
+  "transitions": {
+    "preferred": ["sidechain_build", "dark_riser", "filter_sweep", "hard_impact", "sub_swell"],
+    "discouraged": ["gentle_fade", "micro_change", "emotional_pad_swell", "trance_euphoria"],
+    "buildDurationRange": { "min": 4, "max": 16 },
+    "dropsExpected": true
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.10,
+    "midiDensityWeight": 0.25,
+    "trackPresenceWeight": 0.20,
+    "automationWeight": 0.15,
+    "frequencyCoverageWeight": 0.10,
+    "velocityIntensityWeight": 0.10,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    { "type": "sidechain-presence-expected", "value": true, "severity": "info" },
+    { "type": "dark-tonality-expected", "value": true, "severity": "info" },
+    { "type": "min-energy-in-main", "value": 8, "severity": "info" },
+    { "type": "breakdown-tense-not-relaxed", "value": true, "severity": "info" },
+    { "type": "min-track-length", "value": 300, "severity": "info", "unit": "seconds" }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 2,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 85
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "distorted_snare_roll",
+      "synth_stab",
+      "noise_burst",
+      "filter_sweep",
+      "kick_roll"
+    ],
+    "typicalFillIntervals": [8, 16],
+    "expectedFillFrequency": 1.5,
+    "coreElements": [
+      "kick",
+      "snare",
+      "distorted_synth",
+      "hi-hat"
+    ],
+    "conditionalElements": {
+      "noise_burst": ["breakdown", "chorus"],
+      "vocal_shout": ["chorus", "final_chorus"]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -16,
+      "bass": -12,
+      "lowMid": -10,
+      "mid": -8,
+      "highMid": -11,
+      "high": -14
+    },
+    "expectedDrumTransientDensity": 12,
+    "displayName": "Electroclash & Electrotech",
+    "subBassHint": "Mid-bass presence dominates over sub; distortion adds harmonic content above fundamental",
+    "rhythmicHint": "Driving 4/4 with aggressive electronic drums; distorted and punchy transients"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 1,
+    "repetitionSimilarity": 0.82,
+    "abruptChangeDelta": 4,
+    "crowdingTrackCount": 4,
+    "introMinBars": 8,
+    "outroMinBars": 8
+  },
+  "archetypes": ["build-drop", "dj-tool"],
+  "subgenres": [
+    {
+      "subgenreId": "electrotech",
+      "displayName": "Electrotech",
+      "tempoRange": { "min": 128, "max": 140 },
+      "detectionRules": [
+        { "type": "sidechain-presence-expected", "value": true, "severity": "warning" },
+        { "type": "dark-tonality-expected", "value": true, "severity": "info" },
+        { "type": "cinematic-quality-expected", "value": true, "severity": "info" },
+        { "type": "min-energy-in-main", "value": 8, "severity": "warning" }
+      ],
+      "structureVariants": [
+        {
+          "name": "Standard Gesaffelstein",
+          "sections": [
+            { "name": "Cinematic Intro", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Main A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Dark Breakdown", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Climax", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Extended Dark Ritual",
+          "sections": [
+            { "name": "Dark Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Main A", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Tense Breakdown", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Climax", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Dark Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Minimal Dark",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Main Groove", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Breakdown", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Peak", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Cinematic Closer",
+          "sections": [
+            { "name": "Atmospheric Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Main", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Extended Dark Breakdown", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Final Climax", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Cinematic Fade", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "electroclash",
+      "displayName": "Electroclash",
+      "tempoRange": { "min": 120, "max": 135 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Verse A", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Verse B", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Chorus B", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Bridge", "lengthRange": { "min": 8, "max": 8 }, "energyRange": { "min": 5, "max": 7 }, "optional": true },
+        { "name": "Final Chorus", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false }
+      ],
+      "energyCurveTemplate": [6, 7, 9, 7, 9, 9, 6],
+      "transitions": {
+        "preferred": ["hard_cut", "drum_fill", "vocal_cue", "synth_stab", "noise_burst"],
+        "discouraged": ["smooth_build", "long_riser", "filter_sweep"],
+        "buildDurationRange": { "min": 1, "max": 4 },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.20,
+        "trackPresenceWeight": 0.20,
+        "automationWeight": 0.10,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.15,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "punk-aesthetic-expected", "value": true, "severity": "info" },
+        { "type": "vocal-presence-expected", "value": true, "severity": "info" },
+        { "type": "max-track-length", "value": 300, "severity": "info", "unit": "seconds" },
+        { "type": "raw-production-expected", "value": true, "severity": "info" }
+      ],
+      "structureVariants": [
+        {
+          "name": "Standard Punk-Pop",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Verse A", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Verse B", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Bridge", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Final Chorus", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Outro", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Minimal Electroclash",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Verse / Spoken Word", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Hook", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Verse", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Hook", "lengthRange": { "min": 8, "max": 8 } }
+          ]
+        },
+        {
+          "name": "Club Extended",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Groove", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Verse", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Groove", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Verse", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Art-Trash Experiment",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Section A", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Hard Cut", "lengthRange": { "min": 1, "max": 2 } },
+            { "name": "Section B", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 8 } }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "blog-house",
+      "displayName": "Blog House / Ed Banger",
+      "tempoRange": { "min": 125, "max": 135 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Build", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Drop A", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Build B", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 9 }, "optional": false },
+        { "name": "Drop B", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Peak", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 7 }, "optional": false }
+      ],
+      "energyCurveTemplate": [6, 8, 10, 7, 8, 10, 10, 7],
+      "transitions": {
+        "preferred": ["distortion_increase", "filter_sweep", "sidechain_build", "hard_cut"],
+        "discouraged": ["gentle_fade", "gradual_layering", "subtle_element_swap"],
+        "buildDurationRange": { "min": 4, "max": 16 },
+        "dropsExpected": true
+      },
+      "detectionRules": [
+        { "type": "distortion-aesthetic-expected", "value": true, "severity": "info" },
+        { "type": "drops-expected", "value": true, "severity": "warning" },
+        { "type": "compression-loudness-expected", "value": true, "severity": "info" }
+      ],
+      "structureVariants": [
+        {
+          "name": "Standard Distorted",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Drop A", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Drop B", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Peak Section", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Justice-Style Anthem",
+          "sections": [
+            { "name": "Filtered Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Main A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Main B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Peak", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Short Distorted Punk",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Drop A", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Brief Break", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Drop B", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Ed Banger Extended",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Groove A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Peak A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Breakdown", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Peak B", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "fidget-house",
+      "displayName": "Fidget House",
+      "tempoRange": { "min": 128, "max": 135 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Main A", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Bass Switch", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Breakdown", "lengthRange": { "min": 4, "max": 8 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Drop", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Another Switch", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Peak", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false }
+      ],
+      "energyCurveTemplate": [6, 8, 8, 6, 8, 8, 9, 6],
+      "transitions": {
+        "preferred": ["bass_sound_change", "glitch_fill", "hard_cut", "wobble_acceleration"],
+        "discouraged": ["gradual_layering", "long_riser", "emotional_breakdown"],
+        "buildDurationRange": { "min": 2, "max": 4 },
+        "dropsExpected": true
+      },
+      "detectionRules": [
+        { "type": "frequent-timbre-change-expected", "value": true, "severity": "info" },
+        { "type": "max-section-same-bass", "value": 16, "severity": "info", "unit": "bars" },
+        { "type": "restless-energy-expected", "value": true, "severity": "info" }
+      ],
+      "structureVariants": [
+        {
+          "name": "Standard Restless",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Main A", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Switch", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Breakdown", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Drop", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Switch", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Peak", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Rapid-Fire Switches",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Bass A", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Bass B", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Bass C", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Brief Break", "lengthRange": { "min": 4, "max": 4 } },
+            { "name": "Bass D / Peak", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Outro", "lengthRange": { "min": 8, "max": 8 } }
+          ]
+        },
+        {
+          "name": "Build-Drop Fidget",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Drop A", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Switch", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Build", "lengthRange": { "min": 4, "max": 4 } },
+            { "name": "Drop B", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 8, "max": 8 } }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "electro-punk",
+      "displayName": "Electro-Punk",
+      "tempoRange": { "min": 120, "max": 145 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 4, "max": 8 }, "energyRange": { "min": 5, "max": 7 }, "optional": false },
+        { "name": "Verse", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 8 }, "optional": false },
+        { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Verse B", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 8 }, "optional": false },
+        { "name": "Chorus B", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Noise Bridge", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 9 }, "optional": true },
+        { "name": "Final Chorus", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 10 }, "optional": false }
+      ],
+      "energyCurveTemplate": [6, 7, 9, 7, 9, 9],
+      "transitions": {
+        "preferred": ["hard_cut", "noise_bridge", "feedback_swell", "scream"],
+        "discouraged": ["filter_sweep", "gradual_layering", "smooth_build"],
+        "buildDurationRange": { "min": 0, "max": 4 },
+        "dropsExpected": false
+      },
+      "detectionRules": [
+        { "type": "punk-song-structure-expected", "value": true, "severity": "info" },
+        { "type": "max-track-length", "value": 300, "severity": "info", "unit": "seconds" },
+        { "type": "abrupt-endings-valid", "value": true, "severity": "info" },
+        { "type": "noise-elements-expected", "value": true, "severity": "info" }
+      ],
+      "structureVariants": [
+        {
+          "name": "Standard Punk Song",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Verse", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Verse", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Noise Bridge", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Final Chorus", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Noise Assault",
+          "sections": [
+            { "name": "Noise Intro", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Beat Entry", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Verse/Vocal", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Noise Break", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Peak", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Live Set Format",
+          "sections": [
+            { "name": "Noise Build", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Verse A", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Instrumental Noise Section", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Verse B", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Chorus", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Extended Noise Outro", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        }
+      ]
+    }
+  ]
+}

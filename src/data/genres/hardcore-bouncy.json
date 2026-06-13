@@ -1,0 +1,673 @@
+{
+  "genreFamily": "hardcore-bouncy",
+  "name": "Hardcore & Bouncy",
+  "tempoRange": { "min": 145, "max": 300 },
+  "structure": [
+    { "name": "Intro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 5, "max": 7 }, "optional": false },
+    { "name": "Build", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+    { "name": "Main A", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+    { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+    { "name": "Build B", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+    { "name": "Main B", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+    { "name": "Outro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 6, "max": 7 }, "optional": false }
+  ],
+  "energyCurveTemplate": [6, 8, 10, 7, 9, 10, 7],
+  "transitions": {
+    "preferred": ["hard_cut", "distorted_roll", "vocal_shout", "kick_slam"],
+    "discouraged": ["gradual_fade", "emotional_breakdown", "long_riser"],
+    "buildDurationRange": { "min": 4, "max": 8 },
+    "dropsExpected": true
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.10,
+    "midiDensityWeight": 0.20,
+    "trackPresenceWeight": 0.25,
+    "automationWeight": 0.10,
+    "frequencyCoverageWeight": 0.15,
+    "velocityIntensityWeight": 0.10,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    { "type": "max-breakdown-bars", "value": 16, "severity": "warning", "unit": "bars" },
+    { "type": "min-energy-overall", "value": 7, "severity": "warning" },
+    { "type": "kick-distortion-expected", "value": true, "severity": "info" },
+    { "type": "min-intro-bars", "value": 16, "severity": "warning", "unit": "bars" },
+    { "type": "min-outro-bars", "value": 16, "severity": "warning", "unit": "bars" },
+    { "type": "sustained-energy-above-7", "value": true, "severity": "info" }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 3,
+    "missingTransitionMinDelta": 4,
+    "similarityCeilingPercent": 92
+  },
+  "fillProfile": {
+    "expectedFillTypes": ["snare-roll", "tom-fill", "generic-fill"],
+    "typicalFillIntervals": [4, 8],
+    "expectedFillFrequency": 2,
+    "coreElements": ["kick", "snare", "cymbal"],
+    "conditionalElements": {
+      "tom": ["fill"],
+      "percussion": ["stab"]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": { "subBass": -10, "bass": -6, "lowMid": -14, "mid": -18, "highMid": -22, "high": -26 },
+    "expectedDrumTransientDensity": 18,
+    "displayName": "hardcore",
+    "subBassHint": "reinforcing your distorted kick's sub layer",
+    "rhythmicHint": "adding rapid percussion fills or gabber-style rolls"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 3,
+    "repetitionSimilarity": 0.92,
+    "abruptChangeDelta": 8,
+    "crowdingTrackCount": 4,
+    "introMinBars": 16,
+    "outroMinBars": 16
+  },
+  "archetypes": ["build-drop", "dj-tool"],
+  "aliases": ["hardcore", "hard dance", "hard-dance", "gabber", "hardstyle"],
+  "subgenres": [
+    {
+      "subgenreId": "gabber",
+      "displayName": "Gabber / Mainstyle Hardcore",
+      "structureVariants": [
+        {
+          "name": "Standard DJ Tool",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Main A", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Breakdown", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build 2", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Main B", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Relentless Wall",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Main A", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Shift", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Main B", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Triple Slam",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Main A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Break A", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Main B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Break B", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Main C", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Anthem Gabber",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Theme / Hook", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Full Power", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Vocal Break", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Full Power B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 165, "max": 185 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 5, "max": 7 }, "optional": false },
+        { "name": "Build", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Main A", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Breakdown", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Build B", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Main B", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 6, "max": 7 }, "optional": false }
+      ],
+      "energyCurveTemplate": [6, 8, 10, 7, 9, 10, 7],
+      "transitions": {
+        "preferred": ["hard_cut", "distorted_roll", "vocal_shout", "kick_slam"],
+        "discouraged": ["gradual_fade", "emotional_breakdown", "long_riser"],
+        "buildDurationRange": { "min": 4, "max": 8 },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.20,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.10,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "max-breakdown-bars", "value": 16, "severity": "warning", "unit": "bars" },
+        { "type": "min-energy-overall", "value": 7, "severity": "warning" },
+        { "type": "kick-distortion-expected", "value": true, "severity": "info" },
+        { "type": "tempo-must-be-165-plus", "value": 165, "severity": "critical" },
+        { "type": "no-long-melodic-sections", "value": 16, "severity": "info", "unit": "bars" },
+        { "type": "sustained-energy-above-7", "value": true, "severity": "info" }
+      ]
+    },
+    {
+      "subgenreId": "frenchcore",
+      "displayName": "Frenchcore",
+      "structureVariants": [
+        {
+          "name": "Bouncy Standard",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Kick Buildup", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Main A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Mid-Break", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Main B", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Psychotropic Journey",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Sweep A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Bounce Section", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Break", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Full Psycho", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Assault-Pause-Assault",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Full A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Silence A", "lengthRange": { "min": 4, "max": 4 } },
+            { "name": "Full B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Silence B", "lengthRange": { "min": 4, "max": 4 } },
+            { "name": "Full C", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 8, "max": 8 } }
+          ]
+        },
+        {
+          "name": "Compact Banger",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Main", "lengthRange": { "min": 48, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 8, "max": 8 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 190, "max": 200 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Kick Buildup", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Main A", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Mid-Break", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Main B", "lengthRange": { "min": 32, "max": 48 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false }
+      ],
+      "energyCurveTemplate": [8, 9, 10, 8, 10, 8],
+      "transitions": {
+        "preferred": ["reverse_bass_sweep", "kick_buildup", "hard_cut", "psychotropic_riser"],
+        "discouraged": ["smooth_filter", "gradual_layering", "emotional_pad"],
+        "buildDurationRange": { "min": 4, "max": 8 },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.20,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.10,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "tempo-must-be-190-plus", "value": 190, "severity": "critical" },
+        { "type": "reverse-bass-kick-expected", "value": true, "severity": "warning" },
+        { "type": "max-break-length", "value": 16, "severity": "warning", "unit": "bars" },
+        { "type": "min-energy-overall", "value": 7, "severity": "warning" },
+        { "type": "sustained-energy-above-7", "value": true, "severity": "info" }
+      ]
+    },
+    {
+      "subgenreId": "donk",
+      "displayName": "Donk / Bouncy Techno",
+      "structureVariants": [
+        {
+          "name": "Peak Body Standard",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Peak Bouncy Body", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Quick Break / Vocal Lift", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Apex Drop", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Party Driver",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Full Donk", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Vocal Section", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Full Donk B", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Extended DJ Mix",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove Build", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Full Donk", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Break", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Peak", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Drop-Style",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Donk Drop", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Break", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Donk Drop B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 145, "max": 160 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Peak Body", "lengthRange": { "min": 64, "max": 64 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Quick Break", "lengthRange": { "min": 8, "max": 8 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Apex Drop", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false }
+      ],
+      "energyCurveTemplate": [6, 8, 7, 9, 6],
+      "transitions": {
+        "preferred": ["donk_entry", "vocal_chant", "filter_sweep", "percussion_fill"],
+        "discouraged": ["long_breakdown", "emotional_content", "complex_builds"],
+        "buildDurationRange": { "min": 4, "max": 8 },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.10,
+        "frequencyCoverageWeight": 0.10,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "donk-sound-must-be-present", "value": true, "severity": "critical" },
+        { "type": "tempo-range", "value": 145, "severity": "critical" },
+        { "type": "max-break-length", "value": 8, "severity": "warning", "unit": "bars" },
+        { "type": "off-beat-bass-expected", "value": true, "severity": "warning" },
+        { "type": "max-breakdown-bars", "value": 16, "severity": "warning", "unit": "bars" }
+      ]
+    },
+    {
+      "subgenreId": "breakcore",
+      "displayName": "Breakcore",
+      "structureVariants": [
+        {
+          "name": "Chaotic Non-Linear",
+          "sections": [
+            { "name": "Chaotic Intro", "lengthRange": { "min": 4, "max": 16 } },
+            { "name": "Fragment A", "lengthRange": { "min": 3, "max": 11 } },
+            { "name": "Brief Coherence", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Fragment B", "lengthRange": { "min": 5, "max": 13 } },
+            { "name": "Abrupt End", "lengthRange": { "min": 2, "max": 4 } }
+          ]
+        },
+        {
+          "name": "Collage",
+          "sections": [
+            { "name": "Fragment A", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Fragment B", "lengthRange": { "min": 3, "max": 7 } },
+            { "name": "Fragment C", "lengthRange": { "min": 5, "max": 11 } },
+            { "name": "Density Peak", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Dissolution", "lengthRange": { "min": 4, "max": 8 } }
+          ]
+        },
+        {
+          "name": "Deconstructed Beat",
+          "sections": [
+            { "name": "Simple Pattern", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Chopping Begins", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Full Destruction", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Reconstruction", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Destruction Again", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Noise-Break Hybrid",
+          "sections": [
+            { "name": "Noise Intro", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Break Blast", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Noise Section", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Break Blast B", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 180, "max": 300 },
+      "structure": [
+        { "name": "Chaotic Intro", "lengthRange": { "min": 4, "max": 16 }, "energyRange": { "min": 3, "max": 7 }, "optional": false },
+        { "name": "Fragment A", "lengthRange": { "min": 3, "max": 11 }, "energyRange": { "min": 5, "max": 10 }, "optional": false },
+        { "name": "Coherence Moment", "lengthRange": { "min": 4, "max": 8 }, "energyRange": { "min": 4, "max": 6 }, "optional": true },
+        { "name": "Fragment B", "lengthRange": { "min": 3, "max": 11 }, "energyRange": { "min": 5, "max": 10 }, "optional": false },
+        { "name": "End", "lengthRange": { "min": 2, "max": 8 }, "energyRange": { "min": 2, "max": 6 }, "optional": false }
+      ],
+      "energyCurveTemplate": [5, 8, 8, 4],
+      "transitions": {
+        "preferred": ["hard_cut", "sample_collision", "tempo_shift", "silence_to_chaos"],
+        "discouraged": ["smooth_anything", "predictable_builds", "standard_phrase_lengths"],
+        "buildDurationRange": { "min": 1, "max": 4 },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.30,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.10,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "non-standard-phrase-lengths-expected", "value": true, "severity": "info" },
+        { "type": "tempo-180-plus", "value": 180, "severity": "warning" },
+        { "type": "chopped-breaks-expected", "value": true, "severity": "info" },
+        { "type": "standard-structure-not-applicable", "value": true, "severity": "info" },
+        { "type": "energy-variance-expected-high", "value": true, "severity": "info" }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 8,
+        "missingTransitionMinDelta": 8,
+        "similarityCeilingPercent": 98
+      }
+    },
+    {
+      "subgenreId": "hardstyle-euphoric",
+      "displayName": "Hardstyle Euphoric",
+      "structureVariants": [
+        {
+          "name": "Festival Anthem",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Mid-Intro / Build A", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Breakdown / Melody", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Build-Up", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Climax / Drop", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Mid-Section / Variation", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Final Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Final Climax", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Double Melody",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Melody A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Climax A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Melody B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Build B", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Climax B / Combined", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Vocal Anthem",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Vocal Hook / Verse", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Climax A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Vocal Breakdown", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Build 2", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Vocal Climax", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Compact Festival Edit",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Melodic Breakdown", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Climax", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Brief Break", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Final Climax", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 145, "max": 150 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+        { "name": "Mid-Intro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Breakdown", "lengthRange": { "min": 32, "max": 48 }, "energyRange": { "min": 4, "max": 6 }, "optional": false },
+        { "name": "Build-Up", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Climax", "lengthRange": { "min": 32, "max": 48 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Mid-Section", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Final Build", "lengthRange": { "min": 8, "max": 8 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Final Climax", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 4, "max": 5 }, "optional": false }
+      ],
+      "energyCurveTemplate": [5, 6, 5, 8, 10, 7, 8, 10, 5],
+      "transitions": {
+        "preferred": ["white_noise_riser", "snare_roll", "melody_lift", "reverse_cymbal", "vocal_hook"],
+        "discouraged": ["gradual_fade", "no_melodic_breakdown", "abrupt_drops_without_build"],
+        "buildDurationRange": { "min": 8, "max": 16 },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.15,
+        "trackPresenceWeight": 0.15,
+        "automationWeight": 0.20,
+        "frequencyCoverageWeight": 0.20,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "tempo-range", "value": 145, "severity": "critical" },
+        { "type": "melodic-breakdown-required", "value": 16, "severity": "warning", "unit": "bars" },
+        { "type": "climax-energy-minimum", "value": 9, "severity": "warning" },
+        { "type": "energy-contrast-breakdown-to-climax", "value": 4, "severity": "warning" },
+        { "type": "reverse-bass-expected-in-climax", "value": true, "severity": "warning" },
+        { "type": "singable-melody-expected", "value": true, "severity": "info" },
+        { "type": "max-breakdown-bars", "value": 48, "severity": "warning", "unit": "bars" }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 3,
+        "missingTransitionMinDelta": 3,
+        "similarityCeilingPercent": 85
+      }
+    },
+    {
+      "subgenreId": "hardstyle-raw",
+      "displayName": "Hardstyle Raw",
+      "structureVariants": [
+        {
+          "name": "Aggressive Standard",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Pre-Drop / FX", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Drop A / Raw Kick Section", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Breakdown", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Drop B / Harder", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Screech Showcase",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Drop A / Screech A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Break A", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Drop B / Screech B", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Break B", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Drop C / Combined", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Relentless Kick",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Full Raw", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Shift", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Full Raw B", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        },
+        {
+          "name": "Dark Anthem",
+          "sections": [
+            { "name": "Dark Intro", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Drop A", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Dark Break / Vocal", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Build 2", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Drop B", "lengthRange": { "min": 32, "max": 48 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 16 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 150, "max": 165 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Pre-Drop", "lengthRange": { "min": 8, "max": 16 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Drop A", "lengthRange": { "min": 32, "max": 48 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Breakdown", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Build", "lengthRange": { "min": 8, "max": 8 }, "energyRange": { "min": 7, "max": 8 }, "optional": false },
+        { "name": "Drop B", "lengthRange": { "min": 32, "max": 48 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false }
+      ],
+      "energyCurveTemplate": [6, 7, 9, 6, 8, 10, 6],
+      "transitions": {
+        "preferred": ["distorted_riser", "hard_cut", "pitched_roll", "noise_burst"],
+        "discouraged": ["long_melodic_breakdown", "emotional_buildup", "smooth_filter"],
+        "buildDurationRange": { "min": 4, "max": 8 },
+        "dropsExpected": true
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.10,
+        "midiDensityWeight": 0.20,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.10,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "tempo-range", "value": 150, "severity": "critical" },
+        { "type": "max-breakdown-bars", "value": 16, "severity": "warning", "unit": "bars" },
+        { "type": "drop-energy-minimum", "value": 8, "severity": "warning" },
+        { "type": "kick-distortion-expected", "value": true, "severity": "warning" },
+        { "type": "screech-lead-expected", "value": true, "severity": "info" }
+      ]
+    },
+    {
+      "subgenreId": "speedcore",
+      "displayName": "Speedcore",
+      "structureVariants": [
+        {
+          "name": "Tonal Drone",
+          "sections": [
+            { "name": "Intro Noise", "lengthRange": { "min": 4, "max": 16 } },
+            { "name": "Kick Acceleration", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Sustained Drone", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Pitch Modulation", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Abrupt End", "lengthRange": { "min": 2, "max": 4 } }
+          ]
+        },
+        {
+          "name": "Noise Assault",
+          "sections": [
+            { "name": "Blast Start", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Continuous Maximum", "lengthRange": { "min": 32, "max": 64 } }
+          ]
+        },
+        {
+          "name": "Speedcore with Sections",
+          "sections": [
+            { "name": "Noise Intro", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Speed A", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Noise Break", "lengthRange": { "min": 4, "max": 8 } },
+            { "name": "Speed B", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Abrupt End", "lengthRange": { "min": 2, "max": 4 } }
+          ]
+        },
+        {
+          "name": "Gradual Acceleration",
+          "sections": [
+            { "name": "Entry (~200 BPM)", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Acceleration", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "300+ BPM", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Peak", "lengthRange": { "min": 8, "max": 16 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 250, "max": 300 },
+      "structure": [
+        { "name": "Intro Noise", "lengthRange": { "min": 4, "max": 16 }, "energyRange": { "min": 8, "max": 9 }, "optional": false },
+        { "name": "Kick Acceleration", "lengthRange": { "min": 16, "max": 64 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Tonal Drone", "lengthRange": { "min": 16, "max": 64 }, "energyRange": { "min": 9, "max": 10 }, "optional": false },
+        { "name": "Modulation Shift", "lengthRange": { "min": 8, "max": 32 }, "energyRange": { "min": 9, "max": 10 }, "optional": true },
+        { "name": "End", "lengthRange": { "min": 4, "max": 16 }, "energyRange": { "min": 8, "max": 10 }, "optional": false }
+      ],
+      "energyCurveTemplate": [9, 10, 10, 9],
+      "transitions": {
+        "preferred": ["hard_cut", "pitch_modulation", "noise_blast"],
+        "discouraged": ["anything_conventional", "gradual_fade", "smooth_filter"],
+        "buildDurationRange": { "min": 1, "max": 4 },
+        "dropsExpected": false
+      },
+      "energyWeights": {
+        "trackCountWeight": 0.05,
+        "midiDensityWeight": 0.20,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.15,
+        "frequencyCoverageWeight": 0.15,
+        "velocityIntensityWeight": 0.10,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        { "type": "tempo-250-plus", "value": 250, "severity": "critical" },
+        { "type": "standard-structure-not-applicable", "value": true, "severity": "info" },
+        { "type": "kick-as-tonal-drone-expected", "value": true, "severity": "info" },
+        { "type": "max-track-length", "value": 240, "severity": "info", "unit": "seconds" },
+        { "type": "non-standard-phrase-lengths-expected", "value": true, "severity": "info" },
+        { "type": "sustained-energy-above-7", "value": true, "severity": "info" }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 5,
+        "missingTransitionMinDelta": 6,
+        "similarityCeilingPercent": 98
+      }
+    }
+  ]
+}

@@ -1,0 +1,319 @@
+{
+  "genreFamily": "minimal-microhouse",
+  "name": "Minimal & Microhouse",
+  "tempoRange": { "min": 118, "max": 130 },
+  "structure": [
+    { "name": "Intro", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 3, "max": 4 }, "optional": false },
+    { "name": "Groove Establish", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+    { "name": "Evolution A", "lengthRange": { "min": 64, "max": 64 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+    { "name": "Subtle Shift", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+    { "name": "Evolution B", "lengthRange": { "min": 64, "max": 64 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+    { "name": "Peak Density", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+    { "name": "De-escalation", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+    { "name": "Outro", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 3, "max": 4 }, "optional": false }
+  ],
+  "energyCurveTemplate": [4, 5, 6, 6, 6, 7, 6, 4],
+  "transitions": {
+    "preferred": ["single_element_swap", "gradual_fade", "micro_sample_change", "filter_micro_sweep"],
+    "discouraged": ["riser", "impact", "snare_roll", "hard_cut", "silence"],
+    "buildDurationRange": { "min": 16, "max": 64 },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.10,
+    "midiDensityWeight": 0.10,
+    "trackPresenceWeight": 0.15,
+    "automationWeight": 0.35,
+    "frequencyCoverageWeight": 0.10,
+    "velocityIntensityWeight": 0.10,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    { "type": "max-energy-delta-between-sections", "value": 1, "severity": "warning" },
+    { "type": "no-dramatic-transitions", "value": true, "severity": "warning" },
+    { "type": "min-track-length", "value": 420, "severity": "info", "unit": "seconds" },
+    { "type": "max-simultaneous-elements", "value": 8, "severity": "info" },
+    { "type": "groove-consistency-expected", "value": true, "severity": "info" }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 4,
+    "missingTransitionMinDelta": 5,
+    "similarityCeilingPercent": 97
+  },
+  "fillProfile": {
+    "expectedFillTypes": ["percussion-fill", "generic-fill"],
+    "typicalFillIntervals": [16, 32],
+    "expectedFillFrequency": 0.5,
+    "coreElements": ["kick", "hi-hat"],
+    "conditionalElements": {
+      "percussion": ["accent"],
+      "cymbal": ["sparse"]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": { "subBass": -22, "bass": -14, "lowMid": -22, "mid": -26, "highMid": -28, "high": -32 },
+    "expectedDrumTransientDensity": 8,
+    "displayName": "minimal/microhouse",
+    "subBassHint": "adding subtle sub weight to anchor the micro-groove",
+    "rhythmicHint": "introducing micro-clicks or glitch percussion layers"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 4,
+    "repetitionSimilarity": 0.97,
+    "abruptChangeDelta": 3,
+    "crowdingTrackCount": 2,
+    "introMinBars": 32,
+    "outroMinBars": 32
+  },
+  "archetypes": ["continuous-evolution", "loop"],
+  "aliases": ["minimal", "microhouse", "micro house", "micro-house", "click house"],
+  "subgenres": [
+    {
+      "subgenreId": "microhouse",
+      "displayName": "Microhouse",
+      "structureVariants": [
+        {
+          "name": "Standard Long-Form",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove Establish", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Micro-Evolution A", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Subtle Shift", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Micro-Evolution B", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Peak Density", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "De-escalation", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Extended Akufen Style",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Cut-Up Phase A", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Cut-Up Phase B", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Cut-Up Phase C", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Peak", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "DJ Utility",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove A", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Groove B", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Groove C", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Vocal Micro-Sample",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Vocal Fragment Entry", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove + Vocal", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Vocal Exit", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove Return", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 120, "max": 128 },
+      "detectionRules": [
+        { "type": "max-energy-delta-between-sections", "value": 1, "severity": "warning" },
+        { "type": "no-dramatic-transitions", "value": true, "severity": "warning" },
+        { "type": "min-track-length", "value": 420, "severity": "info", "unit": "seconds" },
+        { "type": "micro-sample-aesthetic", "value": true, "severity": "info" },
+        { "type": "click-pop-elements-expected", "value": true, "severity": "info" }
+      ]
+    },
+    {
+      "subgenreId": "rominimal",
+      "displayName": "Rominimal",
+      "structureVariants": [
+        {
+          "name": "Standard Deep",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Deep Groove A", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Voice Entry", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove B", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Peak Groove", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Stripping", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 64 } }
+          ]
+        },
+        {
+          "name": "Extended Hypnotic",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Groove Phase A", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Phase B", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Phase C", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Phase D", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 64, "max": 64 } }
+          ]
+        },
+        {
+          "name": "Spoken Word Feature",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Spoken Word Entry", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove + Voice", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Voice Exit", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove Return", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Festival Shorter Format",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove A", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Vocal Element", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Peak Groove", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 120, "max": 128 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 3, "max": 4 }, "optional": false },
+        { "name": "Deep Groove A", "lengthRange": { "min": 64, "max": 64 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+        { "name": "Vocal Entry", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": true },
+        { "name": "Groove B", "lengthRange": { "min": 64, "max": 64 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Peak Groove", "lengthRange": { "min": 64, "max": 64 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Stripping", "lengthRange": { "min": 32, "max": 32 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 3, "max": 4 }, "optional": false }
+      ],
+      "energyCurveTemplate": [4, 5, 6, 6, 5, 4],
+      "transitions": {
+        "preferred": ["vocal_emergence", "single_percussion_swap", "hat_variation", "sub_pattern_shift"],
+        "discouraged": ["riser", "impact", "snare_roll", "hard_cut", "filter_sweep"],
+        "buildDurationRange": { "min": 32, "max": 64 },
+        "dropsExpected": false
+      },
+      "detectionRules": [
+        { "type": "min-track-length", "value": 480, "severity": "info", "unit": "seconds" },
+        { "type": "max-energy-delta-between-sections", "value": 1, "severity": "warning" },
+        { "type": "spoken-word-elements-valid", "value": true, "severity": "info" }
+      ],
+      "detectionThresholds": {
+        "flatEnergyMaxDelta": 4,
+        "missingTransitionMinDelta": 6,
+        "similarityCeilingPercent": 98
+      }
+    },
+    {
+      "subgenreId": "minimal-house",
+      "displayName": "Minimal House",
+      "structureVariants": [
+        {
+          "name": "Standard Groove",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Groove A", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Build", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Main Groove", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Subtle Breakdown", "lengthRange": { "min": 16, "max": 16 } },
+            { "name": "Peak", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Two-Groove",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Groove A", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Transition", "lengthRange": { "min": 8, "max": 8 } },
+            { "name": "Groove B", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Gradual Reveal",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Foundation", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Layer 2 Entry", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Layer 3 Entry", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Full Groove", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Strip", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 118, "max": 126 },
+      "structure": [
+        { "name": "Intro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 3, "max": 4 }, "optional": false },
+        { "name": "Groove A", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 4, "max": 5 }, "optional": false },
+        { "name": "Build", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Main Groove", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Subtle Breakdown", "lengthRange": { "min": 16, "max": 16 }, "energyRange": { "min": 5, "max": 6 }, "optional": false },
+        { "name": "Peak", "lengthRange": { "min": 32, "max": 64 }, "energyRange": { "min": 6, "max": 7 }, "optional": false },
+        { "name": "Outro", "lengthRange": { "min": 16, "max": 32 }, "energyRange": { "min": 3, "max": 4 }, "optional": false }
+      ],
+      "energyCurveTemplate": [4, 5, 6, 7, 6, 7, 4],
+      "transitions": {
+        "preferred": ["filter_sweep", "element_removal", "hat_change", "subtle_fill"],
+        "discouraged": ["impact", "hard_cut", "riser", "silence_gap"],
+        "buildDurationRange": { "min": 8, "max": 32 },
+        "dropsExpected": false
+      },
+      "detectionRules": [
+        { "type": "min-track-length", "value": 360, "severity": "info", "unit": "seconds" },
+        { "type": "groove-consistency-expected", "value": true, "severity": "info" },
+        { "type": "no-dramatic-transitions", "value": true, "severity": "info" }
+      ]
+    },
+    {
+      "subgenreId": "schaffel",
+      "displayName": "Schaffel",
+      "structureVariants": [
+        {
+          "name": "Standard Shuffled",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Shuffled Groove A", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Element Addition", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Full Groove", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Groove Variation", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Kompakt Style",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Shuffled Kick + Hat", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Pad Entry", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Full Groove", "lengthRange": { "min": 64, "max": 64 } },
+            { "name": "Pad Variation", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Strip", "lengthRange": { "min": 32, "max": 32 } },
+            { "name": "Outro", "lengthRange": { "min": 32, "max": 32 } }
+          ]
+        },
+        {
+          "name": "Bounce-Focused",
+          "sections": [
+            { "name": "Intro", "lengthRange": { "min": 16, "max": 32 } },
+            { "name": "Bounce Groove", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Subtle Break", "lengthRange": { "min": 8, "max": 16 } },
+            { "name": "Peak Bounce", "lengthRange": { "min": 32, "max": 64 } },
+            { "name": "Outro", "lengthRange": { "min": 16, "max": 32 } }
+          ]
+        }
+      ],
+      "tempoRange": { "min": 120, "max": 128 },
+      "detectionRules": [
+        { "type": "shuffle-triplet-grid-expected", "value": true, "severity": "info" },
+        { "type": "max-energy-delta-between-sections", "value": 1, "severity": "warning" },
+        { "type": "min-track-length", "value": 360, "severity": "info", "unit": "seconds" },
+        { "type": "groove-consistency-expected", "value": true, "severity": "info" }
+      ]
+    }
+  ]
+}

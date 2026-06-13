@@ -1,0 +1,1243 @@
+{
+  "genreFamily": "footwork-juke",
+  "name": "Footwork & Juke",
+  "tempoRange": {
+    "min": 155,
+    "max": 165
+  },
+  "structure": [
+    {
+      "name": "Intro Loop",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Main A",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Vocal Trigger",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 8,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Pattern B",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 7,
+        "max": 8
+      },
+      "optional": false
+    },
+    {
+      "name": "Strip",
+      "lengthRange": {
+        "min": 4,
+        "max": 8
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Return",
+      "lengthRange": {
+        "min": 16,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 8,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Outro",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 6
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    6,
+    8,
+    9,
+    8,
+    6,
+    9,
+    6
+  ],
+  "transitions": {
+    "preferred": [
+      "vocal_cue",
+      "drum_subtraction",
+      "triplet_fill",
+      "hard_cut",
+      "bass_dropout"
+    ],
+    "discouraged": [
+      "long_riser",
+      "emotional_breakdown",
+      "filter_sweep",
+      "silence"
+    ],
+    "buildDurationRange": {
+      "min": 2,
+      "max": 8
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.1,
+    "midiDensityWeight": 0.3,
+    "trackPresenceWeight": 0.2,
+    "automationWeight": 0.1,
+    "frequencyCoverageWeight": 0.1,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "tempo-range-enforcement",
+      "value": 155,
+      "severity": "critical",
+      "unit": "bpm"
+    },
+    {
+      "type": "triplet-hihat-expected",
+      "value": true,
+      "severity": "warning"
+    },
+    {
+      "type": "vocal-samples-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "max-breakdown-bars",
+      "value": 8,
+      "severity": "warning",
+      "unit": "bars"
+    },
+    {
+      "type": "half-time-feel-expected",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "max-track-length",
+      "value": 300,
+      "severity": "info",
+      "unit": "seconds"
+    },
+    {
+      "type": "nonstandard-phrase-length-allowed",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "polyrhythmic-triplets-allowed",
+      "value": true,
+      "severity": "info"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 3,
+    "missingTransitionMinDelta": 3,
+    "similarityCeilingPercent": 90
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "hat-roll",
+      "snare-roll",
+      "generic-fill"
+    ],
+    "typicalFillIntervals": [
+      4,
+      8
+    ],
+    "expectedFillFrequency": 3,
+    "coreElements": [
+      "kick",
+      "hi-hat",
+      "snare"
+    ],
+    "conditionalElements": {
+      "vocal": [
+        "trigger section"
+      ],
+      "crash": [
+        "transition"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -14,
+      "bass": -10,
+      "lowMid": -20,
+      "mid": -22,
+      "highMid": -24,
+      "high": -28
+    },
+    "expectedDrumTransientDensity": 24,
+    "displayName": "footwork/juke",
+    "subBassHint": "reinforcing your 808 kick sub layer",
+    "rhythmicHint": "adding rapid-fire percussive chops or triplet patterns"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 3,
+    "repetitionSimilarity": 0.9,
+    "abruptChangeDelta": 5,
+    "crowdingTrackCount": 3,
+    "introMinBars": 8,
+    "outroMinBars": 8
+  },
+  "archetypes": [
+    "loop",
+    "continuous-evolution"
+  ],
+  "aliases": [
+    "footwork",
+    "juke",
+    "chicago footwork",
+    "teklife"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "chicago-footwork",
+      "displayName": "Chicago Footwork",
+      "structureVariants": [
+        {
+          "name": "Loop-Based Standard",
+          "sections": [
+            {
+              "name": "Intro Loop",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Pattern A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Vocal Trigger Section",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Pattern B / Variation",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Breakdown / Strip",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main Return / Intensification",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro Loop",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Battle Track",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Full Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Vocal Burst",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Multi-Sample Journey",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Sample A Pattern",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Sample B Entry",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Combined Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Strip",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Sample C",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Return / All Samples",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended DJ Mix",
+          "sections": [
+            {
+              "name": "Intro Loop",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Main Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Variation A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Variation B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro Loop",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 155,
+        "max": 165
+      },
+      "structure": [
+        {
+          "name": "Intro Loop",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Main A",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Vocal Section",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Pattern B",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Strip",
+          "lengthRange": {
+            "min": 4,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Return",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro Loop",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        6,
+        8,
+        9,
+        8,
+        6,
+        9,
+        6
+      ],
+      "detectionRules": [
+        {
+          "type": "tempo-range-enforcement",
+          "value": 155,
+          "severity": "critical",
+          "unit": "bpm"
+        },
+        {
+          "type": "triplet-hihat-expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "vocal-samples-expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "max-breakdown-bars",
+          "value": 8,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "high-vocal-trigger-frequency",
+          "value": 4,
+          "severity": "info",
+          "unit": "bars"
+        },
+        {
+          "type": "half-time-feel-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "nonstandard-phrase-length-allowed",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "polyrhythmic-triplets-allowed",
+          "value": true,
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "subgenreId": "juke",
+      "displayName": "Juke",
+      "structureVariants": [
+        {
+          "name": "Groove Standard",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Main Groove",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Variation",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Vocal-Driven",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Beat + Vocal Hook",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove Variation",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Vocal Return + Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Party Starter",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Full Energy",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Break",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Full Energy B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Extended Juke",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Groove A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Groove A Return",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 155,
+        "max": 160
+      },
+      "structure": [
+        {
+          "name": "Intro",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Main Groove",
+          "lengthRange": {
+            "min": 32,
+            "max": 64
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Vocal Section",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Variation",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Peak",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 8,
+            "max": 8
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        6,
+        8,
+        8,
+        8,
+        9,
+        6
+      ],
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.25,
+        "trackPresenceWeight": 0.25,
+        "automationWeight": 0.1,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "detectionRules": [
+        {
+          "type": "tempo-range-enforcement",
+          "value": 155,
+          "severity": "critical",
+          "unit": "bpm"
+        },
+        {
+          "type": "triplet-hihat-expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "vocal-samples-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "max-breakdown-bars",
+          "value": 8,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "half-time-feel-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "nonstandard-phrase-length-allowed",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "polyrhythmic-triplets-allowed",
+          "value": true,
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "subgenreId": "teklife-style",
+      "displayName": "Teklife-style",
+      "structureVariants": [
+        {
+          "name": "Atmospheric Standard",
+          "sections": [
+            {
+              "name": "Ambient Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern Emerges",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Full Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Atmospheric Break",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Evolved Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Ambient Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Experimental Journey",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern A / Sparse",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Pattern B / Dense",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Ambient Interlude",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern C / Peak",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dissolution",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Minimal Teklife",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Core Pattern",
+              "lengthRange": {
+                "min": 32,
+                "max": 48
+              }
+            },
+            {
+              "name": "Subtle Variation",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Collaborative / Experimental",
+          "sections": [
+            {
+              "name": "Concept A",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Transition",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Concept B",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Hybrid Zone",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Resolution",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ],
+      "tempoRange": {
+        "min": 155,
+        "max": 165
+      },
+      "structure": [
+        {
+          "name": "Intro Atmosphere",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 5
+          },
+          "optional": false
+        },
+        {
+          "name": "Main Pattern",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 8
+          },
+          "optional": false
+        },
+        {
+          "name": "Vocal Trigger",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Atmospheric Break",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 5,
+            "max": 6
+          },
+          "optional": false
+        },
+        {
+          "name": "Evolution",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 7,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Return",
+          "lengthRange": {
+            "min": 16,
+            "max": 32
+          },
+          "energyRange": {
+            "min": 8,
+            "max": 9
+          },
+          "optional": false
+        },
+        {
+          "name": "Outro",
+          "lengthRange": {
+            "min": 8,
+            "max": 16
+          },
+          "energyRange": {
+            "min": 4,
+            "max": 6
+          },
+          "optional": false
+        }
+      ],
+      "energyCurveTemplate": [
+        5,
+        8,
+        9,
+        6,
+        8,
+        9,
+        5
+      ],
+      "energyWeights": {
+        "trackCountWeight": 0.1,
+        "midiDensityWeight": 0.2,
+        "trackPresenceWeight": 0.2,
+        "automationWeight": 0.2,
+        "frequencyCoverageWeight": 0.1,
+        "velocityIntensityWeight": 0.1,
+        "polyphonyScoreWeight": 0.05,
+        "pitchRangeWeight": 0.05
+      },
+      "transitions": {
+        "preferred": [
+          "vocal_cue",
+          "drum_subtraction",
+          "triplet_fill",
+          "atmospheric_swell",
+          "bass_dropout"
+        ],
+        "discouraged": [
+          "long_riser",
+          "emotional_breakdown",
+          "filter_sweep",
+          "silence"
+        ],
+        "buildDurationRange": {
+          "min": 4,
+          "max": 16
+        },
+        "dropsExpected": false
+      },
+      "detectionRules": [
+        {
+          "type": "tempo-range-enforcement",
+          "value": 155,
+          "severity": "critical",
+          "unit": "bpm"
+        },
+        {
+          "type": "triplet-hihat-expected",
+          "value": true,
+          "severity": "warning"
+        },
+        {
+          "type": "vocal-samples-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "max-breakdown-bars",
+          "value": 8,
+          "severity": "warning",
+          "unit": "bars"
+        },
+        {
+          "type": "atmospheric-pads-expected",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "nonstandard-phrase-length-allowed",
+          "value": true,
+          "severity": "info"
+        },
+        {
+          "type": "polyrhythmic-triplets-allowed",
+          "value": true,
+          "severity": "info"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+
+# Piggie extension files
+.piggie/
+
+# kiro related files
+.kiro/
+
+# vscode files
+.vscode/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Coverage
+coverage/
+
+# Extracted SDK/CLI tarballs (dev copies — .piggie/ has the linked versions)
+ableton-extensions-cli-1.0.0-beta.0/
+ableton-extensions-sdk-1.0.0-beta.0/
+
+# One-off dev scripts and test output
+add-weights.ps1
+find-violations.cjs
+validate-trance.js
+transition-test-output.txt
+
+# SDK documentation (Ableton proprietary)
+docs/sdk docs/

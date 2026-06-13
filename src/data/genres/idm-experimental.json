@@ -1,0 +1,935 @@
+{
+  "genreFamily": "idm-experimental",
+  "name": "IDM & Experimental",
+  "tempoRange": {
+    "min": 70,
+    "max": 170
+  },
+  "structure": [
+    {
+      "name": "Opening Texture",
+      "lengthRange": {
+        "min": 8,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 2,
+        "max": 5
+      },
+      "optional": false
+    },
+    {
+      "name": "Rhythmic Emergence",
+      "lengthRange": {
+        "min": 11,
+        "max": 17
+      },
+      "energyRange": {
+        "min": 4,
+        "max": 7
+      },
+      "optional": false
+    },
+    {
+      "name": "Development A",
+      "lengthRange": {
+        "min": 13,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 5,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Contrasting Section",
+      "lengthRange": {
+        "min": 7,
+        "max": 17
+      },
+      "energyRange": {
+        "min": 2,
+        "max": 6
+      },
+      "optional": false
+    },
+    {
+      "name": "Development B",
+      "lengthRange": {
+        "min": 11,
+        "max": 32
+      },
+      "energyRange": {
+        "min": 6,
+        "max": 9
+      },
+      "optional": false
+    },
+    {
+      "name": "Resolution",
+      "lengthRange": {
+        "min": 7,
+        "max": 16
+      },
+      "energyRange": {
+        "min": 2,
+        "max": 5
+      },
+      "optional": false
+    }
+  ],
+  "energyCurveTemplate": [
+    4,
+    6,
+    7,
+    4,
+    8,
+    4
+  ],
+  "transitions": {
+    "preferred": [
+      "automation_shift",
+      "textural_transform",
+      "tempo_change",
+      "silence",
+      "generative_shift"
+    ],
+    "discouraged": [
+      "standard_riser",
+      "predictable_build",
+      "4bar_phrase_lock"
+    ],
+    "buildDurationRange": {
+      "min": 4,
+      "max": 32
+    },
+    "dropsExpected": false
+  },
+  "energyWeights": {
+    "trackCountWeight": 0.05,
+    "midiDensityWeight": 0.1,
+    "trackPresenceWeight": 0.15,
+    "automationWeight": 0.35,
+    "frequencyCoverageWeight": 0.15,
+    "velocityIntensityWeight": 0.1,
+    "polyphonyScoreWeight": 0.05,
+    "pitchRangeWeight": 0.05
+  },
+  "detectionRules": [
+    {
+      "type": "nonstandard-phrase-length-allowed",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "tempo-changes-acceptable",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "standard-structure-not-applicable",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "automation-complexity-expected-high",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "time-signature-changes-acceptable",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "flat-energy-suppressed",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "missing-transition-suppressed",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "repeated-section-suppressed",
+      "value": true,
+      "severity": "info"
+    },
+    {
+      "type": "abrupt-energy-suppressed",
+      "value": true,
+      "severity": "info"
+    }
+  ],
+  "detectionThresholds": {
+    "flatEnergyMaxDelta": 5,
+    "missingTransitionMinDelta": 8,
+    "similarityCeilingPercent": 95
+  },
+  "fillProfile": {
+    "expectedFillTypes": [
+      "granular_burst",
+      "glitch_stutter",
+      "textural_swell",
+      "silence",
+      "parameter_sweep"
+    ],
+    "typicalFillIntervals": [
+      7,
+      11,
+      13,
+      16
+    ],
+    "expectedFillFrequency": 0.5,
+    "coreElements": [
+      "granular_texture",
+      "synthesized_percussion",
+      "modulated_noise"
+    ],
+    "conditionalElements": {
+      "silence": [
+        "contrasting_section"
+      ],
+      "glitch_burst": [
+        "development_a",
+        "development_b"
+      ]
+    }
+  },
+  "audioProfile": {
+    "expectedBands": {
+      "subBass": -16,
+      "bass": -14,
+      "lowMid": -12,
+      "mid": -10,
+      "highMid": -12,
+      "high": -14
+    },
+    "expectedDrumTransientDensity": 12,
+    "displayName": "IDM & Experimental",
+    "subBassHint": "Variable sub-bass usage; some sections bass-heavy, others purely textural",
+    "rhythmicHint": "Complex polyrhythmic patterns with non-standard time signatures; transient density varies wildly"
+  },
+  "thresholds": {
+    "flatEnergyDelta": 3,
+    "repetitionSimilarity": 0.95,
+    "abruptChangeDelta": 8,
+    "crowdingTrackCount": 5,
+    "introMinBars": 4,
+    "outroMinBars": 4
+  },
+  "archetypes": [
+    "continuous-evolution",
+    "loop"
+  ],
+  "subgenres": [
+    {
+      "subgenreId": "idm",
+      "displayName": "IDM",
+      "structureVariants": [
+        {
+          "name": "Non-Standard Development",
+          "sections": [
+            {
+              "name": "Opening Texture",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Rhythmic Emergence",
+              "lengthRange": {
+                "min": 12,
+                "max": 24
+              }
+            },
+            {
+              "name": "Development A",
+              "lengthRange": {
+                "min": 24,
+                "max": 48
+              }
+            },
+            {
+              "name": "Contrasting Section",
+              "lengthRange": {
+                "min": 12,
+                "max": 32
+              }
+            },
+            {
+              "name": "Development B",
+              "lengthRange": {
+                "min": 24,
+                "max": 48
+              }
+            },
+            {
+              "name": "Resolution",
+              "lengthRange": {
+                "min": 8,
+                "max": 24
+              }
+            }
+          ]
+        },
+        {
+          "name": "Generative Evolution",
+          "sections": [
+            {
+              "name": "Seed State",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Mutation A",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Mutation B",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Mutation C",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Mutation D",
+              "lengthRange": {
+                "min": 32,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dissolution",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Multi-Movement",
+          "sections": [
+            {
+              "name": "Movement I",
+              "lengthRange": {
+                "min": 16,
+                "max": 48
+              }
+            },
+            {
+              "name": "Silence",
+              "lengthRange": {
+                "min": 2,
+                "max": 8
+              }
+            },
+            {
+              "name": "Movement II",
+              "lengthRange": {
+                "min": 16,
+                "max": 48
+              }
+            },
+            {
+              "name": "Transition",
+              "lengthRange": {
+                "min": 4,
+                "max": 16
+              }
+            },
+            {
+              "name": "Movement III",
+              "lengthRange": {
+                "min": 16,
+                "max": 48
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rhythmic Architecture",
+          "sections": [
+            {
+              "name": "Simple Rhythm",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Complexity Layer 1",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Complexity Layer 2",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Maximum Density",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Deconstruction",
+              "lengthRange": {
+                "min": 16,
+                "max": 16
+              }
+            },
+            {
+              "name": "Simple Return",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Textural Drift",
+          "sections": [
+            {
+              "name": "Texture A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Slow Transformation",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Texture B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Slow Transformation",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Texture C",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "glitch",
+      "displayName": "Glitch",
+      "structureVariants": [
+        {
+          "name": "Density Arc",
+          "sections": [
+            {
+              "name": "Fragmentary Introduction",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Accumulation",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Peak Density",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dissolution",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Textural Fade",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error Cascade",
+          "sections": [
+            {
+              "name": "Clean Signal",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "First Error",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Error Accumulation",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "System Crash",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Reboot",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "Collage Fragments",
+          "sections": [
+            {
+              "name": "Fragment A",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Fragment B",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Fragment C",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Overlap Zone",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Dissolution",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Micro-Edit Suite",
+          "sections": [
+            {
+              "name": "Micro-Section 1",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Micro-Section 2",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Micro-Section 3",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Micro-Section 4",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Micro-Section 5",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Final Section",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "bubblegum-bass",
+      "displayName": "Bubblegum Bass",
+      "structureVariants": [
+        {
+          "name": "Maximalist Standard",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Break",
+              "lengthRange": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "name": "Drop 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Outro",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "name": "Pop-Meets-Chaos",
+          "sections": [
+            {
+              "name": "Cute Intro",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Verse",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Pre-Chorus",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Chaotic Chorus",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Verse 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Chaotic Chorus 2",
+              "lengthRange": {
+                "min": 8,
+                "max": 12
+              }
+            },
+            {
+              "name": "End",
+              "lengthRange": {
+                "min": 2,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "name": "Genre-Smash",
+          "sections": [
+            {
+              "name": "Section A",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Section B",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Section C",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            },
+            {
+              "name": "Combined Chaos",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "name": "Single Explosion",
+          "sections": [
+            {
+              "name": "Intro",
+              "lengthRange": {
+                "min": 2,
+                "max": 4
+              }
+            },
+            {
+              "name": "Build",
+              "lengthRange": {
+                "min": 4,
+                "max": 4
+              }
+            },
+            {
+              "name": "Wall of Sound",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Brief Pause",
+              "lengthRange": {
+                "min": 2,
+                "max": 2
+              }
+            },
+            {
+              "name": "Second Wall",
+              "lengthRange": {
+                "min": 8,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subgenreId": "generative",
+      "displayName": "Generative",
+      "structureVariants": [
+        {
+          "name": "Process-Driven Evolution",
+          "sections": [
+            {
+              "name": "Seed State",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Mutation Phase A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Mutation Phase B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Mutation Phase C",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Dissolution",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Parametric Drift",
+          "sections": [
+            {
+              "name": "Initial State",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Slow Transformation A",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Slow Transformation B",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Final State",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "name": "Emergent Structure",
+          "sections": [
+            {
+              "name": "Noise Floor",
+              "lengthRange": {
+                "min": 8,
+                "max": 16
+              }
+            },
+            {
+              "name": "Pattern Emergence",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Self-Organization",
+              "lengthRange": {
+                "min": 32,
+                "max": 64
+              }
+            },
+            {
+              "name": "Complexity Peak",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            },
+            {
+              "name": "Entropy Return",
+              "lengthRange": {
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

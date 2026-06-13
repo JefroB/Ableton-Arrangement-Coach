@@ -1,0 +1,7 @@
+{
+    "name": "Arrangement Coach",
+    "author": "TH3RDWAVE.com",
+    "entry": "extension.js",
+    "version": "1.0.0",
+    "minimumApiVersion": "1.0.0"
+}
