@@ -62,6 +62,7 @@ export interface AppState {
   readonly drumPadMaps: ReadonlyMap<string, DrumPadMap>;
   readonly audioContentAnalysis: AudioContentResults | null;
   readonly synthAnalysis: SynthAnalysisResult | null;
+  readonly arrangementScore: number | null;
   readonly isGenerating: boolean;
   readonly generationError: string | null;
 }
@@ -99,6 +100,7 @@ export type Action =
   | { type: "UPDATE_DRUM_PAD_MAPS"; drumPadMaps: ReadonlyMap<string, DrumPadMap> }
   | { type: "UPDATE_SYNTH_ANALYSIS"; synthAnalysis: SynthAnalysisResult | null }
   | UpdateAudioContentAnalysisAction
+  | { type: "UPDATE_ARRANGEMENT_SCORE"; score: number | null }
   | { type: "SET_GENERATING"; generating: boolean }
   | { type: "SET_GENERATION_ERROR"; error: string | null };
 
@@ -145,6 +147,7 @@ const INITIAL_STATE: AppState = {
   drumPadMaps: new Map(),
   audioContentAnalysis: null,
   synthAnalysis: null,
+  arrangementScore: null,
   isGenerating: false,
   generationError: null,
 };
@@ -185,6 +188,7 @@ function reducer(state: AppState, action: Action): AppState {
         drumPadMaps: new Map(),
         audioContentAnalysis: null,
         synthAnalysis: null,
+        arrangementScore: null,
         isGenerating: state.isGenerating,
         generationError: state.generationError,
       };
@@ -219,6 +223,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
     }
 
@@ -249,6 +254,7 @@ function reducer(state: AppState, action: Action): AppState {
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
         synthAnalysis: state.synthAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "SET_GENRE": {
@@ -277,6 +283,7 @@ function reducer(state: AppState, action: Action): AppState {
           automationSuggestions: state.automationSuggestions,
           contentAnalysis: state.contentAnalysis,
           drumPadMaps: state.drumPadMaps,
+          arrangementScore: state.arrangementScore,
         };
       }
       if (getProfile(action.genreId) === null && getProfileBySubgenre(action.genreId) === null) {
@@ -307,6 +314,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
     }
 
@@ -336,6 +344,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "UPDATE_ARCHETYPE":
@@ -364,6 +373,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "UPDATE_ISSUES":
@@ -393,6 +403,7 @@ function reducer(state: AppState, action: Action): AppState {
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
         synthAnalysis: state.synthAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "UPDATE_TRANSITIONS": {
@@ -443,6 +454,7 @@ function reducer(state: AppState, action: Action): AppState {
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
         synthAnalysis: state.synthAnalysis,
+        arrangementScore: state.arrangementScore,
       };
     }
 
@@ -495,6 +507,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
     }
 
@@ -524,6 +537,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "ADD_NOTE": {
@@ -578,6 +592,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
     }
 
@@ -630,6 +645,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
     }
 
@@ -663,6 +679,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
     }
 
@@ -693,6 +710,7 @@ function reducer(state: AppState, action: Action): AppState {
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
         synthAnalysis: state.synthAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "TOGGLE_SECTION_CHECKLIST_ITEM": {
@@ -738,6 +756,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
     }
 
@@ -767,6 +786,7 @@ function reducer(state: AppState, action: Action): AppState {
         contentAnalysis: state.contentAnalysis,
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "UPDATE_REFERENCE":
@@ -804,6 +824,7 @@ function reducer(state: AppState, action: Action): AppState {
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
         synthAnalysis: state.synthAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "SET_ANALYZING":
@@ -833,6 +854,7 @@ function reducer(state: AppState, action: Action): AppState {
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
         synthAnalysis: state.synthAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "UPDATE_DJ_SCORE":
@@ -863,6 +885,7 @@ function reducer(state: AppState, action: Action): AppState {
         drumPadMaps: state.drumPadMaps,
         audioContentAnalysis: state.audioContentAnalysis,
         synthAnalysis: state.synthAnalysis,
+        arrangementScore: state.arrangementScore,
       };
 
     case "SET_SELECTION_RANGE":
@@ -891,6 +914,9 @@ function reducer(state: AppState, action: Action): AppState {
 
     case "UPDATE_AUDIO_CONTENT_ANALYSIS":
       return { ...state, audioContentAnalysis: action.audioContent };
+
+    case "UPDATE_ARRANGEMENT_SCORE":
+      return { ...state, arrangementScore: action.score };
 
     case "SET_GENERATING":
       return { ...state, isGenerating: action.generating };

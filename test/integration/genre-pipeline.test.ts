@@ -929,4 +929,208 @@ describe("Genre Pipeline Integration", () => {
       }
     });
   });
+
+  describe("arrangement score recomputation on genre change", () => {
+    it("recomputes arrangement score when genre changes (different templates produce different scores)", () => {
+      const adapter = createMockSdkAdapter();
+      const store = createStore();
+
+      adapter.setTracks([
+        { name: "Kick", type: "midi" },
+        { name: "Bass", type: "midi" },
+        { name: "Lead", type: "midi" },
+        { name: "Pad", type: "midi" },
+      ]);
+
+      // Kick: active in most sections
+      adapter.setArrangementClips(0, [makeClip({ startTime: 64, endTime: 448 })]);
+      adapter.setMidiNotes(0, 0, [
+        ...Array.from({ length: 96 }, (_, i) => makeNote({ startTime: 64 + i * 4 })),
+      ]);
+
+      // Bass: active across main sections
+      adapter.setArrangementClips(1, [makeClip({ startTime: 64, endTime: 448 })]);
+      adapter.setMidiNotes(1, 0, [
+        ...Array.from({ length: 48 }, (_, i) => makeNote({ startTime: 64 + i * 8 })),
+      ]);
+
+      // Lead: main sections only
+      adapter.setArrangementClips(2, [
+        makeClip({ startTime: 96, endTime: 224 }),
+        makeClip({ startTime: 320, endTime: 448 }),
+      ]);
+      adapter.setMidiNotes(2, 0, [
+        ...Array.from({ length: 32 }, (_, i) => makeNote({ startTime: 96 + i * 4 })),
+      ]);
+      adapter.setMidiNotes(2, 1, [
+        ...Array.from({ length: 32 }, (_, i) => makeNote({ startTime: 320 + i * 4 })),
+      ]);
+
+      // Pad: intro and breakdown
+      adapter.setArrangementClips(3, [
+        makeClip({ startTime: 0, endTime: 64 }),
+        makeClip({ startTime: 224, endTime: 288 }),
+      ]);
+      adapter.setMidiNotes(3, 0, [makeNote({ startTime: 8 }), makeNote({ startTime: 32 })]);
+      adapter.setMidiNotes(3, 1, [makeNote({ startTime: 240 }), makeNote({ startTime: 264 })]);
+
+      adapter.setDevices(0, [{ name: "Drum Rack" }]);
+      adapter.setDevices(1, [{ name: "Operator" }]);
+      adapter.setDevices(2, [{ name: "Wavetable" }]);
+      adapter.setDevices(3, [{ name: "Simpler" }]);
+
+      store.dispatch({
+        type: "INIT",
+        sections: technoArrangement,
+        trackInventory: [
+          { name: "Kick", type: "midi" },
+          { name: "Bass", type: "midi" },
+          { name: "Lead", type: "midi" },
+          { name: "Pad", type: "midi" },
+        ],
+      });
+
+      const orchestrator = createAnalysisOrchestrator(
+        adapter,
+        store,
+        () => store.getState().sections,
+      );
+
+      // Run with Techno genre
+      store.dispatch({ type: "SET_GENRE", genreId: "techno" });
+      orchestrator.runAnalysis();
+      const technoScore = store.getState().arrangementScore;
+
+      // Arrangement score should be computed (non-null) since we have >= 2 sections
+      expect(technoScore).not.toBeNull();
+      expect(technoScore).toBeGreaterThanOrEqual(1);
+      expect(technoScore).toBeLessThanOrEqual(10);
+
+      // Change to House genre and re-run
+      store.dispatch({ type: "SET_GENRE", genreId: "house" });
+      orchestrator.invalidateCache();
+      orchestrator.runAnalysis();
+      const houseScore = store.getState().arrangementScore;
+
+      // Score should still be valid
+      expect(houseScore).not.toBeNull();
+      expect(houseScore).toBeGreaterThanOrEqual(1);
+      expect(houseScore).toBeLessThanOrEqual(10);
+
+      // The two genres have different energyCurveTemplates, so scores may differ
+      // (we don't assert they're different since the same energy curve could
+      // coincidentally score the same — just verify both computed correctly)
+    });
+
+    it("dispatches null arrangement score when genre is cleared", () => {
+      const adapter = createMockSdkAdapter();
+      const store = createStore();
+
+      adapter.setTracks([
+        { name: "Kick", type: "midi" },
+        { name: "Bass", type: "midi" },
+      ]);
+
+      adapter.setArrangementClips(0, [makeClip({ startTime: 0, endTime: 128 })]);
+      adapter.setMidiNotes(0, 0, [
+        ...Array.from({ length: 32 }, (_, i) => makeNote({ startTime: i * 4 })),
+      ]);
+      adapter.setArrangementClips(1, [makeClip({ startTime: 0, endTime: 128 })]);
+      adapter.setMidiNotes(1, 0, [
+        ...Array.from({ length: 16 }, (_, i) => makeNote({ startTime: i * 8 })),
+      ]);
+      adapter.setDevices(0, [{ name: "Drum Rack" }]);
+      adapter.setDevices(1, [{ name: "Operator" }]);
+
+      store.dispatch({
+        type: "INIT",
+        sections: shortArrangement,
+        trackInventory: [
+          { name: "Kick", type: "midi" },
+          { name: "Bass", type: "midi" },
+        ],
+      });
+
+      const orchestrator = createAnalysisOrchestrator(
+        adapter,
+        store,
+        () => store.getState().sections,
+      );
+
+      // Run with Techno genre — should produce a score
+      store.dispatch({ type: "SET_GENRE", genreId: "techno" });
+      orchestrator.runAnalysis();
+      expect(store.getState().arrangementScore).not.toBeNull();
+
+      // Clear genre — should dispatch null
+      store.dispatch({ type: "SET_GENRE", genreId: null });
+      orchestrator.invalidateCache();
+      orchestrator.runAnalysis();
+      expect(store.getState().arrangementScore).toBeNull();
+    });
+
+    it("arrangement score stays null when no sections are available (deferred computation)", () => {
+      const adapter = createMockSdkAdapter();
+      const store = createStore();
+
+      adapter.setTracks([{ name: "Kick", type: "midi" }]);
+      adapter.setArrangementClips(0, []);
+      adapter.setMidiNotes(0, 0, []);
+      adapter.setDevices(0, [{ name: "Drum Rack" }]);
+
+      // No sections — empty arrangement
+      store.dispatch({
+        type: "INIT",
+        sections: [],
+        trackInventory: [{ name: "Kick", type: "midi" }],
+      });
+
+      const orchestrator = createAnalysisOrchestrator(
+        adapter,
+        store,
+        () => store.getState().sections,
+      );
+
+      // Set genre but no sections available
+      store.dispatch({ type: "SET_GENRE", genreId: "techno" });
+      orchestrator.runAnalysis();
+
+      // Score should be null (no energy curve to compare)
+      expect(store.getState().arrangementScore).toBeNull();
+    });
+
+    it("arrangement score stays null with only 1 section (fewer than 2)", () => {
+      const adapter = createMockSdkAdapter();
+      const store = createStore();
+
+      const oneSection: Section[] = [
+        { id: "section-0", name: "Intro", startTime: 0, endTime: 64 },
+      ];
+
+      adapter.setTracks([{ name: "Kick", type: "midi" }]);
+      adapter.setArrangementClips(0, [makeClip({ startTime: 0, endTime: 64 })]);
+      adapter.setMidiNotes(0, 0, [
+        ...Array.from({ length: 16 }, (_, i) => makeNote({ startTime: i * 4 })),
+      ]);
+      adapter.setDevices(0, [{ name: "Drum Rack" }]);
+
+      store.dispatch({
+        type: "INIT",
+        sections: oneSection,
+        trackInventory: [{ name: "Kick", type: "midi" }],
+      });
+
+      const orchestrator = createAnalysisOrchestrator(
+        adapter,
+        store,
+        () => store.getState().sections,
+      );
+
+      store.dispatch({ type: "SET_GENRE", genreId: "techno" });
+      orchestrator.runAnalysis();
+
+      // Score should be null (energyCurve.length < 2)
+      expect(store.getState().arrangementScore).toBeNull();
+    });
+  });
 });

@@ -32,6 +32,7 @@ import { handleFrontendMessage } from "./messages.js";
 import { getAllFamilies, search, getProfile, getProfileBySubgenre } from "../core/genre-registry.js";
 import { computeAlignment } from "../core/alignment-scorer.js";
 import { detectArchetype } from "../core/archetype-detector.js";
+import { computeArrangementScore } from "../core/arrangement-score-engine.js";
 import { generateSections } from "../core/section-generator.js";
 
 /** Dialog dimensions (width x height in pixels). */
@@ -92,6 +93,7 @@ export async function openWebviewPanel(
       notes: [...state.notes],
       sectionChecklists,
       djScore: state.djScore,
+      arrangementScore: state.arrangementScore,
       alsLoaded: !!(options?.isAlsLoaded?.()),
       isGenerating: state.isGenerating,
       generationError: state.generationError,
@@ -117,11 +119,48 @@ export async function openWebviewPanel(
     }
 
     try {
+      // Subscribe to arrangementScore changes and prepare arrangement_score_updated
+      // messages. The subscription tracks the previous value and constructs the
+      // BackendMessage when a change is detected — same pattern as dj_score_updated.
+      let prevArrangementScore = state.arrangementScore;
+      const unsubscribeArrangementScore = store.subscribe(() => {
+        const current = store.getState().arrangementScore;
+        if (current !== prevArrangementScore) {
+          prevArrangementScore = current;
+          const _arrangementScoreMsg: BackendMessage = {
+            type: "arrangement_score_updated",
+            score: current,
+          };
+          // NOTE: In production with a bidirectional channel, _arrangementScoreMsg
+          // would be sent to the webview via the host's message bridge.
+          void _arrangementScoreMsg;
+        }
+      });
+
+      let prevDjScore = state.djScore;
+      const unsubscribeDjScore = store.subscribe(() => {
+        const current = store.getState().djScore;
+        if (current !== prevDjScore) {
+          prevDjScore = current;
+          const _djScoreMsg: BackendMessage = {
+            type: "dj_score_updated",
+            djScore: current,
+          };
+          // NOTE: In production with a bidirectional channel, _djScoreMsg
+          // would be sent to the webview via the host's message bridge.
+          void _djScoreMsg;
+        }
+      });
+
       const result = (await ui.showModalDialog(
         url,
         DIALOG_WIDTH,
         DIALOG_HEIGHT
       )) as unknown as string | undefined;
+
+      // Unsubscribe from score updates when the dialog closes
+      unsubscribeArrangementScore();
+      unsubscribeDjScore();
 
       if (result !== undefined && result !== "") {
         // Check if it's a genre selection — if so, save and reopen
@@ -364,6 +403,35 @@ function handleDialogResult(
       // Detect archetype based on current sections and energy curve.
       const archetype = detectArchetype(state.sections, [...state.energyCurve], resolvedProfile);
       store.dispatch({ type: "UPDATE_ARCHETYPE", archetype });
+
+      // Recompute arrangement score with the new genre template.
+      // Only compute when .als data is loaded — avoids showing a preliminary score.
+      // If no genre selected, dispatch null. If energy curve is too short (< 2 sections),
+      // the engine returns null (deferred until analysis produces data).
+      // If genre ID not found in registry, retain previous score.
+      try {
+        const hasAlsForScore = state.automationData !== null;
+        if (!hasAlsForScore) {
+          // .als not loaded — don't show score
+          store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
+        } else if (msg.genreId === null) {
+          store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
+        } else if (resolvedProfile !== null && resolvedProfile !== undefined) {
+          const energyCurve = state.energyCurve;
+          if (energyCurve.length >= 2) {
+            const arrResult = computeArrangementScore({
+              energyCurve: [...energyCurve],
+              idealCurve: resolvedProfile.energyCurveTemplate,
+            });
+            store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: arrResult.score });
+          }
+          // If energyCurve.length < 2, defer — score stays at current value until analysis runs
+        }
+        // If resolvedProfile is null (genre not found), retain previous score unchanged
+      } catch (arrError) {
+        // On error, retain previous score unchanged
+        console.error("[Arrangement Coach] Error recomputing arrangement score on genre change:", arrError);
+      }
 
       // Prepare alignment and archetype update messages for the webview.
       const _alignmentMsg: BackendMessage = {

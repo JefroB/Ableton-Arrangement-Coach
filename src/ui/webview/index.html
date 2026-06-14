@@ -127,6 +127,39 @@ html, body {
 @keyframes generate-spin {
   to { transform: rotate(360deg); }
 }
+/* Arrangement Score Display */
+.arr-score-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 10px;
+  margin: 0 auto;
+  border: 1px solid #444;
+  border-radius: 4px;
+  min-width: 200px;
+}
+.arr-score-display__label {
+  font-size: 12px;
+  color: #ccc;
+  line-height: 1;
+  white-space: nowrap;
+}
+.arr-score-display__right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.arr-score-display__value {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+.arr-score-display__tier {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
 /* Error notification bar */
 .error-notification {
   display: none;
@@ -734,6 +767,13 @@ html, body {
       <span class="generate-btn__label">Generate Sections</span>
       <span class="generate-btn__spinner" aria-hidden="true"></span>
     </button>
+    <div class="arr-score-display" id="arrangementScoreDisplay">
+      <span class="arr-score-display__label">Arrangement Score:</span>
+      <span class="arr-score-display__right">
+        <span class="arr-score-display__value" id="arrScoreValue" style="color:#888888">&ndash;</span>
+        <span class="arr-score-display__tier" id="arrScoreTier"></span>
+      </span>
+    </div>
     <span class="controls-spacer"></span>
     <button class="help-btn als-btn--missing" id="alsBtn" title="Locate .als file for automation detection">&#128269;</button>
     <button class="help-btn" id="helpBtn">?</button>
@@ -809,6 +849,16 @@ html, body {
       <h3>Automation Detection</h3>
       <p>Arrangement Coach reads automation data directly from your saved <code>.als</code> file. <strong>You must save your Live Set before analyzing</strong> for automation (filter sweeps, volume rides, etc.) to be detected. Unsaved changes won't appear in the analysis.</p>
       <p>After drawing automation or making changes, press <strong>Ctrl+S</strong> (Cmd+S on Mac), then click Analyze to get updated results.</p>
+
+      <h3>Arrangement Score</h3>
+      <p>The <strong>Arrangement Score</strong> (1–10) in the controls bar measures how well your arrangement's energy flow matches the ideal curve for your selected genre. It compares the shape and absolute levels of your energy curve against the genre template.</p>
+      <p><strong>Score tiers:</strong></p>
+      <ul>
+        <li><span style="color:#4caf50">&#9632;</span> <strong>8–10 Good</strong> — Your arrangement closely matches the expected energy arc</li>
+        <li><span style="color:#ffca28">&#9632;</span> <strong>5–7 Acceptable</strong> — Some deviation from the ideal curve, but the overall shape works</li>
+        <li><span style="color:#f44336">&#9632;</span> <strong>1–4 Needs Work</strong> — Significant deviation from the genre's expected energy flow</li>
+      </ul>
+      <p>The score updates automatically when you analyze or change genres. Use it as a quick health check — if the score drops after structural changes, review your energy curve for unintended flat spots or missing dynamics.</p>
     </div>
   </div>
 </div>
@@ -854,6 +904,7 @@ var transitionRecommendations = [];
 var notes = [];
 var sectionChecklists = {};
 var djScore = null;
+var arrangementScore = null;
 
 // Generation state
 var isGenerating = false;
@@ -871,6 +922,7 @@ if (window.__INITIAL_STATE__) {
   if (_s.notes) notes = _s.notes;
   if (_s.sectionChecklists) sectionChecklists = _s.sectionChecklists;
   if (_s.djScore) djScore = _s.djScore;
+  if (_s.arrangementScore !== undefined) arrangementScore = _s.arrangementScore;
   if (_s.isGenerating) isGenerating = _s.isGenerating;
   if (_s.generationError) generationError = _s.generationError;
 
@@ -1033,6 +1085,36 @@ function renderEnergy() {
   }
 }
 
+// Render arrangement score display
+function renderArrangementScore() {
+  var valueEl = document.getElementById("arrScoreValue");
+  var tierEl = document.getElementById("arrScoreTier");
+  if (!valueEl || !tierEl) return;
+
+  if (arrangementScore === null || arrangementScore === undefined) {
+    valueEl.textContent = "\u2013";
+    valueEl.style.color = "#888888";
+    tierEl.textContent = "";
+    tierEl.style.color = "";
+  } else {
+    valueEl.textContent = arrangementScore;
+    var color, label;
+    if (arrangementScore >= 8) {
+      color = "#4caf50";
+      label = "Good";
+    } else if (arrangementScore >= 5) {
+      color = "#ffca28";
+      label = "Acceptable";
+    } else {
+      color = "#f44336";
+      label = "Needs Work";
+    }
+    valueEl.style.color = color;
+    tierEl.textContent = label;
+    tierEl.style.color = color;
+  }
+}
+
 // Render issues panel
 function renderIssues() {
   var container = document.getElementById("issuesPanel");
@@ -1040,7 +1122,7 @@ function renderIssues() {
   var filtered = issues;
   if (activeSectionId) {
     filtered = issues.filter(function(iss) {
-      return iss.sectionId === activeSectionId;
+      return iss.sectionIds && iss.sectionIds.indexOf(activeSectionId) !== -1;
     });
     if (filtered.length === 0) filtered = issues;
   }
@@ -1521,6 +1603,7 @@ function renderErrorState() {
 function renderAll() {
   renderGenreBtn();
   renderGenerateButton();
+  renderArrangementScore();
   renderSections();
   renderEnergy();
   renderIssues();
@@ -1541,6 +1624,20 @@ closeWithResult = function(result) {
   result.sectionChecklists = sectionChecklists;
   _originalCloseWithResult(result);
 };
+
+// Listen for backend messages (e.g. score updates pushed while dialog is open)
+window.addEventListener("message", function(event) {
+  var msg = event.data;
+  if (!msg || typeof msg !== "object" || !msg.type) return;
+
+  if (msg.type === "arrangement_score_updated") {
+    // Only update if the value actually changed (avoid unnecessary re-renders)
+    if (msg.score === arrangementScore) return;
+    // If score is null, show the placeholder dash
+    arrangementScore = (msg.score !== undefined) ? msg.score : null;
+    renderArrangementScore();
+  }
+});
 
 // Save notes when the dialog is closed by the user (X button or escape)
 window.addEventListener("pagehide", function() {

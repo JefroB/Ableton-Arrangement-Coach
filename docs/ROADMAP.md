@@ -289,6 +289,22 @@ Consolidate all genre data from scattered TypeScript modules into 28 unified JSO
 
 ---
 
+## Post-M8: Arrangement Score
+
+Single numeric score (1–10) comparing the user's energy curve against the ideal genre template, displayed color-coded in the controls bar.
+
+| # | Task | Status | Spec |
+|---|---|---|---|
+| AS.1 | Arrangement score engine with linear interpolation helper | ✅ | `arrangement-score` |
+| AS.2 | Property-based tests (Properties 1–6) | ✅ | `arrangement-score` |
+| AS.3 | State store and message protocol integration | ✅ | `arrangement-score` |
+| AS.4 | Analysis orchestrator integration (compute + genre change recomputation) | ✅ | `arrangement-score` |
+| AS.5 | Score display in controls bar UI (color-coded, tier labels) | ✅ | `arrangement-score` |
+
+**Done when**: The controls bar displays a color-coded 1–10 arrangement score that updates on analysis and genre change, with 30+ unit/property tests passing.
+
+---
+
 ## Milestone Order & Dependencies
 
 ```
@@ -330,6 +346,7 @@ As specs are created for each milestone, record the link here:
 | Post-M8: MIDI Synth Analysis | `.kiro/specs/midi-synth-analysis` |
 | Post-M8: Section Marker Generation | `.kiro/specs/section-marker-generation` |
 | Post-M8: Genre Data Externalization | `.kiro/specs/genre-data-externalization` |
+| Post-M8: Arrangement Score | `.kiro/specs/arrangement-score` |
 
 ---
 
