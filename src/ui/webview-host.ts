@@ -405,11 +405,16 @@ function handleDialogResult(
       store.dispatch({ type: "UPDATE_ARCHETYPE", archetype });
 
       // Recompute arrangement score with the new genre template.
+      // Only compute when .als data is loaded — avoids showing a preliminary score.
       // If no genre selected, dispatch null. If energy curve is too short (< 2 sections),
       // the engine returns null (deferred until analysis produces data).
       // If genre ID not found in registry, retain previous score.
       try {
-        if (msg.genreId === null) {
+        const hasAlsForScore = state.automationData !== null;
+        if (!hasAlsForScore) {
+          // .als not loaded — don't show score
+          store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
+        } else if (msg.genreId === null) {
           store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
         } else if (resolvedProfile !== null && resolvedProfile !== undefined) {
           const energyCurve = state.energyCurve;

@@ -1281,11 +1281,17 @@ export function createAnalysisOrchestrator(
         }
 
         // Step 13b: Compute arrangement score and dispatch result.
+        // Only compute when .als data is loaded — avoids showing a preliminary score
+        // that drops after .als adds automation to the energy curve.
         try {
           const arrState = store.getState();
           const arrGenreId = arrState.selectedGenreId;
+          const hasAlsForScore = arrState.automationData !== null;
 
-          if (arrGenreId === null) {
+          if (!hasAlsForScore) {
+            // .als not loaded yet — don't show a score
+            store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
+          } else if (arrGenreId === null) {
             // No genre selected — dispatch null score
             store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
           } else {
