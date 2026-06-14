@@ -249,6 +249,12 @@ Special parser modes for non-standard genres (IDM, Glitch, Breakcore, Speedcore)
 
 ---
 
+## Changelog
+
+See [docs/CHANGELOG.md](docs/CHANGELOG.md) for a detailed list of changes per version.
+
+---
+
 ## Credits
 
 Built by [TH3RDWAVE.com](https://TH3RDWAVE.com)

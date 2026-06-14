@@ -34,6 +34,8 @@ import { computeAlignment } from "../core/alignment-scorer.js";
 import { detectArchetype } from "../core/archetype-detector.js";
 import { computeArrangementScore } from "../core/arrangement-score-engine.js";
 import { generateSections } from "../core/section-generator.js";
+import { buildSections } from "../core/section-scanner.js";
+import { buildTrackInventory } from "../core/track-reader.js";
 
 /** Dialog dimensions (width x height in pixels). */
 const DIALOG_WIDTH = 900;
@@ -209,12 +211,14 @@ export async function openWebviewPanel(
         } else if (parsed && parsed.type === "generate_sections") {
           // Handle section marker generation request
           const state = store.getState();
+          console.log("[Arrangement Coach] generate_sections received. Genre:", state.selectedGenreId, "isGenerating:", state.isGenerating, "sdk available:", !!options?.sdk);
 
           // Prevent double-press: if already generating, just reopen
           if (state.isGenerating) {
             keepOpen = true;
           } else if (state.selectedGenreId === null) {
             // No genre selected — cannot generate
+            console.error("[Arrangement Coach] generate_sections blocked: no genre selected");
             store.dispatch({ type: "SET_GENERATION_ERROR", error: "No genre selected" });
             keepOpen = true;
           } else {
@@ -231,7 +235,9 @@ export async function openWebviewPanel(
 
             if (options?.sdk) {
               try {
+                console.log("[Arrangement Coach] Starting generateSections for genre:", state.selectedGenreId);
                 const result = await generateSections(options.sdk, state.selectedGenreId, 4);
+                console.log("[Arrangement Coach] generateSections result:", JSON.stringify(result));
 
                 if (result.success) {
                   // Success: clear generating state and send completion message
@@ -281,7 +287,16 @@ export async function openWebviewPanel(
               void _noSdkMsg;
             }
 
-            // Re-run analysis to pick up new CuePoints as sections
+            // Re-read locators to pick up newly created CuePoints as sections
+            if (options?.sdk) {
+              const freshLocators = options.sdk.readLocators();
+              const freshSections = buildSections(freshLocators);
+              const freshTracks = options.sdk.readTracks();
+              const freshInventory = buildTrackInventory(freshTracks);
+              store.dispatch({ type: "INIT", sections: freshSections, trackInventory: freshInventory });
+            }
+
+            // Re-run analysis to compute energy scores for the new sections
             orchestrator.invalidateCache();
             orchestrator.runAnalysis();
             keepOpen = true; // Reopen with updated state

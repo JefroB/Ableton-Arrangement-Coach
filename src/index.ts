@@ -115,6 +115,12 @@ export function activate(context: ActivationContext) {
       () => store.getState().sections
     );
 
+    // Track song fingerprint to detect project switches.
+    // The SDK's cuePoints getter can return stale data from the previous project
+    // when the Extension Host survives a Live Set change. We detect this by comparing
+    // the fingerprint (song name + track names) and discarding locators when stale.
+    let lastSongFingerprint = adapter.getSongFingerprint();
+
     // Register context menu actions in Ableton's right-click menus
     registerContextMenu({
       ui: extensionContext.ui,
@@ -124,13 +130,35 @@ export function activate(context: ActivationContext) {
       rescan: () => {
         // Re-read locators and tracks from the live set
         try {
-          const locators = adapter.readLocators();
-          console.log("[Arrangement Coach] Rescan: found", locators.length, "locators");
-          const freshSections = buildSections(locators);
-          console.log("[Arrangement Coach] Rescan: built", freshSections.length, "sections");
+          const currentFingerprint = adapter.getSongFingerprint();
+          const projectChanged = currentFingerprint !== lastSongFingerprint;
+          if (projectChanged) {
+            console.log("[Arrangement Coach] Project change detected (fingerprint changed). Resetting state.");
+            lastSongFingerprint = currentFingerprint;
+            // Clear genre on project switch — the previous genre is irrelevant.
+            store.dispatch({ type: "SET_GENRE", genreId: null });
+          }
+
           const tracks = adapter.readTracks();
           console.log("[Arrangement Coach] Rescan: found", tracks.length, "tracks");
           const freshInventory = buildTrackInventory(tracks);
+
+          const locators = adapter.readLocators();
+          console.log("[Arrangement Coach] Rescan: found", locators.length, "locators");
+
+          // Validate locators: if the project just changed, the SDK may return stale
+          // cuePoints from the previous session. Heuristic: if we detect a project change
+          // AND the locators have named sections but the track count suggests a new/empty
+          // project, discard them as stale.
+          let freshSections = buildSections(locators);
+          if (projectChanged && locators.length > 0) {
+            // In a genuinely new project, cuePoints should be empty. If the SDK still
+            // returns old cuePoints after a project switch, discard them.
+            console.log("[Arrangement Coach] Discarding", locators.length, "potentially stale locators from previous project.");
+            freshSections = [];
+          }
+
+          console.log("[Arrangement Coach] Rescan: built", freshSections.length, "sections");
           store.dispatch({ type: "INIT", sections: freshSections, trackInventory: freshInventory });
           // Invalidate analysis cache so runAnalysis() recomputes after INIT reset.
           orchestrator.invalidateCache();

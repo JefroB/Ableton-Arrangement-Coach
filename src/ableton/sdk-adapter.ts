@@ -65,9 +65,8 @@ export interface ParameterDescriptor {
 
 /** Opaque handle representing an SDK CuePoint for creation/deletion. */
 export interface CuePointHandle {
-  readonly name: string;
   readonly time: number;
-  setName(value: string): void;
+  name: string;
 }
 
 // ─── Adapter Interface ─────────────────────────────────────────────────
@@ -124,6 +123,9 @@ export interface SdkAdapter extends AudioRenderAdapter {
 
   /** Read all clips across all tracks for mode selection and content analysis. */
   readAllClips(): { startTime: number; endTime: number; muted: boolean; trackIndex: number }[];
+
+  /** Get a fingerprint of the current song (name + track names). Used for project-change detection. */
+  getSongFingerprint(): string;
 }
 
 // ─── Production Implementation ─────────────────────────────────────────
@@ -473,6 +475,12 @@ export function createSdkAdapter(context: ExtensionContext): SdkAdapter {
         }
       }
       return result;
+    },
+
+    getSongFingerprint(): string {
+      const song = context.application.song;
+      const trackNames = (song.tracks ?? []).map((t: { name: string }) => t.name);
+      return deriveSongFingerprint(song.name, trackNames);
     },
 
     readAudioClips(trackIndex: number): AudioClipData[] {

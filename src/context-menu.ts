@@ -46,10 +46,6 @@ export function registerContextMenu(deps: ContextMenuDependencies): void {
     if (rescan) {
       rescan();
     }
-    if (store.getState().sections.length === 0) {
-      console.error("[Arrangement Coach] No locators found — cannot analyze.");
-      return;
-    }
 
     // Scope analysis to the selected time range if provided
     const selection = arg as { time_selection_start?: number; time_selection_end?: number } | undefined;
@@ -63,9 +59,12 @@ export function registerContextMenu(deps: ContextMenuDependencies): void {
       store.dispatch({ type: "CLEAR_SELECTION_RANGE" });
     }
 
-    // Run analysis synchronously first (energy scores, sections, etc. complete quickly).
-    // The synth/content passes may be slow but are wrapped in try/catch in the orchestrator.
-    orchestrator.runAnalysis();
+    // Run analysis if sections exist (energy scores, etc.)
+    if (store.getState().sections.length > 0) {
+      orchestrator.runAnalysis();
+    }
+
+    // Always open the panel — even with 0 sections, the user may want to generate them.
     if (openPanel) {
       openPanel();
     }
@@ -75,9 +74,6 @@ export function registerContextMenu(deps: ContextMenuDependencies): void {
   commands.registerCommand("arrangement-coach.show-issues", (arg: unknown) => {
     if (rescan) {
       rescan();
-    }
-    if (store.getState().sections.length === 0) {
-      return;
     }
 
     const selection = arg as { time_selection_start?: number; time_selection_end?: number } | undefined;
@@ -91,7 +87,10 @@ export function registerContextMenu(deps: ContextMenuDependencies): void {
       store.dispatch({ type: "CLEAR_SELECTION_RANGE" });
     }
 
-    orchestrator.runAnalysis();
+    if (store.getState().sections.length > 0) {
+      orchestrator.runAnalysis();
+    }
+
     if (openPanel) {
       openPanel();
     }

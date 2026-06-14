@@ -108,6 +108,14 @@ async function executeGeneration(
     };
   }
 
+  // Offset all markers by 4 bars to leave empty space before the first section.
+  // Producers typically leave a few bars of silence/count-in at the start.
+  const offsetBeats = 4 * beatsPerBar;
+  markers = markers.map((m) => ({
+    name: m.name,
+    beatPosition: m.beatPosition + offsetBeats,
+  }));
+
   // Step 5: Remove existing CuePoints before placing new ones (Req 9.5)
   await removeExistingCuePoints(sdk);
 
@@ -165,9 +173,6 @@ async function removeExistingCuePoints(sdk: SdkAdapter): Promise<void> {
     const handle: CuePointHandle = {
       name: last.name,
       time: last.time,
-      setName(_value: string) {
-        // No-op — only needed for creation, not deletion
-      },
     };
 
     await sdk.deleteCuePoint(handle);
@@ -193,7 +198,7 @@ async function createMarkersSequentially(
   for (const marker of markers) {
     try {
       const cuePoint = await sdk.createCuePoint(marker.beatPosition);
-      cuePoint.setName(marker.name);
+      cuePoint.name = marker.name;
       created++;
     } catch (error) {
       // Partial failure — stop and report
