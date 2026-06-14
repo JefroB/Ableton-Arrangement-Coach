@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Version
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-06-14
+
+### Added
+- Version number displayed in the help dialog header (stays in sync with manifest.json on each release)
+
 ## [1.1.0] - 2026-06-14
 
 ### Fixed
