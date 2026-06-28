@@ -9,6 +9,10 @@
  * - "content" mode: timeline has significant content, derive boundaries from clips
  */
 
+// ─── Imports ─────────────────────────────────────────────────────────────
+
+import { getClipCountThreshold, getCoverageThreshold } from './mode-selector-loader.js';
+
 // ─── Types ─────────────────────────────────────────────────────────────
 
 /** A clip's time range and muted state, used for coverage computation. */
@@ -27,14 +31,6 @@ export interface ModeSelectionInput {
 
 /** The two possible generation modes. */
 export type GenerationMode = "minimal" | "content";
-
-// ─── Constants ─────────────────────────────────────────────────────────
-
-/** Minimum number of unmuted clips required for content mode. */
-const CLIP_COUNT_THRESHOLD = 3;
-
-/** Minimum coverage fraction (0–1) of song duration for content mode. */
-const COVERAGE_THRESHOLD = 0.10;
 
 // ─── Helpers ───────────────────────────────────────────────────────────
 
@@ -110,7 +106,7 @@ export function selectMode(input: ModeSelectionInput): GenerationMode {
   const coverageFraction = coverage / songDuration;
 
   // Content mode if EITHER threshold is met
-  if (unmutedCount >= CLIP_COUNT_THRESHOLD || coverageFraction >= COVERAGE_THRESHOLD) {
+  if (unmutedCount >= getClipCountThreshold() || coverageFraction >= getCoverageThreshold()) {
     return "content";
   }
 

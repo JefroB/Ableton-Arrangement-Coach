@@ -146,15 +146,14 @@ export function activate(context: ActivationContext) {
           const locators = adapter.readLocators();
           console.log("[Arrangement Coach] Rescan: found", locators.length, "locators");
 
-          // Validate locators: if the project just changed, the SDK may return stale
-          // cuePoints from the previous session. Heuristic: if we detect a project change
-          // AND the locators have named sections but the track count suggests a new/empty
-          // project, discard them as stale.
+          // Build sections from the locators the SDK returned.
+          // Previously we discarded all locators on project change, assuming they were
+          // stale from the prior session. In practice the SDK returns current data after
+          // a project switch, so we trust them. We only discard if the new project looks
+          // genuinely empty (≤2 tracks, likely default template) but somehow has locators.
           let freshSections = buildSections(locators);
-          if (projectChanged && locators.length > 0) {
-            // In a genuinely new project, cuePoints should be empty. If the SDK still
-            // returns old cuePoints after a project switch, discard them.
-            console.log("[Arrangement Coach] Discarding", locators.length, "potentially stale locators from previous project.");
+          if (projectChanged && locators.length > 0 && tracks.length <= 2) {
+            console.log("[Arrangement Coach] Discarding", locators.length, "potentially stale locators (new project has only", tracks.length, "tracks).");
             freshSections = [];
           }
 

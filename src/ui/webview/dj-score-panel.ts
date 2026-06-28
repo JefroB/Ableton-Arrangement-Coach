@@ -1,13 +1,7 @@
-/**
- * DJ Score Panel — rendering functions for the DJ compatibility score
- * display in the webview.
- *
- * Exports a pure function that produces an HTML string for the DJ score panel,
- * including the total score, component breakdown table, and phrase alignment
- * issues list. Handles null state (no score) and inapplicable genres.
- */
+// src/ui/webview/dj-score-panel.ts
 
 import type { DjScoreResult, DjScoreComponent, PhraseIssue } from "../../core/dj-scorer.js";
+import { getDjScoreClasses } from "../../core/ui-colors-loader.js";
 
 // ─── HTML Escaping ─────────────────────────────────────────────────────
 
@@ -29,10 +23,18 @@ function escapeHtml(text: string): string {
  * Map a DJ score (0–100) to a color class suffix for visual feedback.
  * High scores are green, medium are yellow, low are red.
  */
-function scoreColorClass(score: number): string {
-  if (score >= 75) return "dj-score--good";
-  if (score >= 50) return "dj-score--fair";
-  return "dj-score--poor";
+export function scoreColorClass(score: number): string {
+  const djScoreClasses = getDjScoreClasses();
+
+  for (const entry of djScoreClasses) {
+    if (score >= entry.minScore) {
+      return entry.className;
+    }
+  }
+
+  // Data is sorted descending by minScore; last entry (minScore 0) always matches.
+  // This fallback is unreachable but satisfies the return type.
+  return djScoreClasses[djScoreClasses.length - 1]!.className;
 }
 
 // ─── Component Breakdown Table ─────────────────────────────────────────

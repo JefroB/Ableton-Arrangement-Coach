@@ -1,0 +1,37 @@
+{
+  "filterDevicePatterns": ["filter", "eq", "auto filter"],
+  "excludedParameterNames": ["Device On"],
+  "transitionRelevantPatterns": [
+    "filter freq",
+    "frequency",
+    "cutoff",
+    "resonance",
+    "send",
+    "volume",
+    "pan",
+    "lfo rate",
+    "lfo speed",
+    "chorus",
+    "depth",
+    "decay",
+    "release",
+    "attack",
+    "dry/wet"
+  ],
+  "gapPatterns": [
+    "gradual_sweep",
+    "subtle_variation",
+    "rhythmic_modulation"
+  ],
+  "transitionPatterns": [
+    "build_release",
+    "filter_sweep",
+    "volume_swell"
+  ],
+  "maxSuggestionsPerGap": 3,
+  "maxSuggestionsPerTransition": 2,
+  "genericMixerParams": [
+    { "deviceName": "Mixer", "parameterName": "Track Volume" },
+    { "deviceName": "Mixer", "parameterName": "Track Pan" }
+  ]
+}

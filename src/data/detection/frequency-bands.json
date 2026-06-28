@@ -1,0 +1,34 @@
+{
+  "bands": [
+    {
+      "name": "subBass",
+      "lowHz": 20,
+      "highHz": 60
+    },
+    {
+      "name": "bass",
+      "lowHz": 60,
+      "highHz": 250
+    },
+    {
+      "name": "lowMid",
+      "lowHz": 250,
+      "highHz": 1000
+    },
+    {
+      "name": "mid",
+      "lowHz": 1000,
+      "highHz": 4000
+    },
+    {
+      "name": "highMid",
+      "lowHz": 4000,
+      "highHz": 8000
+    },
+    {
+      "name": "high",
+      "lowHz": 8000,
+      "highHz": 20000
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "defaultThresholds": {
+    "flatEnergyDelta": 1,
+    "repetitionSimilarity": 0.85,
+    "abruptChangeDelta": 5,
+    "crowdingTrackCount": 3,
+    "introMinBars": 16,
+    "outroMinBars": 16
+  },
+  "keywords": {
+    "transition": ["riser", "sweep", "fx", "fill", "trans", "build"],
+    "buildup": ["riser", "sweep"],
+    "dropSectionNames": ["drop", "main", "peak"]
+  },
+  "genreLists": {
+    "dropSuppression": ["techno", "house", "trance", "drum-and-bass"],
+    "repetitionTolerant": ["techno", "ambient-downtempo"],
+    "djOriented": ["techno", "house", "trance", "drum-and-bass"]
+  },
+  "roles": {
+    "synthRepetition": ["lead", "pad", "arpeggio"],
+    "synthDensity": ["lead", "pad", "arpeggio", "chord"]
+  },
+  "numericThresholds": {
+    "missingTransitionDelta": 3,
+    "buildupDensityPerBar": 4,
+    "frequencyCrowdingInfo": 4,
+    "frequencyCrowdingWarning": 5,
+    "audioOccupiedDbfs": -40,
+    "introEnergyMax": 4,
+    "energyMismatchDelta": 2,
+    "synthDensityMinNotesPerBeat": 2.0
+  }
+}

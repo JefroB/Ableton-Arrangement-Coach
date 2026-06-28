@@ -1,0 +1,13 @@
+{
+  "flat-energy": ["Introduce", "Add", "Layer in", "Bring in", "Build up", "Try removing elements before", "Evolve", "Morph"],
+  "missing-transition": ["Add", "Insert", "Place", "Include", "Layer", "Weave in", "Set up", "Create"],
+  "repetition": ["Vary", "Differentiate", "Reshape", "Rework", "Transform", "Evolve", "Reimagine", "Twist"],
+  "abrupt-change": ["Smooth", "Ease", "Prepare", "Soften", "Bridge", "Cushion", "Anticipate", "Telegraph"],
+  "frequency-crowding": ["Thin out", "Separate", "Clear", "Reduce", "Carve space in", "Pare down", "Simplify", "Open up"],
+  "intro-length": ["Extend", "Lengthen", "Expand", "Stretch", "Grow", "Develop", "Build out", "Give more room to"],
+  "outro-length": ["Extend", "Lengthen", "Expand", "Stretch", "Grow", "Develop", "Build out", "Give more room to"],
+  "intro-energy": ["Lower", "Reduce", "Pull back", "Dial down", "Soften", "Strip back", "Simplify", "Calm"],
+  "energy-mismatch": ["Balance", "Match", "Align", "Adjust", "Bring closer", "Reconcile", "Even out", "Harmonize"],
+  "audio-variation": ["Vary", "Process", "Transform", "Rework", "Automate", "Resample", "Evolve", "Modulate"],
+  "freq-balance": ["Reinforce", "Boost", "Add", "Layer in", "Beef up", "Strengthen", "Fill out", "Support"]
+}

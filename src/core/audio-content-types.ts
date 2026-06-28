@@ -22,16 +22,6 @@ export interface FrequencyBandRange {
   readonly highHz: number;
 }
 
-/** The six standard frequency bands used for spectral energy analysis. */
-export const FREQUENCY_BANDS: readonly FrequencyBandRange[] = [
-  { name: "subBass", lowHz: 20, highHz: 60 },
-  { name: "bass", lowHz: 60, highHz: 250 },
-  { name: "lowMid", lowHz: 250, highHz: 1000 },
-  { name: "mid", lowHz: 1000, highHz: 4000 },
-  { name: "highMid", lowHz: 4000, highHz: 8000 },
-  { name: "high", lowHz: 8000, highHz: 20000 },
-] as const;
-
 // ─── Spectral Profile ─────────────────────────────────────────────────
 
 /** Per-track-per-section spectral energy distribution and tonal character. */
@@ -201,3 +191,7 @@ export interface UpdateAudioContentAnalysisAction {
   readonly type: typeof UPDATE_AUDIO_CONTENT_ANALYSIS;
   readonly audioContent: AudioContentResults;
 }
+
+// ─── Re-exports ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export { FREQUENCY_BANDS } from './frequency-bands-loader.js';

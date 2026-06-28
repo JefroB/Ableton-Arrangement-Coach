@@ -13,8 +13,9 @@ import type {
   FrequencyBandName,
   SpectralProfile,
 } from "./audio-content-types";
+import { getRoleThresholds, getNameHintPatterns } from "./role-classification-loader.js";
 
-// ─── Helpers ──────────────────────────────────────────────────────────
+// ━━━ Helpers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /**
  * Convert a dBFS band energy value to linear power.
@@ -86,7 +87,7 @@ function computeTotalLinearEnergy(
   return total;
 }
 
-// ─── Track Name Detection ─────────────────────────────────────────────
+// ━━━ Track Name Detection ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /** Name-based role hints from track names. */
 type NameHint = "bass" | "vocal" | "drums" | "pad" | null;
@@ -96,10 +97,11 @@ type NameHint = "bass" | "vocal" | "drums" | "pad" | null;
  */
 function getNameHint(trackName: string): NameHint {
   const lower = trackName.toLowerCase();
-  if (/\b(drum|drums|loop)\b/.test(lower)) return "drums";
-  if (/\b(vox|vocal|vocals)\b/.test(lower)) return "vocal";
-  if (/\bbass\b/.test(lower)) return "bass";
-  if (/\bpad\b/.test(lower)) return "pad";
+  const patterns = getNameHintPatterns();
+  if (patterns.drums.test(lower)) return "drums";
+  if (patterns.vocal.test(lower)) return "vocal";
+  if (patterns.bass.test(lower)) return "bass";
+  if (patterns.pad.test(lower)) return "pad";
   return null;
 }
 
@@ -121,25 +123,32 @@ function nameHintToRole(hint: NameHint): AudioInstrumentRole | null {
   }
 }
 
-// ─── Rule Checkers ────────────────────────────────────────────────────
+// ━━━ Rule Checkers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function isDrums(
   totalLinear: number,
   bands: Readonly<Record<FrequencyBandName, number>>,
   transientDensity: number,
 ): boolean {
-  // Transient density > 8 per bar AND no single band > 40% of total
-  return transientDensity > 8 && maxBandFraction(bands, totalLinear) <= 0.4;
+  const thresholds = getRoleThresholds();
+  // Transient density > threshold per bar AND no single band > ceiling of total
+  return (
+    transientDensity > thresholds.drums.transientDensityMin &&
+    maxBandFraction(bands, totalLinear) <= thresholds.drums.maxBandFractionCeiling
+  );
 }
 
 function isVocal(profile: SpectralProfile): boolean {
+  const thresholds = getRoleThresholds();
   const { centroidPerWindow, bands } = profile;
 
-  // Centroid > 2000 Hz for 70%+ of frames
+  // Centroid > threshold Hz for fraction+ of frames
   if (centroidPerWindow.length === 0) return false;
-  const highCentroidCount = centroidPerWindow.filter((c) => c > 2000).length;
+  const highCentroidCount = centroidPerWindow.filter(
+    (c) => c > thresholds.vocal.centroidMin,
+  ).length;
   const highCentroidRatio = highCentroidCount / centroidPerWindow.length;
-  if (highCentroidRatio < 0.7) return false;
+  if (highCentroidRatio < thresholds.vocal.highCentroidFrameFraction) return false;
 
   // 3+ formant-like peaks in 300–3000 Hz range.
   // Formant-like peaks are energy peaks in the lowMid and mid bands
@@ -162,13 +171,17 @@ function isVocal(profile: SpectralProfile): boolean {
 
   // Both lowMid and mid must contribute meaningfully (proxy for 3+ peaks spanning 300-3000 Hz)
   // A vocal with 3+ formants will show energy in both lowMid (250-1000) covering F1
-  // and mid (1000-4000) covering F2, F3. We require both to have at least 10% of total energy.
+  // and mid (1000-4000) covering F2, F3. We require both to have at least formantFractionMin
+  // of total energy.
   const lowMidFraction = lowMidLinear / totalLinear;
   const midFraction = midLinear / totalLinear;
 
-  // 3 formant peaks spaced 500-1500 Hz apart implies energy spread across lowMid + mid.
-  // If both bands have >10% energy, that suggests at least the fundamental + 2 formants.
-  return lowMidFraction >= 0.1 && midFraction >= 0.1;
+  // formantCountMin formant peaks spaced 500-1500 Hz apart implies energy spread across lowMid + mid.
+  // If both bands have >formantFractionMin energy, that suggests at least the fundamental + 2 formants.
+  return (
+    lowMidFraction >= thresholds.vocal.formantFractionMin &&
+    midFraction >= thresholds.vocal.formantFractionMin
+  );
 }
 
 function isBass(
@@ -176,12 +189,16 @@ function isBass(
   bands: Readonly<Record<FrequencyBandName, number>>,
   transientDensity: number,
 ): boolean {
-  // 60%+ energy below 250 Hz (subBass + bass), transient density < 4/bar
+  const thresholds = getRoleThresholds();
+  // energyFractionMin+ energy below frequencyCeiling Hz (subBass + bass), transient density < ceiling/bar
   const lowFraction = bandEnergyFraction(bands, totalLinear, [
     "subBass",
     "bass",
   ]);
-  return lowFraction >= 0.6 && transientDensity < 4;
+  return (
+    lowFraction >= thresholds.bass.energyFractionMin &&
+    transientDensity < thresholds.bass.transientDensityCeiling
+  );
 }
 
 function isSynthLead(
@@ -189,12 +206,16 @@ function isSynthLead(
   bands: Readonly<Record<FrequencyBandName, number>>,
   transientDensity: number,
 ): boolean {
-  // 60%+ energy 1000–8000 Hz (mid + highMid), transient density < 4/bar
+  const thresholds = getRoleThresholds();
+  // energyFractionMin+ energy 1000–8000 Hz (mid + highMid), transient density < ceiling/bar
   const midHighFraction = bandEnergyFraction(bands, totalLinear, [
     "mid",
     "highMid",
   ]);
-  return midHighFraction >= 0.6 && transientDensity < 4;
+  return (
+    midHighFraction >= thresholds.synthLead.energyFractionMin &&
+    transientDensity < thresholds.synthLead.transientDensityCeiling
+  );
 }
 
 function isSynthPad(
@@ -203,13 +224,18 @@ function isSynthPad(
   transientDensity: number,
   spectralFlux: number,
 ): boolean {
-  // 60%+ energy 200–2000 Hz (bass + lowMid + mid), transient density < 2/bar, spectral flux < 0.1
+  const thresholds = getRoleThresholds();
+  // energyFractionMin+ energy 200–2000 Hz (bass + lowMid + mid), transient density < ceiling/bar, spectral flux < ceiling
   const padFraction = bandEnergyFraction(bands, totalLinear, [
     "bass",
     "lowMid",
     "mid",
   ]);
-  return padFraction >= 0.6 && transientDensity < 2 && spectralFlux < 0.1;
+  return (
+    padFraction >= thresholds.synthPad.energyFractionMin &&
+    transientDensity < thresholds.synthPad.transientDensityCeiling &&
+    spectralFlux < thresholds.synthPad.spectralFluxCeiling
+  );
 }
 
 function isFullMix(
@@ -217,15 +243,16 @@ function isFullMix(
   bands: Readonly<Record<FrequencyBandName, number>>,
   transientDensity: number,
 ): boolean {
-  // No single band > 35%, transient density 4–8/bar
+  const thresholds = getRoleThresholds();
+  // No single band > ceiling%, transient density between low–high/bar
   return (
-    maxBandFraction(bands, totalLinear) <= 0.35 &&
-    transientDensity >= 4 &&
-    transientDensity <= 8
+    maxBandFraction(bands, totalLinear) <= thresholds.fullMix.maxBandFractionCeiling &&
+    transientDensity >= thresholds.fullMix.transientDensityLow &&
+    transientDensity <= thresholds.fullMix.transientDensityHigh
   );
 }
 
-// ─── Main Classifier ──────────────────────────────────────────────────
+// ━━━ Main Classifier ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /**
  * Classify an audio track's musical function from spectral and temporal features.

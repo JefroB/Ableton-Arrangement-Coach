@@ -1,0 +1,45 @@
+{
+  "defaultWeights": {
+    "base": {
+      "trackCountWeight": 0.20,
+      "midiDensityWeight": 0.25,
+      "trackPresenceWeight": 0.15,
+      "automationWeight": 0.00,
+      "frequencyCoverageWeight": 0.10,
+      "velocityIntensityWeight": 0.15,
+      "polyphonyScoreWeight": 0.10,
+      "pitchRangeWeight": 0.05
+    },
+    "withAls": {
+      "trackCountWeight": 0.18,
+      "midiDensityWeight": 0.20,
+      "trackPresenceWeight": 0.12,
+      "automationWeight": 0.15,
+      "frequencyCoverageWeight": 0.10,
+      "velocityIntensityWeight": 0.12,
+      "polyphonyScoreWeight": 0.08,
+      "pitchRangeWeight": 0.05
+    },
+    "withAudio": {
+      "trackCountWeight": 0.16,
+      "midiDensityWeight": 0.20,
+      "trackPresenceWeight": 0.12,
+      "automationWeight": 0.12,
+      "frequencyCoverageWeight": 0.08,
+      "velocityIntensityWeight": 0.10,
+      "polyphonyScoreWeight": 0.07,
+      "pitchRangeWeight": 0.00,
+      "audioEnergyWeight": 0.15
+    }
+  },
+  "defaultThresholds": {
+    "flatEnergyDelta": 1,
+    "repetitionSimilarity": 0.85,
+    "abruptChangeDelta": 5,
+    "crowdingTrackCount": 3,
+    "introMinBars": 16,
+    "outroMinBars": 16
+  },
+  "defaultDeviationThresholdDb": 6,
+  "rhythmicDeviationThreshold": 0.30
+}

@@ -183,9 +183,9 @@ export async function openWebviewPanel(
           orchestrator.runAnalysis();
           keepOpen = true; // Reopen dialog with updated state
         } else if (parsed && parsed.type === "analyze") {
-          // Re-analyze and reopen with fresh results
+          // Re-analyze and reopen with fresh results (including audio analysis)
           orchestrator.invalidateCache();
-          orchestrator.runAnalysis();
+          orchestrator.runAnalysis({ includeAudioAnalysis: true });
           keepOpen = true;
         } else if (parsed && parsed.type === "set_als_path") {
           // User provided .als path from the overlay
@@ -465,13 +465,13 @@ function handleDialogResult(
     },
 
     request_analysis: () => {
-      // Trigger a full re-analysis of the arrangement.
-      orchestrator.runAnalysis();
+      // Trigger a full re-analysis of the arrangement (including audio).
+      orchestrator.runAnalysis({ includeAudioAnalysis: true });
     },
 
     refresh: () => {
-      // Alias for request_analysis — triggers a full re-analysis.
-      orchestrator.runAnalysis();
+      // Alias for request_analysis — triggers a full re-analysis (including audio).
+      orchestrator.runAnalysis({ includeAudioAnalysis: true });
     },
 
     set_als_path: (msg) => {
