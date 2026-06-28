@@ -30,8 +30,10 @@ find-violations.cjs
 validate-trance.js
 transition-test-output.txt
 
-# SDK documentation (Ableton proprietary)
-docs/sdk docs/
+# Docs - ignore everything except CHANGELOG and ROADMAP
+docs/*
+!docs/CHANGELOG.md
+!docs/ROADMAP.md
 
 # SubAgent-Coder system (local infrastructure, not project source)
 SubAgent-Coder/
