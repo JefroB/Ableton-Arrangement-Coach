@@ -11,6 +11,7 @@ import type { FrequencyBucket } from "./track-categorizer.js";
 import type { AudioContentResults, SpectralProfile, FrequencyBandName } from "./audio-content-types.js";
 import { FREQUENCY_BANDS } from "./audio-content-types.js";
 import { computeCosineSimilarity } from "./audio-cross-section.js";
+import { getTechniqueNames, getCategoryPriorities, getBoundaryKeywords, getSizeConfig, getAudioSpectralChangeThreshold } from "./transition-loader.js";
 
 // ─── Types ─────────────────────────────────────────────────────────────
 
@@ -76,45 +77,6 @@ export interface TransitionEngineInput {
   readonly audioContentAnalysis?: AudioContentResults | null;
 }
 
-// ─── Constants ─────────────────────────────────────────────────────────
-
-/** Category priority lists by energy direction (default, no genre override). */
-const POSITIVE_CATEGORIES: readonly TransitionCategory[] = [
-  "riser",
-  "drum_fill",
-  "filter_sweep",
-  "volume_dynamics",
-];
-
-const NEGATIVE_CATEGORIES: readonly TransitionCategory[] = [
-  "filter_sweep",
-  "volume_dynamics",
-  "impact",
-  "textural_fx",
-];
-
-const ZERO_CATEGORIES: readonly TransitionCategory[] = [
-  "textural_fx",
-  "filter_sweep",
-  "drum_fill",
-];
-
-/** Named techniques for each category. */
-const TECHNIQUE_NAMES: Record<TransitionCategory, readonly string[]> = {
-  riser: ["white noise sweep", "pitch riser", "synth riser", "filtered noise build", "tonal uplifter", "granular swell", "vocal rise", "atonal tension riser"],
-  drum_fill: ["snare roll", "tom fill", "percussion build", "hat acceleration", "kick pattern intensification", "tribal fill", "rim shot roll", "cross-stick build"],
-  filter_sweep: ["low-pass opening", "high-pass closing", "band-pass sweep", "resonant filter ride", "comb filter shift", "formant sweep", "notch filter movement", "dual-filter crossfade"],
-  volume_dynamics: ["crescendo swell", "fade out", "volume automation", "sidechain pump increase", "ducking release", "compression drive", "limiter push", "parallel compression blend"],
-  impact: ["crash hit", "reverse crash", "sub drop", "layered impact stack", "noise burst", "kick impact", "tape stop hit", "distorted slam"],
-  textural_fx: ["reverb wash", "delay swell", "texture layer", "granular scatter", "stutter edit", "convolution shift", "bit-crush fade", "stereo field expansion"],
-};
-
-/** Drop boundary name keywords (case-insensitive) — used in selectCategories. */
-const DROP_KEYWORDS = ["drop", "main", "peak", "climax"];
-
-/** Breakdown boundary name keywords (case-insensitive). */
-const BREAKDOWN_KEYWORDS = ["breakdown", "break", "bridge"];
-
 // ─── Helpers ───────────────────────────────────────────────────────────
 
 /** Determine energy direction from signed delta. */
@@ -126,57 +88,32 @@ function getEnergyDirection(delta: number): "positive" | "negative" | "zero" {
 
 /** Get the default category priority list for an energy direction. */
 function getDirectionCategories(direction: "positive" | "negative" | "zero"): readonly TransitionCategory[] {
-  switch (direction) {
-    case "positive":
-      return POSITIVE_CATEGORIES;
-    case "negative":
-      return NEGATIVE_CATEGORIES;
-    case "zero":
-      return ZERO_CATEGORIES;
-  }
+  return getCategoryPriorities()[direction];
 }
 
 /** Classify transition size from absolute delta. */
 function classifySize(absDelta: number): TransitionSize {
-  if (absDelta <= 2) return "small";
-  if (absDelta <= 4) return "medium";
+  const config = getSizeConfig();
+  if (config.small.maxDelta !== null && absDelta <= config.small.maxDelta) return "small";
+  if (config.medium.maxDelta !== null && absDelta <= config.medium.maxDelta) return "medium";
   return "large";
 }
 
 /** Get the technique count for a given size. */
 function getTechniqueCount(size: TransitionSize): number {
-  switch (size) {
-    case "small":
-      return 1;
-    case "medium":
-      return 2;
-    case "large":
-      return 3;
-  }
+  return getSizeConfig()[size].techniqueCount;
 }
 
 /** Get the default duration range for a size. */
 function getDurationRange(size: TransitionSize): { min: number; max: number } {
-  switch (size) {
-    case "small":
-      return { min: 2, max: 4 };
-    case "medium":
-      return { min: 4, max: 8 };
-    case "large":
-      return { min: 8, max: 32 };
-  }
+  const [min, max] = getSizeConfig()[size].durationBars;
+  return { min, max };
 }
 
 /** Get the checklist item count range for a size. */
 function getChecklistCountRange(size: TransitionSize): { min: number; max: number } {
-  switch (size) {
-    case "small":
-      return { min: 2, max: 3 };
-    case "medium":
-      return { min: 3, max: 4 };
-    case "large":
-      return { min: 4, max: 5 };
-  }
+  const [min, max] = getSizeConfig()[size].checklistItems;
+  return { min, max };
 }
 
 /** Check if a section name contains any of the given keywords (case-insensitive). */
@@ -184,9 +121,6 @@ function nameContainsKeyword(name: string, keywords: readonly string[]): boolean
   const lower = name.toLowerCase();
   return keywords.some((kw) => lower.includes(kw));
 }
-
-/** Cosine similarity threshold below which an audio track is considered to have "changed". */
-const AUDIO_SPECTRAL_CHANGE_THRESHOLD = 0.7;
 
 /**
  * Convert a SpectralProfile's dBFS band energies to a linear power vector
@@ -239,7 +173,7 @@ export function computeAudioSpectralContrast(
     const toVector = spectralProfileToLinearVector(toResult.spectralProfile);
     const similarity = computeCosineSimilarity(fromVector, toVector);
 
-    if (similarity < AUDIO_SPECTRAL_CHANGE_THRESHOLD) {
+    if (similarity < getAudioSpectralChangeThreshold()) {
       changedTrackCount++;
     }
   }
@@ -282,7 +216,7 @@ function detectBoundaryType(
   const precedingLower = precedingName.toLowerCase();
 
   // 1. Drop boundary (highest priority) — name confirmation OR unique energy peak
-  if (nameContainsKeyword(followingName, DROP_KEYWORDS) && energyDelta > 0 && absDelta >= 2) {
+  if (nameContainsKeyword(followingName, getBoundaryKeywords().drop) && energyDelta > 0 && absDelta >= 2) {
     return "drop";
   }
   const maxEnergy = Math.max(...energyCurve);
@@ -292,7 +226,7 @@ function detectBoundaryType(
   }
 
   // 2. Chorus entry — confirmed by name, or inferred from high energy after prechorus
-  if (nameContainsKeyword(followingName, CHORUS_KEYWORDS) && !nameContainsKeyword(followingName, DROP_KEYWORDS)) {
+  if (nameContainsKeyword(followingName, CHORUS_KEYWORDS) && !nameContainsKeyword(followingName, getBoundaryKeywords().drop)) {
     return "chorus_entry";
   }
   // Inferred: following section is at max or near-max energy and preceding is a prechorus
@@ -306,7 +240,7 @@ function detectBoundaryType(
   }
 
   // 4. Breakdown entry — confirmed by name, or inferred from large negative delta
-  if (nameContainsKeyword(followingName, BREAKDOWN_KEYWORDS) && energyDelta < 0) {
+  if (nameContainsKeyword(followingName, getBoundaryKeywords().breakdown) && energyDelta < 0) {
     return "breakdown";
   }
   // Inferred: large negative delta (≥3) entering a section that isn't a verse
@@ -421,7 +355,7 @@ function selectCategories(
 
 /** Pick a named technique for a category. Uses deterministic selection based on index. */
 function pickTechnique(category: TransitionCategory, index: number, durationBars: number): Technique {
-  const names = TECHNIQUE_NAMES[category];
+  const names = getTechniqueNames()[category];
   const name = names[index % names.length] as string;
   return {
     category,

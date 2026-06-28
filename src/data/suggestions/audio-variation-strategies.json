@@ -1,0 +1,38 @@
+{
+  "strategies": [
+    "using a different sample or applying processing automation",
+    "automating filter cutoff, reverb send, or distortion across these sections",
+    "layering a variation or applying subtle pitch shifting for variety",
+    "applying a different processing chain or automating wet/dry mix for movement",
+    "chopping and rearranging the audio differently in later sections",
+    "resampling through a different effect chain for timbral contrast",
+    "applying granular processing to create textural evolution over time",
+    "bouncing with a different EQ curve or saturation setting per section",
+    "using a half-speed or double-speed variation for rhythmic contrast",
+    "automating stereo width or panning movement across the repeated sections"
+  ],
+  "genericVerbs": ["Consider", "Try", "Adjust", "Revisit", "Evaluate", "Experiment with", "Rethink", "Explore"],
+  "genericTransitions": [
+    "riser",
+    "build",
+    "sweep",
+    "tension element",
+    "fill",
+    "reverse hit",
+    "noise swell",
+    "filter automation",
+    "delay throw",
+    "snare acceleration",
+    "impact hit",
+    "downlifter",
+    "silence gap",
+    "vocal riser",
+    "percussion build",
+    "sidechain increase",
+    "volume swell",
+    "pitch bend",
+    "stutter edit",
+    "tape stop"
+  ],
+  "framingModes": ["directive", "observational", "question", "goal", "comparison"]
+}

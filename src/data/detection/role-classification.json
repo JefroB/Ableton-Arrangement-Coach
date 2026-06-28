@@ -1,0 +1,43 @@
+{
+  "thresholds": {
+    "drums": {
+      "transientDensityMin": 8,
+      "maxBandFractionCeiling": 0.4
+    },
+    "vocal": {
+      "centroidMin": 2000,
+      "highCentroidFrameFraction": 0.7,
+      "formantFractionMin": 0.1,
+      "formantCountMin": 3
+    },
+    "bass": {
+      "energyFractionMin": 0.6,
+      "frequencyCeiling": 250,
+      "transientDensityCeiling": 4
+    },
+    "synthLead": {
+      "energyFractionMin": 0.6,
+      "lowFrequencyBound": 1000,
+      "highFrequencyBound": 8000,
+      "transientDensityCeiling": 4
+    },
+    "synthPad": {
+      "energyFractionMin": 0.6,
+      "lowFrequencyBound": 200,
+      "highFrequencyBound": 2000,
+      "transientDensityCeiling": 2,
+      "spectralFluxCeiling": 0.1
+    },
+    "fullMix": {
+      "maxBandFractionCeiling": 0.35,
+      "transientDensityLow": 4,
+      "transientDensityHigh": 8
+    }
+  },
+  "nameHintPatterns": {
+    "drums": "\\b(drum|drums|loop|beat|break|perc|percussion|kick|snare|hat|hihat|cymbal|tom|ride|crash|clap|rim|shaker|tambourine|cowbell|conga|bongo|timbale)\\b",
+    "vocal": "\\b(vox|vocal|vocals|voice|sing|acapella|choir|adlib|spoken|speech)\\b",
+    "bass": "\\b(bass|sub|808|reese|bassline|subbass)\\b",
+    "pad": "\\b(pad|pads|atmosphere|atmos|ambient|wash)\\b"
+  }
+}

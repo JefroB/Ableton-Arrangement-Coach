@@ -6,34 +6,17 @@
  * using priority-ordered pattern matching.
  */
 
+import { getTrackNamePatterns, getDeviceNamePatterns } from "./track-patterns-loader.js";
+
 // ─── Domain Type ───────────────────────────────────────────────────────
 
 /** The spectral region a track primarily occupies. */
 export type FrequencyBucket = "sub" | "bass" | "low-mid" | "mid" | "high-mid" | "high" | "full";
 
-// ─── Pattern Tables ────────────────────────────────────────────────────
+// ─── Pattern Tables (loaded from externalized JSON via track-patterns-loader) ──
 
-/**
- * Track name patterns checked in priority order.
- * First match wins — sub is checked before bass, so "sub bass" → "sub".
- */
-const TRACK_NAME_PATTERNS: readonly { readonly bucket: FrequencyBucket; readonly patterns: readonly string[] }[] = [
-  { bucket: "sub", patterns: ["sub", "808"] },
-  { bucket: "bass", patterns: ["kick", "bass"] },
-  { bucket: "low-mid", patterns: ["guitar", "keys"] },
-  { bucket: "mid", patterns: ["pad", "strings", "chord", "piano"] },
-  { bucket: "high-mid", patterns: ["lead", "vocal", "vox"] },
-  { bucket: "high", patterns: ["hat", "hihat", "cymbal", "shaker", "perc"] },
-];
-
-/**
- * Device name patterns checked when no track name pattern matches.
- * First match wins across all device name entries.
- */
-const DEVICE_NAME_PATTERNS: readonly { readonly bucket: FrequencyBucket; readonly patterns: readonly string[] }[] = [
-  { bucket: "bass", patterns: ["operator", "drum rack"] },
-  { bucket: "mid", patterns: ["simpler", "wavetable", "collision"] },
-];
+const TRACK_NAME_PATTERNS = getTrackNamePatterns();
+const DEVICE_NAME_PATTERNS = getDeviceNamePatterns();
 
 // ─── Pure Function ─────────────────────────────────────────────────────
 

@@ -305,6 +305,93 @@ Single numeric score (1–10) comparing the user's energy curve against the idea
 
 ---
 
+## Post-M8: Transition Data Externalization
+
+Extract hardcoded transition data (~55 strings, ~18 numbers) from `transition-engine.ts` into a JSON config file with a validated loader module.
+
+| # | Task | Status | Spec |
+|---|---|---|---|
+| TDE.1 | TypeScript types and JSON data file | ✅ | `transition-data-externalization` |
+| TDE.2 | Transition loader module with validation and accessors | ✅ | `transition-data-externalization` |
+| TDE.3 | Engine integration (replace hardcoded constants with loader calls) | ✅ | `transition-data-externalization` |
+| TDE.4 | Remove hardcoded constants from transition engine | ✅ | `transition-data-externalization` |
+| TDE.5 | Property-based tests (5 properties, 45 tests) | ✅ | `transition-data-externalization` |
+
+**Done when**: All transition data lives in `src/data/transitions/transition-config.json`, loaded via static import with validation, old constants are removed, behavior is identical, and 45 property tests confirm correctness.
+
+---
+
+## Post-M8: Default Energy Weights Externalization
+
+Externalize hardcoded energy weights, deviation thresholds, and genre threshold defaults from `genre-registry.ts` into a validated JSON data file with a loader module.
+
+| # | Task | Status | Spec |
+|---|---|---|---|
+| EWE.1 | JSON data file with all weight/threshold values | ✅ | `default-energy-weights-externalization` |
+| EWE.2 | Loader module with static import and validation | ✅ | `default-energy-weights-externalization` |
+| EWE.3 | Typed accessor functions from loader | ✅ | `default-energy-weights-externalization` |
+| EWE.4 | Genre registry integration (replace hardcoded constants) | ✅ | `default-energy-weights-externalization` |
+| EWE.5 | Property-based tests (6 properties) | ✅ | `default-energy-weights-externalization` |
+| EWE.6 | Build verification and .ablx packaging | ✅ | `default-energy-weights-externalization` |
+
+**Done when**: All default energy weights and thresholds live in `src/data/scoring/energy-weights.json`, loaded via static import with validation, hardcoded constants are removed from genre-registry, behavior is identical, and 6 property tests confirm weight-sum invariant.
+
+---
+
+## Post-M8: Issue Detector Keywords Externalization
+
+Externalize hardcoded keyword arrays (~30 strings) and numeric detection thresholds (~15 values) from `issue-detector.ts` into a validated JSON data file with a loader module.
+
+| # | Task | Status | Spec |
+|---|---|---|---|
+| IDKE.1 | JSON data file with all keywords, genre lists, roles, and thresholds | ✅ | `issue-detector-keywords-externalization` |
+| IDKE.2 | Loader module with static import, validation, and accessor functions | ✅ | `issue-detector-keywords-externalization` |
+| IDKE.3 | Issue detector integration (replace hardcoded constants and numeric literals) | ✅ | `issue-detector-keywords-externalization` |
+| IDKE.4 | Property-based tests (6 properties, 48 tests) | ✅ | `issue-detector-keywords-externalization` |
+| IDKE.5 | Build verification and behavioral equivalence | ✅ | `issue-detector-keywords-externalization` |
+
+**Done when**: All issue detection keywords, genre lists, role arrays, and numeric thresholds live in `src/data/detection/issue-thresholds.json`, loaded via static import with validation, hardcoded constants are removed from issue-detector, behavior is identical, and 48 property tests confirm correctness.
+
+---
+
+## Post-M8: Detection Data Externalization
+
+Externalize hardcoded detection thresholds, classification rules, and pattern data from three source modules (audio-role-classifier, content-analyzer, automation-suggester) into JSON configuration files with dedicated loader modules.
+
+| # | Task | Status | Spec |
+|---|---|---|---|
+| DDE.1 | JSON configuration files (role-classification, content-classification, automation-patterns) | ✅ | `detection-data-externalization` |
+| DDE.2 | Loader modules with validation, deep-freeze, and typed accessors | ✅ | `detection-data-externalization` |
+| DDE.3 | Refactor source files to use loader accessors | ✅ | `detection-data-externalization` |
+| DDE.4 | Property-based tests for validators (4 properties) | ✅ | `detection-data-externalization` |
+| DDE.5 | Property-based tests for behavioral equivalence (3 properties) | ✅ | `detection-data-externalization` |
+| DDE.6 | Final build and .ablx packaging | ✅ | `detection-data-externalization` |
+
+**Done when**: All detection thresholds, classification rules, and pattern data live in 3 JSON files loaded via static imports with validation, hardcoded constants are removed from all 3 source modules, behavior is identical, and 50 property tests confirm correctness (7 properties across validation, immutability, and behavioral equivalence).
+
+---
+
+## Post-M8: Remaining Data Externalization
+
+Externalize the final six hardcoded data sets (items 10–15) from TypeScript source files into JSON configuration files with validated loader modules.
+
+| # | Task | Status | Spec |
+|---|---|---|---|
+| RDE.1 | JSON configuration data files (5 JSON files) | ✅ | `remaining-data-externalization` |
+| RDE.2 | Archetype config loader module | ✅ | `remaining-data-externalization` |
+| RDE.3 | UI colors loader module | ✅ | `remaining-data-externalization` |
+| RDE.4 | Frequency bands loader module | ✅ | `remaining-data-externalization` |
+| RDE.5 | Alignment weights and mode selector loader modules | ✅ | `remaining-data-externalization` |
+| RDE.6 | Validator property tests (Properties 1–5) | ✅ | `remaining-data-externalization` |
+| RDE.7 | Deep-freeze immutability property test (Property 6) | ✅ | `remaining-data-externalization` |
+| RDE.8 | Refactor 6 source modules to use loaders | ✅ | `remaining-data-externalization` |
+| RDE.9 | Behavioral equivalence property tests (Properties 7–11) | ✅ | `remaining-data-externalization` |
+| RDE.10 | Final build verification and .ablx packaging | ✅ | `remaining-data-externalization` |
+
+**Done when**: All 6 remaining hardcoded data sets (archetype detection thresholds, UI colors, frequency bands, alignment weights, mode selector thresholds) live in JSON files loaded via static imports with validation, hardcoded constants are removed from all source modules, behavior is identical, and 54 property tests confirm correctness (11 properties: 5 validators + 1 immutability + 5 behavioral equivalence).
+
+---
+
 ## Milestone Order & Dependencies
 
 ```
@@ -347,6 +434,29 @@ As specs are created for each milestone, record the link here:
 | Post-M8: Section Marker Generation | `.kiro/specs/section-marker-generation` |
 | Post-M8: Genre Data Externalization | `.kiro/specs/genre-data-externalization` |
 | Post-M8: Arrangement Score | `.kiro/specs/arrangement-score` |
+| Post-M8: Transition Data Externalization | `.kiro/specs/transition-data-externalization` |
+| Post-M8: Default Energy Weights Externalization | `.kiro/specs/default-energy-weights-externalization` |
+| Post-M8: Issue Detector Keywords Externalization | `.kiro/specs/issue-detector-keywords-externalization` |
+| Post-M8: Detection Data Externalization | `.kiro/specs/detection-data-externalization` |
+| Post-M8: Remaining Data Externalization | `.kiro/specs/remaining-data-externalization` |
+| Post-M8: Loader Utils Extraction | `.kiro/specs/loader-utils-extraction` |
+
+---
+
+## Post-M8: Loader Utils Extraction
+
+Extract duplicated `deepFreeze` and `fail` helper utilities from 12 loader modules into a shared `src/core/loader-utils.ts` module, consolidate loader test files into `test/property/`.
+
+| # | Task | Status | Spec |
+|---|---|---|---|
+| LUE.1 | Shared loader-utils module (deepFreeze + createFailHelper) | ✅ | `loader-utils-extraction` |
+| LUE.2 | Property-based tests (5 properties, 10 tests) | ✅ | `loader-utils-extraction` |
+| LUE.3 | Refactor all 12 loaders to import from shared module | ✅ | `loader-utils-extraction` |
+| LUE.4 | Test file consolidation (6 files relocated to test/property/) | ✅ | `loader-utils-extraction` |
+| LUE.5 | Dedicated unit tests for loader-utils (17 tests) | ✅ | `loader-utils-extraction` |
+| LUE.6 | Full regression and build verification | ✅ | `loader-utils-extraction` |
+
+**Done when**: All 12 loaders import `deepFreeze` and `createFailHelper` from a single shared module, ~150 lines of duplicated code eliminated, all loader tests consolidated into `test/property/`, and full test suite + build passes.
 
 ---
 

@@ -1,0 +1,34 @@
+{
+  "energyColors": [
+    {
+      "maxScore": 3,
+      "color": "#4caf50"
+    },
+    {
+      "maxScore": 6,
+      "color": "#ffca28"
+    },
+    {
+      "maxScore": 8,
+      "color": "#ff9800"
+    },
+    {
+      "maxScore": 10,
+      "color": "#f44336"
+    }
+  ],
+  "djScoreClasses": [
+    {
+      "minScore": 75,
+      "className": "dj-score--good"
+    },
+    {
+      "minScore": 50,
+      "className": "dj-score--fair"
+    },
+    {
+      "minScore": 0,
+      "className": "dj-score--poor"
+    }
+  ]
+}

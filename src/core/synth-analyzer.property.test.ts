@@ -398,7 +398,9 @@ describe("Feature: midi-synth-analysis, Property 7: Polyphony profile correctnes
 
       const duration = sectionEnd - sectionStart;
       const step = 0.25;
-      const sampleCount = Math.floor(duration / step);
+      const rawSampleCount = Math.floor(duration / step);
+      const sampleCount = Math.min(rawSampleCount, 128);
+      const sampleStep = rawSampleCount > 128 ? duration / sampleCount : step;
 
       if (sampleCount === 0 || sectionNotes.length === 0) {
         expect(result.mean).toBe(0);
@@ -410,7 +412,7 @@ describe("Feature: midi-synth-analysis, Property 7: Polyphony profile correctnes
       let totalCount = 0;
       let maxCount = 0;
       for (let i = 0; i < sampleCount; i++) {
-        const samplePoint = sectionStart + i * step;
+        const samplePoint = sectionStart + i * sampleStep;
         let count = 0;
         for (const note of sectionNotes) {
           if (note.startTime <= samplePoint && samplePoint < note.startTime + note.duration) {

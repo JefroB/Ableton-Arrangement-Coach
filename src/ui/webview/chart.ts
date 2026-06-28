@@ -1,3 +1,7 @@
+// src/ui/webview/chart.ts
+
+import { getEnergyColors } from '../../core/ui-colors-loader.js';
+
 /**
  * Energy Curve Chart & Genre UI — rendering functions for the webview.
  *
@@ -28,17 +32,17 @@ export function truncateLabel(label: string, maxLen: number = 12): string {
  * Map an energy score (1–10) to a bar color.
  * Low scores are green, medium are yellow, high are red/orange.
  */
-function scoreToColor(score: number): string {
-  if (score <= 3) {
-    return "#4caf50"; // green — low energy
+export function scoreToColor(score: number): string {
+  const energyColors = getEnergyColors();
+
+  for (const entry of energyColors) {
+    if (score <= entry.maxScore) {
+      return entry.color;
+    }
   }
-  if (score <= 6) {
-    return "#ffca28"; // yellow — medium energy
-  }
-  if (score <= 8) {
-    return "#ff9800"; // orange — high energy
-  }
-  return "#f44336"; // red — very high energy
+
+  // Fallback to last entry's color if score exceeds all maxScore values
+  return energyColors[energyColors.length - 1]!.color;
 }
 
 // ─── Energy Curve Bar Chart ────────────────────────────────────────────

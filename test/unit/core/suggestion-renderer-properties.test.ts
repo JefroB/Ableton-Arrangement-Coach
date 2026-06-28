@@ -2,9 +2,12 @@ import { fc, test } from "@fast-check/vitest";
 import { describe, it, expect } from "vitest";
 
 import {
-  VARIATION_TECHNIQUES,
-  GENRE_TECHNIQUES,
-} from "../../../src/core/suggestion-renderer.js";
+  getVariationTechniques,
+  getGenreTechniques,
+} from "../../../src/core/suggestion-loader.js";
+
+const VARIATION_TECHNIQUES = getVariationTechniques().techniques;
+const GENRE_TECHNIQUES = getGenreTechniques();
 
 // ─── Format Constants ──────────────────────────────────────────────────
 

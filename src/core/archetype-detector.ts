@@ -8,6 +8,14 @@
 
 import type { Section } from "./section-scanner.js";
 import type { ArchetypeId, GenreProfile } from "./genre-profile-types.js";
+import {
+  getArchetypePriority,
+  getDropDetectionThreshold,
+  getGenrePriorBoost,
+  getMaxScoreCap,
+  getLowConfidenceThreshold,
+  getScoringThresholds,
+} from "./archetype-config-loader.js";
 
 // ─── Exported Interfaces ───────────────────────────────────────────────
 
@@ -16,18 +24,6 @@ export interface ArchetypeResult {
   readonly confidence: number; // 0–100
   readonly lowConfidence: boolean;
 }
-
-// ─── Priority Order (for tie-breaking) ─────────────────────────────────
-
-/** Tie-breaking priority: first in this list wins ties. */
-const ARCHETYPE_PRIORITY: readonly ArchetypeId[] = [
-  "dj-tool",
-  "build-drop",
-  "verse-chorus",
-  "peak-valley",
-  "loop",
-  "continuous-evolution",
-];
 
 // ─── Heuristic Helpers ─────────────────────────────────────────────────
 
@@ -48,18 +44,19 @@ function nameMatches(sectionName: string, pattern: string): boolean {
 }
 
 /**
- * Detect drops: energy increase of 5+ points between consecutive sections
+ * Detect drops: energy increase of threshold+ points between consecutive sections
  * where the preceding section is a build.
  */
 function countDrops(
   sections: readonly Section[],
   energyCurve: readonly number[],
 ): number {
+  const dropThreshold = getDropDetectionThreshold();
   let drops = 0;
   for (let i = 1; i < sections.length && i < energyCurve.length; i++) {
     const delta = energyCurve[i]! - energyCurve[i - 1]!;
     const prevIsBuild = nameMatches(sections[i - 1]!.name, "build");
-    if (delta >= 5 && prevIsBuild) {
+    if (delta >= dropThreshold && prevIsBuild) {
       drops++;
     }
   }
@@ -126,6 +123,7 @@ function scoreDjTool(
   sections: readonly Section[],
   energyCurve: readonly number[],
 ): number {
+  const t = getScoringThresholds().djTool;
   let score = 0;
 
   const energyMin = Math.min(...energyCurve);
@@ -133,29 +131,29 @@ function scoreDjTool(
   const energyRange = energyMax - energyMin;
 
   // Low energy range (DJ tools are relatively flat)
-  if (energyRange <= 3) score += 30;
-  else if (energyRange <= 5) score += 15;
+  if (energyRange <= t.energyRangeLow) score += t.energyRangeLowPoints;
+  else if (energyRange <= t.energyRangeMid) score += t.energyRangeMidPoints;
 
   // Short section count (DJ tools are simple)
-  if (sections.length <= 5) score += 20;
-  else if (sections.length <= 7) score += 10;
+  if (sections.length <= t.sectionCountLow) score += t.sectionCountLowPoints;
+  else if (sections.length <= t.sectionCountMid) score += t.sectionCountMidPoints;
 
   // Long intro and outro relative to track
   const introLen = getIntroLengthBars(sections);
   const outroLen = getOutroLengthBars(sections);
-  if (introLen >= 16 && outroLen >= 16) score += 25;
-  else if (introLen >= 8 || outroLen >= 8) score += 10;
+  if (introLen >= t.introOutroLongBars && outroLen >= t.introOutroLongBars) score += t.introOutroLongPoints;
+  else if (introLen >= t.introOutroShortBars || outroLen >= t.introOutroShortBars) score += t.introOutroShortPoints;
 
   // Few unique section names (repetitive structure)
   const uniqueNames = new Set(sections.map((s) => s.name.toLowerCase()));
-  if (uniqueNames.size <= 3) score += 15;
-  else if (uniqueNames.size <= 5) score += 5;
+  if (uniqueNames.size <= t.uniqueNamesLow) score += t.uniqueNamesLowPoints;
+  else if (uniqueNames.size <= t.uniqueNamesMid) score += t.uniqueNamesMidPoints;
 
   // No drops expected
   const drops = countDrops(sections, energyCurve);
-  if (drops === 0) score += 10;
+  if (drops === 0) score += t.noDropsPoints;
 
-  return Math.min(score, 100);
+  return Math.min(score, getMaxScoreCap());
 }
 
 /**
@@ -166,6 +164,7 @@ function scorePeakValley(
   sections: readonly Section[],
   energyCurve: readonly number[],
 ): number {
+  const t = getScoringThresholds().peakValley;
   let score = 0;
 
   const energyMin = Math.min(...energyCurve);
@@ -173,8 +172,8 @@ function scorePeakValley(
   const energyRange = energyMax - energyMin;
 
   // Needs meaningful energy range
-  if (energyRange >= 5) score += 25;
-  else if (energyRange >= 3) score += 10;
+  if (energyRange >= t.energyRangeHigh) score += t.energyRangeHighPoints;
+  else if (energyRange >= t.energyRangeMid) score += t.energyRangeMidPoints;
 
   // Count direction changes (peaks and valleys)
   let directionChanges = 0;
@@ -188,26 +187,26 @@ function scorePeakValley(
   }
 
   // Multiple direction changes indicate peak-valley pattern
-  if (directionChanges >= 3) score += 35;
-  else if (directionChanges >= 2) score += 20;
-  else if (directionChanges >= 1) score += 10;
+  if (directionChanges >= t.directionChangesHigh) score += t.directionChangesHighPoints;
+  else if (directionChanges >= t.directionChangesMid) score += t.directionChangesMidPoints;
+  else if (directionChanges >= t.directionChangesLow) score += t.directionChangesLowPoints;
 
   // More sections (peak-valley tracks tend to have more structure)
-  if (sections.length >= 7) score += 15;
-  else if (sections.length >= 5) score += 10;
+  if (sections.length >= t.sectionCountHigh) score += t.sectionCountHighPoints;
+  else if (sections.length >= t.sectionCountMid) score += t.sectionCountMidPoints;
 
   // Has breakdowns (valleys)
   const hasBreakdown = sections.some((s) => nameMatches(s.name, "breakdown"));
-  if (hasBreakdown) score += 15;
+  if (hasBreakdown) score += t.hasBreakdownPoints;
 
   // Multiple peaks
   let peaks = 0;
   for (let i = 0; i < energyCurve.length; i++) {
     if (energyCurve[i]! >= energyMax - 1) peaks++;
   }
-  if (peaks >= 2) score += 10;
+  if (peaks >= t.peakCountThreshold) score += t.peakCountPoints;
 
-  return Math.min(score, 100);
+  return Math.min(score, getMaxScoreCap());
 }
 
 /**
@@ -218,6 +217,7 @@ function scoreVersechorus(
   sections: readonly Section[],
   energyCurve: readonly number[],
 ): number {
+  const t = getScoringThresholds().verseChorus;
   let score = 0;
 
   // Check for verse/chorus named sections
@@ -228,24 +228,24 @@ function scoreVersechorus(
     (s) => nameMatches(s.name, "chorus") || nameMatches(s.name, "hook") || nameMatches(s.name, "main"),
   );
 
-  if (hasVerse && hasChorus) score += 30;
-  else if (hasVerse || hasChorus) score += 15;
+  if (hasVerse && hasChorus) score += t.bothVerseChrousPoints;
+  else if (hasVerse || hasChorus) score += t.eitherVerseChorusPoints;
 
   // Repeated patterns (verse-chorus pairs appearing multiple times)
   const repeatedPatterns = countRepeatedPatterns(sections);
-  if (repeatedPatterns >= 2) score += 30;
-  else if (repeatedPatterns >= 1) score += 15;
+  if (repeatedPatterns >= t.repeatedPatternsHigh) score += t.repeatedPatternsHighPoints;
+  else if (repeatedPatterns >= t.repeatedPatternsLow) score += t.repeatedPatternsLowPoints;
 
   // Moderate energy range (not too flat, not extreme)
   const energyRange = Math.max(...energyCurve) - Math.min(...energyCurve);
-  if (energyRange >= 3 && energyRange <= 6) score += 20;
-  else if (energyRange >= 2 && energyRange <= 8) score += 10;
+  if (energyRange >= t.energyRangeLow && energyRange <= t.energyRangeHigh) score += t.energyRangeNarrowPoints;
+  else if (energyRange >= t.energyRangeWideLow && energyRange <= t.energyRangeWideHigh) score += t.energyRangeWidePoints;
 
   // Section count typical of verse-chorus structures
-  if (sections.length >= 5 && sections.length <= 10) score += 15;
-  else if (sections.length >= 4) score += 5;
+  if (sections.length >= t.sectionCountLow && sections.length <= t.sectionCountHigh) score += t.sectionCountRangePoints;
+  else if (sections.length >= t.sectionCountLowMin) score += t.sectionCountMinOnlyPoints;
 
-  return Math.min(score, 100);
+  return Math.min(score, getMaxScoreCap());
 }
 
 /**
@@ -256,31 +256,32 @@ function scoreBuildDrop(
   sections: readonly Section[],
   energyCurve: readonly number[],
 ): number {
+  const t = getScoringThresholds().buildDrop;
   let score = 0;
 
-  // Count actual drops (energy jump of 5+ after a build section)
+  // Count actual drops (energy jump after a build section)
   const drops = countDrops(sections, energyCurve);
-  if (drops >= 2) score += 40;
-  else if (drops >= 1) score += 25;
+  if (drops >= t.dropsHigh) score += t.dropsHighPoints;
+  else if (drops >= t.dropsLow) score += t.dropsLowPoints;
 
   // Has build-named sections
   const buildSections = sections.filter((s) => nameMatches(s.name, "build"));
-  if (buildSections.length >= 2) score += 20;
-  else if (buildSections.length >= 1) score += 10;
+  if (buildSections.length >= t.buildSectionsHigh) score += t.buildSectionsHighPoints;
+  else if (buildSections.length >= t.buildSectionsLow) score += t.buildSectionsLowPoints;
 
   // High energy range (builds create contrast)
   const energyRange = Math.max(...energyCurve) - Math.min(...energyCurve);
-  if (energyRange >= 6) score += 20;
-  else if (energyRange >= 4) score += 10;
+  if (energyRange >= t.energyRangeHigh) score += t.energyRangeHighPoints;
+  else if (energyRange >= t.energyRangeMid) score += t.energyRangeMidPoints;
 
   // Has breakdown (common in build-drop structures)
   const hasBreakdown = sections.some((s) => nameMatches(s.name, "breakdown"));
-  if (hasBreakdown) score += 10;
+  if (hasBreakdown) score += t.hasBreakdownPoints;
 
   // Moderate section count
-  if (sections.length >= 5 && sections.length <= 9) score += 10;
+  if (sections.length >= t.sectionCountLow && sections.length <= t.sectionCountHigh) score += t.sectionCountPoints;
 
-  return Math.min(score, 100);
+  return Math.min(score, getMaxScoreCap());
 }
 
 /**
@@ -291,38 +292,39 @@ function scoreContinuousEvolution(
   sections: readonly Section[],
   energyCurve: readonly number[],
 ): number {
+  const t = getScoringThresholds().continuousEvolution;
   let score = 0;
 
   // Many unique section names (non-repetitive structure)
   const uniqueNames = new Set(sections.map((s) => s.name.toLowerCase()));
   const uniqueRatio = uniqueNames.size / sections.length;
-  if (uniqueRatio >= 0.8) score += 25;
-  else if (uniqueRatio >= 0.6) score += 15;
+  if (uniqueRatio >= t.uniqueRatioHigh) score += t.uniqueRatioHighPoints;
+  else if (uniqueRatio >= t.uniqueRatioMid) score += t.uniqueRatioMidPoints;
 
   // Smooth energy changes (small consecutive deltas)
   let smoothCount = 0;
   for (let i = 1; i < energyCurve.length; i++) {
     const delta = Math.abs(energyCurve[i]! - energyCurve[i - 1]!);
-    if (delta <= 2) smoothCount++;
+    if (delta <= t.smoothDeltaMax) smoothCount++;
   }
   const smoothRatio = energyCurve.length > 1 ? smoothCount / (energyCurve.length - 1) : 0;
-  if (smoothRatio >= 0.7) score += 25;
-  else if (smoothRatio >= 0.5) score += 15;
+  if (smoothRatio >= t.smoothRatioHigh) score += t.smoothRatioHighPoints;
+  else if (smoothRatio >= t.smoothRatioMid) score += t.smoothRatioMidPoints;
 
   // No repeated patterns
   const repeatedPatterns = countRepeatedPatterns(sections);
-  if (repeatedPatterns === 0) score += 20;
-  else if (repeatedPatterns <= 1) score += 10;
+  if (repeatedPatterns === t.repeatedPatternsNone) score += t.repeatedPatternsNonePoints;
+  else if (repeatedPatterns <= t.repeatedPatternsLow) score += t.repeatedPatternsLowPoints;
 
   // Moderate to high section count
-  if (sections.length >= 6) score += 15;
-  else if (sections.length >= 4) score += 10;
+  if (sections.length >= t.sectionCountHigh) score += t.sectionCountHighPoints;
+  else if (sections.length >= t.sectionCountMid) score += t.sectionCountMidPoints;
 
   // No drops (evolution is gradual)
   const drops = countDrops(sections, energyCurve);
-  if (drops === 0) score += 15;
+  if (drops === 0) score += t.noDropsPoints;
 
-  return Math.min(score, 100);
+  return Math.min(score, getMaxScoreCap());
 }
 
 /**
@@ -333,32 +335,33 @@ function scoreLoop(
   sections: readonly Section[],
   energyCurve: readonly number[],
 ): number {
+  const t = getScoringThresholds().loop;
   let score = 0;
 
   // Very low energy range (loops are consistent)
   const energyRange = Math.max(...energyCurve) - Math.min(...energyCurve);
-  if (energyRange <= 2) score += 30;
-  else if (energyRange <= 4) score += 15;
+  if (energyRange <= t.energyRangeLow) score += t.energyRangeLowPoints;
+  else if (energyRange <= t.energyRangeMid) score += t.energyRangeMidPoints;
 
   // Few sections
-  if (sections.length <= 4) score += 25;
-  else if (sections.length <= 6) score += 15;
+  if (sections.length <= t.sectionCountLow) score += t.sectionCountLowPoints;
+  else if (sections.length <= t.sectionCountMid) score += t.sectionCountMidPoints;
 
   // Few unique section types (high repetition)
   const uniqueNames = new Set(sections.map((s) => s.name.toLowerCase()));
-  if (uniqueNames.size <= 2) score += 25;
-  else if (uniqueNames.size <= 3) score += 15;
+  if (uniqueNames.size <= t.uniqueNamesLow) score += t.uniqueNamesLowPoints;
+  else if (uniqueNames.size <= t.uniqueNamesMid) score += t.uniqueNamesMidPoints;
 
   // No drops
   const drops = countDrops(sections, energyCurve);
-  if (drops === 0) score += 10;
+  if (drops === 0) score += t.noDropsPoints;
 
   // No named intro/outro (loops don't have traditional intros)
   const introLen = getIntroLengthBars(sections);
   const outroLen = getOutroLengthBars(sections);
-  if (introLen === 0 && outroLen === 0) score += 10;
+  if (introLen === 0 && outroLen === 0) score += t.noIntroOutroPoints;
 
-  return Math.min(score, 100);
+  return Math.min(score, getMaxScoreCap());
 }
 
 // ─── Main Detection Logic ──────────────────────────────────────────────
@@ -396,31 +399,34 @@ export function detectArchetype(
     ["loop", scoreLoop(sections, energyCurve)],
   ]);
 
-  // Apply genre prior boost (up to +15 points, clamped to 100)
+  // Apply genre prior boost (clamped to max score cap)
   if (profile?.archetypes) {
+    const genrePriorBoost = getGenrePriorBoost();
+    const maxCap = getMaxScoreCap();
     for (const archetypeId of profile.archetypes) {
       const currentScore = scores.get(archetypeId);
       if (currentScore !== undefined) {
-        scores.set(archetypeId, Math.min(currentScore + 15, 100));
+        scores.set(archetypeId, Math.min(currentScore + genrePriorBoost, maxCap));
       }
     }
   }
 
   // Find the highest score, using priority order for tie-breaking
-  let bestArchetype: ArchetypeId = ARCHETYPE_PRIORITY[0]!;
+  const priority = getArchetypePriority();
+  let bestArchetype: ArchetypeId = priority[0] as ArchetypeId;
   let bestScore = -1;
 
-  for (const archetype of ARCHETYPE_PRIORITY) {
-    const score = scores.get(archetype) ?? 0;
+  for (const archetype of priority) {
+    const score = scores.get(archetype as ArchetypeId) ?? 0;
     if (score > bestScore) {
       bestScore = score;
-      bestArchetype = archetype;
+      bestArchetype = archetype as ArchetypeId;
     }
   }
 
   return {
     archetype: bestArchetype,
     confidence: bestScore,
-    lowConfidence: bestScore < 50,
+    lowConfidence: bestScore < getLowConfidenceThreshold(),
   };
 }

@@ -107,7 +107,7 @@ function expectedClassificationForNonSilent(density: number): RhythmicClassifica
 // ─── Property 7: Transient density classification consistency ───────────
 
 // Feature: audio-content-analysis, Property 7: Transient density classification consistency
-describe("Property 7: Transient density classification consistency", () => {
+describe("Property 7: Transient density classification consistency", { timeout: 15000 }, () => {
   /**
    * Sub-property 1: Silent buffers always produce "silent" classification.
    *

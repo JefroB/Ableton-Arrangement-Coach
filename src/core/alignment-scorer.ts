@@ -6,6 +6,7 @@
  */
 import type { GenreProfile, SectionTemplate } from "./genre-profile-types.js";
 import type { Section } from "./section-scanner.js";
+import { getOrderingWeight, getLengthWeight, getCountWeight } from './alignment-weights-loader.js';
 
 // ─── Public Types ──────────────────────────────────────────────────────
 
@@ -16,12 +17,6 @@ export interface AlignmentResult {
   readonly length: number; // 0–100
   readonly count: number; // 0–100
 }
-
-// ─── Dimension Weights ─────────────────────────────────────────────────
-
-const ORDERING_WEIGHT = 0.4;
-const LENGTH_WEIGHT = 0.35;
-const COUNT_WEIGHT = 0.25;
 
 // ─── Public API ────────────────────────────────────────────────────────
 
@@ -53,7 +48,7 @@ export function computeAlignment(
   const count = computeCountScore(sections, template);
 
   const overall = Math.round(
-    ORDERING_WEIGHT * ordering + LENGTH_WEIGHT * length + COUNT_WEIGHT * count,
+    getOrderingWeight() * ordering + getLengthWeight() * length + getCountWeight() * count,
   );
 
   return { overall, ordering, length, count };

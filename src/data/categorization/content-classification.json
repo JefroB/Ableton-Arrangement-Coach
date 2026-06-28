@@ -1,0 +1,53 @@
+{
+  "similarityWeights": {
+    "pitchClass": 0.35,
+    "rhythmic": 0.30,
+    "velocity": 0.20,
+    "density": 0.15
+  },
+  "phraseDetectionThreshold": 0.7,
+  "roleKeywords": {
+    "drums": ["drum", "kick", "hat", "snare", "perc", "clap", "tom", "ride", "crash", "cymbal", "shaker", "rim", "conga", "bongo", "timbale", "tambourine", "cowbell", "loop", "break", "beat"],
+    "bass": ["bass", "sub", "808", "reese", "low"],
+    "lead": ["lead", "melody", "hook", "synth lead", "pluck", "bell", "flute", "whistle", "vocal lead"],
+    "pad": ["pad", "atmosphere", "atmos", "ambient", "drone", "texture", "strings", "choir", "wash"],
+    "arp": ["arp", "arpeggio", "sequence", "seq"]
+  },
+  "classificationThresholds": {
+    "drums": {
+      "pitchRangeLow": 35,
+      "pitchRangeHigh": 81,
+      "regularityThreshold": 0.8,
+      "pitchVarietyPerBeatCeiling": 3,
+      "avgDurationCeiling": 0.5
+    },
+    "bass": {
+      "avgPitchCeiling": 60,
+      "avgPolyphonyCeiling": 1.5
+    },
+    "arpeggio": {
+      "densityThreshold": 4,
+      "regularityThreshold": 0.7
+    },
+    "pad": {
+      "avgPolyphonyThreshold": 2.5,
+      "avgDurationThreshold": 2
+    },
+    "chord": {
+      "polyphonyLowBound": 2,
+      "polyphonyHighBound": 4,
+      "durationLowBound": 0.5,
+      "durationHighBound": 2
+    },
+    "lead": {
+      "polyphonyCeiling": 1.5,
+      "avgPitchThreshold": 55,
+      "pitchVarietyThreshold": 3
+    }
+  },
+  "fillDetection": {
+    "densityIncreaseFraction": 0.5,
+    "newPitchClassCountThreshold": 2
+  },
+  "percussionLoopSimilarityThreshold": 0.85
+}

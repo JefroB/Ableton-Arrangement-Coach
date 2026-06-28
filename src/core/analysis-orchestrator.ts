@@ -70,9 +70,20 @@ import type { AudioContentResults } from "./audio-content-types.js";
 // ─── Interface ─────────────────────────────────────────────────────────
 
 /** Public API for the analysis orchestrator. */
+/** Options for runAnalysis(). */
+export interface RunAnalysisOptions {
+  /**
+   * When true, include the audio content analysis step (renderPreFxAudio).
+   * This renders audio offline via the SDK and can block Ableton's audio thread.
+   * Only set to true when the user explicitly requests audio analysis.
+   * Default: false (audio analysis is skipped).
+   */
+  includeAudioAnalysis?: boolean;
+}
+
 export interface AnalysisOrchestrator {
   /** Run the full analysis pipeline and dispatch results to the store. */
-  runAnalysis(): void;
+  runAnalysis(options?: RunAnalysisOptions): void;
 
   /** Invalidate the analysis cache, forcing next runAnalysis() to recompute. */
   invalidateCache(): void;
@@ -306,10 +317,12 @@ export function createAnalysisOrchestrator(
   }
 
   return {
-    runAnalysis(): void {
+    runAnalysis(options?: RunAnalysisOptions): void {
       if (analysisInProgress) {
         return; // Drop duplicate requests while analysis is running
       }
+
+      const includeAudio = options?.includeAudioAnalysis ?? false;
 
       analysisInProgress = true;
       store.dispatch({ type: "SET_ANALYZING", analyzing: true });
@@ -833,6 +846,8 @@ export function createAnalysisOrchestrator(
         // Step 9d: Audio Content Analysis — run asynchronously without blocking the main pipeline.
         // Fire-and-forget: renders audio tracks via the SDK, computes spectral/temporal features,
         // and dispatches UPDATE_AUDIO_CONTENT_ANALYSIS when complete.
+        // Skipped when skipAudioAnalysis is set (e.g., context-menu open) to avoid freezing Ableton.
+        if (includeAudio) {
         try {
           const audioTrackIndices = adapter.getAudioTrackIndices();
           if (audioTrackIndices.length > 0) {
@@ -877,6 +892,7 @@ export function createAnalysisOrchestrator(
             failures: [],
           }});
         }
+        } // end if (includeAudio)
 
         // Step 10: Invoke Transition Engine.
         try {
@@ -1281,18 +1297,18 @@ export function createAnalysisOrchestrator(
         }
 
         // Step 13b: Compute arrangement score and dispatch result.
-        // Only compute when .als data is loaded — avoids showing a preliminary score
-        // that drops after .als adds automation to the energy curve.
+        // Compute when we have energy scores and a genre selected.
+        // .als automation data may refine the energy curve upstream, but the score
+        // is still meaningful without it — sections + track activity are sufficient.
         try {
           const arrState = store.getState();
           const arrGenreId = arrState.selectedGenreId;
-          const hasAlsForScore = arrState.automationData !== null;
 
-          if (!hasAlsForScore) {
-            // .als not loaded yet — don't show a score
-            store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
-          } else if (arrGenreId === null) {
+          if (arrGenreId === null) {
             // No genre selected — dispatch null score
+            store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
+          } else if (energyScores.length < 2) {
+            // Not enough sections to compute a meaningful score
             store.dispatch({ type: "UPDATE_ARRANGEMENT_SCORE", score: null });
           } else {
             // Look up genre profile (resolves subgenre override for energyCurveTemplate)

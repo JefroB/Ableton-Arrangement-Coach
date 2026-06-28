@@ -32,6 +32,16 @@ import { compareAudioSections, detectExtendedRepetition } from "./audio-cross-se
 import { mixToMono } from "./audio-utils.js";
 import type { Section } from "./section-scanner.js";
 
+/**
+ * Yield the event loop so the SDK message channel and Ableton's communication
+ * layer don't starve during heavy CPU work. Without this, synchronous analysis
+ * (FFT, WAV decode) blocks the Node event loop and Ableton freezes because
+ * it can't exchange messages with the extension host.
+ */
+function yieldEventLoop(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 0));
+}
+
 // ─── Types ─────────────────────────────────────────────────────────────
 
 /** Reference to an audio track for analysis. */
@@ -44,9 +54,9 @@ export interface AudioTrackRef {
 
 /** Default configuration for the render orchestrator. */
 const DEFAULT_CONFIG: RenderOrchestratorConfig = {
-  maxConcurrentRenders: 3,
-  renderTimeoutMs: 10_000,
-  analysisTimeoutMs: 5_000,
+  maxConcurrentRenders: 1,
+  renderTimeoutMs: 60_000,
+  analysisTimeoutMs: 15_000,
   maxCacheEntries: 200,
 };
 
@@ -145,6 +155,10 @@ export class AudioAnalyzer {
         const trackNumber = i + j + 1;
         const totalTracks = sortedTracks.length;
         console.log(`Analyzing track ${trackNumber}/${totalTracks}: ${track.trackName}`);
+
+        // Yield the event loop between tracks so the SDK message channel stays responsive
+        // and Ableton doesn't freeze waiting for the extension host.
+        await yieldEventLoop();
 
         const renderResult = renderResults[j]!;
 
@@ -282,6 +296,8 @@ export class AudioAnalyzer {
 
     // Process each section window
     for (const section of sections) {
+      // Yield between sections to keep the event loop responsive
+      await yieldEventLoop();
       // Skip sections with infinite endTime or outside render range
       const sectionEnd = isFinite(section.endTime) ? section.endTime : renderEndBeat;
       const sectionStart = section.startTime;

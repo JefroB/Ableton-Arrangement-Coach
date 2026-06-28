@@ -30,8 +30,7 @@ function createInlineMockSdk(overrides: Partial<{
   const mockCreateCuePoint = overrides.createCuePoint
     ? vi.fn(overrides.createCuePoint)
     : vi.fn(async (time: number): Promise<CuePointHandle> => {
-        let name = "";
-        return { get name() { return name; }, time, setName(v: string) { name = v; } };
+        return { name: "", time };
       });
 
   const mockDeleteCuePoint = overrides.deleteCuePoint
@@ -150,8 +149,7 @@ describe("section-generator integration", () => {
         if (callCount === 3) {
           throw new Error("SDK CuePoint creation failed");
         }
-        let name = "";
-        return { get name() { return name; }, time, setName(v: string) { name = v; } };
+        return { name: "", time };
       },
     });
 

@@ -21,6 +21,18 @@ import type { GenreProfile } from "./genre-profile-types.js";
 import { computeTrackActivity, computeMidiDensity } from "./section-analyzer.js";
 import { classifyInstrumentRole } from "./content-analyzer.js";
 import { renderSuggestion, type RawSuggestion } from "./suggestion-renderer.js";
+import {
+  getDefaultThresholds,
+  getTransitionKeywords,
+  getBuildupKeywords,
+  getDropSectionNames,
+  getDropSuppressionGenres,
+  getRepetitionTolerantGenres,
+  getDjOrientedGenres,
+  getSynthRepetitionRoles,
+  getSynthDensityRoles,
+  getNumericThresholds,
+} from "./issue-thresholds-loader.js";
 
 // ─── Internal Types ────────────────────────────────────────────────────
 
@@ -46,14 +58,10 @@ interface GenreThresholdProfile {
 }
 
 /** Default thresholds used when no genre is selected or genre is unknown. */
-const DEFAULT_THRESHOLDS: GenreThresholdProfile = {
-  flatEnergyDelta: 1,
-  repetitionSimilarity: 0.85,
-  abruptChangeDelta: 5,
-  crowdingTrackCount: 3,
-  introMinBars: 16,
-  outroMinBars: 16,
-};
+const DEFAULT_THRESHOLDS: GenreThresholdProfile = getDefaultThresholds();
+
+/** Numeric detection thresholds sourced from issue-thresholds.json. */
+const NUMERIC = getNumericThresholds();
 
 /**
  * Build a GenreThresholdProfile from a GenreProfile's detectionThresholds
@@ -311,7 +319,7 @@ function detectFlatEnergy(
 // ─── Missing Transition Detection ───────────────────────────────────────
 
 /** Transition keywords checked case-insensitively against track names. */
-const TRANSITION_KEYWORDS = ["riser", "sweep", "fx", "fill", "trans", "build"] as const;
+const TRANSITION_KEYWORDS = getTransitionKeywords();
 
 /** Options for missing transition detection. */
 interface DetectMissingTransitionsOptions {
@@ -374,7 +382,7 @@ function detectMissingTransitions(
     }
 
     const delta = Math.abs(energyCurve[i]! - energyCurve[i - 1]!);
-    if (delta < 3) {
+    if (delta < NUMERIC.missingTransitionDelta) {
       continue;
     }
 
@@ -496,7 +504,7 @@ function hasTransitionElement(
 // ─── Repetition Detection ───────────────────────────────────────────────
 
 /** Genres where repetition is expected and tolerated (lower severity). */
-const REPETITION_TOLERANT_GENRES: readonly string[] = ["techno", "ambient-downtempo"];
+const REPETITION_TOLERANT_GENRES: readonly string[] = getRepetitionTolerantGenres();
 
 /**
  * Detect consecutive sections with high structural similarity.
@@ -589,13 +597,13 @@ function detectRepetition(
 // ─── Abrupt Change Detection ────────────────────────────────────────────
 
 /** Keywords indicating a riser or sweep track (case-insensitive). */
-const BUILDUP_KEYWORDS = ["riser", "sweep"] as const;
+const BUILDUP_KEYWORDS = getBuildupKeywords();
 
 /** Genres for which drop suppression applies. */
-const DROP_SUPPRESSION_GENRES: readonly string[] = ["techno", "house", "trance", "drum-and-bass"];
+const DROP_SUPPRESSION_GENRES: readonly string[] = getDropSuppressionGenres();
 
 /** Section names (case-insensitive) that qualify for drop suppression. */
-const DROP_SECTION_NAMES = ["drop", "main", "peak"] as const;
+const DROP_SECTION_NAMES = getDropSectionNames();
 
 /**
  * Detect whether buildup context exists in a time window.
@@ -641,11 +649,11 @@ function hasBuildupContext(
   }
 
   // (c) Percussion roll: check for high note density in the window
-  // Threshold: >= 4 notes per bar
+  // Threshold: >= buildupDensityPerBar notes per bar
   const windowLength = windowEnd - windowStart;
   if (windowLength > 0) {
     const windowLengthInBars = windowLength / 4;
-    const densityThreshold = 4; // notes per bar
+    const densityThreshold = NUMERIC.buildupDensityPerBar; // notes per bar
 
     let noteCount = 0;
     for (const track of trackNoteData) {
@@ -867,8 +875,8 @@ function detectFrequencyCrowding(
           }
 
           // Determine which frequency bands this audio track occupies
-          // A band is "occupied" if its energy is above -40 dBFS
-          const AUDIO_OCCUPIED_THRESHOLD = -40;
+          // A band is "occupied" if its energy is above the configured dBFS threshold
+          const AUDIO_OCCUPIED_THRESHOLD = NUMERIC.audioOccupiedDbfs;
           const bands = trackResult.spectralProfile.bands;
 
           for (const bandName of Object.keys(bands) as FrequencyBandName[]) {
@@ -895,8 +903,8 @@ function detectFrequencyCrowding(
       const count = trackNames.length;
 
       // Determine thresholds based on drop status
-      const infoThreshold = isDrop ? 5 : 4;
-      const warningThreshold = isDrop ? 6 : 5;
+      const infoThreshold = isDrop ? NUMERIC.frequencyCrowdingInfo + 1 : NUMERIC.frequencyCrowdingInfo;
+      const warningThreshold = isDrop ? NUMERIC.frequencyCrowdingWarning + 1 : NUMERIC.frequencyCrowdingWarning;
 
       let severity: IssueSeverity | null = null;
       if (count >= warningThreshold) {
@@ -949,7 +957,7 @@ function mapFrequencyBandToBucket(bandName: FrequencyBandName): FrequencyBucket 
 // ─── DJ Compatibility Detection ─────────────────────────────────────────
 
 /** Genres considered DJ-oriented for compatibility checks. */
-const DJ_ORIENTED_GENRES: readonly string[] = ["techno", "house", "trance", "drum-and-bass"];
+const DJ_ORIENTED_GENRES: readonly string[] = getDjOrientedGenres();
 
 /**
  * Detect DJ compatibility issues with intro and outro sections.
@@ -1020,7 +1028,7 @@ function detectDJCompatibility(
 
   // 3. Intro energy check
   const firstEnergy = energyCurve[0];
-  if (firstEnergy !== undefined && firstEnergy > 4) {
+  if (firstEnergy !== undefined && firstEnergy > NUMERIC.introEnergyMax) {
     let message = `Intro energy (${firstEnergy}) is high for smooth mix-in. Consider a more gradual energy build.`;
     if (message.length > 200) {
       message = message.slice(0, 197) + "...";
@@ -1040,7 +1048,7 @@ function detectDJCompatibility(
     if (
       firstEnergy !== undefined &&
       lastEnergy !== undefined &&
-      lastEnergy > firstEnergy + 2
+      lastEnergy > firstEnergy + NUMERIC.energyMismatchDelta
     ) {
       let message = `Outro energy (${lastEnergy}) is notably higher than intro (${firstEnergy}). This may make DJ transitions difficult.`;
       if (message.length > 200) {
@@ -1169,7 +1177,7 @@ function buildTrackRoleMap(trackNoteData: readonly TrackNoteData[]): ReadonlyMap
 }
 
 /** Roles eligible for synth repetition detection. */
-const SYNTH_REPETITION_ROLES: readonly InstrumentRole[] = ["lead", "pad", "arpeggio"];
+const SYNTH_REPETITION_ROLES: readonly InstrumentRole[] = getSynthRepetitionRoles() as unknown as readonly InstrumentRole[];
 
 /**
  * Detect synth tracks with extended repetition (3+ consecutive similar sections).
@@ -1239,7 +1247,7 @@ export function detectSynthRepetition(
 // ─── Low Synth Density Detection ────────────────────────────────────────
 
 /** Roles counted toward synth density. */
-const SYNTH_DENSITY_ROLES: readonly InstrumentRole[] = ["lead", "pad", "arpeggio", "chord"];
+const SYNTH_DENSITY_ROLES: readonly InstrumentRole[] = getSynthDensityRoles() as unknown as readonly InstrumentRole[];
 
 /** Section name patterns indicating intro/outro (case-insensitive). */
 const INTRO_OUTRO_PATTERNS = ["intro", "outro"] as const;
@@ -1262,7 +1270,7 @@ export function detectLowSynthDensity(
   synthAnalysis: SynthAnalysisResult,
   sections: readonly Section[],
   trackRoles: ReadonlyMap<string, InstrumentRole>,
-  densityThreshold: number = 2.0,
+  densityThreshold: number = NUMERIC.synthDensityMinNotesPerBeat,
 ): Issue[] {
   const issues: Issue[] = [];
 
@@ -1615,7 +1623,7 @@ export function detectIssues(input: IssueDetectorInput): Issue[] {
     const trackRoles = buildTrackRoleMap(trackNoteData);
 
     // Determine density threshold from genre profile or use default
-    const densityThreshold = 2.0;
+    const densityThreshold = NUMERIC.synthDensityMinNotesPerBeat;
 
     // 8a. Synth repetition detection
     try {

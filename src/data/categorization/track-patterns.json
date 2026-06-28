@@ -1,0 +1,14 @@
+{
+  "trackNamePatterns": [
+    { "bucket": "sub", "patterns": ["sub", "808", "subbass", "sub bass"] },
+    { "bucket": "bass", "patterns": ["kick", "bass", "reese", "low end", "bassline"] },
+    { "bucket": "low-mid", "patterns": ["guitar", "keys", "rhodes", "wurlitzer", "organ", "clavinet", "electric piano", "ep"] },
+    { "bucket": "mid", "patterns": ["pad", "strings", "chord", "piano", "stab", "brass", "horn", "choir", "texture", "atmosphere", "atmos"] },
+    { "bucket": "high-mid", "patterns": ["lead", "vocal", "vox", "melody", "hook", "arp", "arpeggio", "flute", "whistle", "bell", "marimba", "kalimba", "pluck"] },
+    { "bucket": "high", "patterns": ["hat", "hihat", "hi-hat", "cymbal", "shaker", "perc", "ride", "crash", "tambourine", "clap", "snap", "rim", "cowbell", "triangle", "cabasa", "maracas"] }
+  ],
+  "deviceNamePatterns": [
+    { "bucket": "bass", "patterns": ["operator", "drum rack", "bass", "sub"] },
+    { "bucket": "mid", "patterns": ["simpler", "wavetable", "collision", "analog", "drift", "meld", "tension", "electric", "grand piano", "sampler", "arpeggiator", "impulse"] }
+  ]
+}

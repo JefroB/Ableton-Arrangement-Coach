@@ -20,6 +20,14 @@ import type {
 } from "./genre-profile-types.js";
 import type { FrequencyBandName } from "./audio-content-types.js";
 import type { GenreTransitionProfile, TransitionCategory } from "./transition-engine.js";
+import {
+  getBaseWeights,
+  getAlsWeights,
+  getAudioWeights,
+  getDefaultThresholds,
+  getDeviationThresholdDb,
+  getRhythmicDeviationThreshold,
+} from "./energy-weights-loader.js";
 
 // Re-export types for backward compatibility with existing consumers
 export type { EnergyWeights, DetectionThresholds, TransitionPreferences, GenreFillProfile, GenreThresholdProfile, GenreFrequencyProfile } from "./genre-profile-types.js";
@@ -74,41 +82,13 @@ export const GENRES: readonly string[] = loadedProfiles.map((p) => p.id);
 export const ALL_PROFILES: readonly GenreProfile[] = loadedProfiles;
 
 /** Default energy weights used when no genre profile is found and .als data is NOT available. */
-export const DEFAULT_WEIGHTS: EnergyWeights = {
-  trackCountWeight: 0.20,
-  midiDensityWeight: 0.25,
-  trackPresenceWeight: 0.15,
-  automationWeight: 0.00,
-  frequencyCoverageWeight: 0.10,
-  velocityIntensityWeight: 0.15,
-  polyphonyScoreWeight: 0.10,
-  pitchRangeWeight: 0.05,
-};
+export const DEFAULT_WEIGHTS: EnergyWeights = getBaseWeights();
 
 /** Default energy weights used when no genre profile is found and .als data IS available. */
-export const DEFAULT_WEIGHTS_WITH_ALS: EnergyWeights = {
-  trackCountWeight: 0.18,
-  midiDensityWeight: 0.20,
-  trackPresenceWeight: 0.12,
-  automationWeight: 0.15,
-  frequencyCoverageWeight: 0.10,
-  velocityIntensityWeight: 0.12,
-  polyphonyScoreWeight: 0.08,
-  pitchRangeWeight: 0.05,
-};
+export const DEFAULT_WEIGHTS_WITH_ALS: EnergyWeights = getAlsWeights();
 
 /** Default energy weights used when audio content analysis is available (includes audioEnergyWeight). */
-export const DEFAULT_WEIGHTS_WITH_AUDIO: EnergyWeights = {
-  trackCountWeight: 0.16,
-  midiDensityWeight: 0.20,
-  trackPresenceWeight: 0.12,
-  automationWeight: 0.12,
-  frequencyCoverageWeight: 0.08,
-  velocityIntensityWeight: 0.10,
-  polyphonyScoreWeight: 0.07,
-  pitchRangeWeight: 0.00,
-  audioEnergyWeight: 0.15,
-};
+export const DEFAULT_WEIGHTS_WITH_AUDIO: EnergyWeights = getAudioWeights();
 
 // ─── Internal Indexes ──────────────────────────────────────────────────
 
@@ -274,10 +254,10 @@ export function getGenreFillProfile(genre: string | null): GenreFillProfile | nu
 // ─── Audio Profile Lookup ───────────────────────────────────────────────
 
 /** Default deviation threshold when not specified per-band (in dB). */
-export const DEFAULT_DEVIATION_THRESHOLD_DB = 6;
+export const DEFAULT_DEVIATION_THRESHOLD_DB = getDeviationThresholdDb();
 
 /** Default rhythmic deviation threshold (30% below expected). */
-export const RHYTHMIC_DEVIATION_THRESHOLD = 0.30;
+export const RHYTHMIC_DEVIATION_THRESHOLD = getRhythmicDeviationThreshold();
 
 /**
  * Returns the GenreFrequencyProfile for the given genre/subgenre ID, or null if not found.
@@ -370,14 +350,7 @@ export function isDrumDensityBelowExpectation(
 // ─── Threshold Profile Lookup ───────────────────────────────────────────
 
 /** Default genre threshold profile used when no genre is selected or genre is unknown. */
-export const DEFAULT_GENRE_THRESHOLDS: GenreThresholdProfile = {
-  flatEnergyDelta: 1,
-  repetitionSimilarity: 0.85,
-  abruptChangeDelta: 5,
-  crowdingTrackCount: 3,
-  introMinBars: 16,
-  outroMinBars: 16,
-};
+export const DEFAULT_GENRE_THRESHOLDS: GenreThresholdProfile = getDefaultThresholds();
 
 /**
  * Returns the GenreThresholdProfile for the given genre string.

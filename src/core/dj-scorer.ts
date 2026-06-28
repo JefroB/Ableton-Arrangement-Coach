@@ -9,6 +9,13 @@
 
 import type { Section } from "./section-scanner.js";
 import { getProfile, getProfileBySubgenre } from "./genre-registry.js";
+import {
+  getNonDjFamilies,
+  getComponentWeights,
+  getSectionLengthScoring,
+  getMixZoneThresholds,
+  getEnergyPositioning,
+} from "./dj-scorer-config-loader.js";
 
 // ─── Exported Interfaces ───────────────────────────────────────────────
 
@@ -43,7 +50,11 @@ export interface PhraseIssue {
 
 // ─── Non-DJ Genre Families ─────────────────────────────────────────────
 
-const NON_DJ_FAMILIES: readonly string[] = ["ambient", "film-score"];
+const NON_DJ_FAMILIES = getNonDjFamilies();
+const WEIGHTS = getComponentWeights();
+const SECTION_SCORING = getSectionLengthScoring();
+const MIX_THRESHOLDS = getMixZoneThresholds();
+const ENERGY_POS = getEnergyPositioning();
 
 /**
  * Returns true if the given family string matches a non-DJ genre family.
@@ -63,10 +74,11 @@ function isNonDjFamily(family: string): boolean {
  */
 function scoreSectionLength(section: Section): number {
   const bars = (section.endTime - section.startTime) / 4;
-  if (bars < 16) return 0;
-  if (bars >= 32) return 100;
-  // Linear interpolation between 16 and 32 bars (50 to 100)
-  return ((bars - 16) / 16) * 50 + 50;
+  if (bars < SECTION_SCORING.minBars) return 0;
+  if (bars >= SECTION_SCORING.maxBars) return SECTION_SCORING.maxScore;
+  // Linear interpolation between minBars and maxBars (minScore to maxScore)
+  const range = SECTION_SCORING.maxBars - SECTION_SCORING.minBars;
+  return ((bars - SECTION_SCORING.minBars) / range) * (SECTION_SCORING.maxScore - SECTION_SCORING.minScore) + SECTION_SCORING.minScore;
 }
 
 /**
@@ -118,9 +130,9 @@ function scorePhraseAlignment(
  */
 function scoreMixZoneCleanliness(introEnergy: number, outroEnergy: number): number {
   function zoneScore(energy: number): number {
-    if (energy <= 3) return 100;
-    if (energy <= 5) return 75;
-    if (energy <= 7) return 50;
+    for (const threshold of MIX_THRESHOLDS) {
+      if (energy <= threshold.maxEnergy) return threshold.score;
+    }
     return 0;
   }
 
@@ -139,8 +151,8 @@ function scoreTempoConsistency(): number {
  * Otherwise reduce by 20 per unit of excess above 5. Take minimum of both.
  */
 function scoreEnergyPositioning(firstEnergy: number, lastEnergy: number): number {
-  const firstScore = Math.max(0, 100 - Math.max(0, firstEnergy - 5) * 20);
-  const lastScore = Math.max(0, 100 - Math.max(0, lastEnergy - 5) * 20);
+  const firstScore = Math.max(0, 100 - Math.max(0, firstEnergy - ENERGY_POS.safeThreshold) * ENERGY_POS.penaltyPerUnit);
+  const lastScore = Math.max(0, 100 - Math.max(0, lastEnergy - ENERGY_POS.safeThreshold) * ENERGY_POS.penaltyPerUnit);
   return Math.min(firstScore, lastScore);
 }
 
@@ -200,12 +212,12 @@ export function computeDjScore(input: DjScoreInput): DjScoreResult {
 
   // ── Build component list with weights ────────────────────────────────
   const components: DjScoreComponent[] = [
-    { name: "Intro Length", score: introScore, weight: 0.20, weighted: introScore * 0.20 },
-    { name: "Outro Length", score: outroScore, weight: 0.20, weighted: outroScore * 0.20 },
-    { name: "Phrase Alignment", score: phraseScore, weight: 0.20, weighted: phraseScore * 0.20 },
-    { name: "Mix Zone Cleanliness", score: mixZoneScore, weight: 0.15, weighted: mixZoneScore * 0.15 },
-    { name: "Tempo Consistency", score: tempoScore, weight: 0.15, weighted: tempoScore * 0.15 },
-    { name: "Energy Positioning", score: energyPosScore, weight: 0.10, weighted: energyPosScore * 0.10 },
+    { name: "Intro Length", score: introScore, weight: WEIGHTS.introLength, weighted: introScore * WEIGHTS.introLength },
+    { name: "Outro Length", score: outroScore, weight: WEIGHTS.outroLength, weighted: outroScore * WEIGHTS.outroLength },
+    { name: "Phrase Alignment", score: phraseScore, weight: WEIGHTS.phraseAlignment, weighted: phraseScore * WEIGHTS.phraseAlignment },
+    { name: "Mix Zone Cleanliness", score: mixZoneScore, weight: WEIGHTS.mixZoneCleanliness, weighted: mixZoneScore * WEIGHTS.mixZoneCleanliness },
+    { name: "Tempo Consistency", score: tempoScore, weight: WEIGHTS.tempoConsistency, weighted: tempoScore * WEIGHTS.tempoConsistency },
+    { name: "Energy Positioning", score: energyPosScore, weight: WEIGHTS.energyPositioning, weighted: energyPosScore * WEIGHTS.energyPositioning },
   ];
 
   // ── Compute total (sum of weighted, clamped to 0–100) ────────────────

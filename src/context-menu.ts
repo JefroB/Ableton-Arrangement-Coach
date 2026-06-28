@@ -60,6 +60,7 @@ export function registerContextMenu(deps: ContextMenuDependencies): void {
     }
 
     // Run analysis if sections exist (energy scores, etc.)
+    // Audio analysis is skipped by default — only runs when explicitly requested from the panel.
     if (store.getState().sections.length > 0) {
       orchestrator.runAnalysis();
     }

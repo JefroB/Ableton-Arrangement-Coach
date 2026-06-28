@@ -29,6 +29,14 @@ import {
   computeActivePercussionElements,
   detectPercussionDiscontinuities,
 } from "./drum-pad-extractor.js";
+import {
+  getSimilarityWeights,
+  getPhraseDetectionThreshold,
+  getRoleKeywords,
+  getClassificationThresholds,
+  getFillDetectionThresholds,
+  getPercussionLoopSimilarityThreshold,
+} from "./content-classification-loader.js";
 
 // ─── Pattern Fingerprinting ───────────────────────────────────────────
 
@@ -227,11 +235,12 @@ export function computeSimilarityScore(
     maxDensity === 0 ? 0 : Math.min(a.density, b.density) / maxDensity;
 
   // Weighted combination
+  const weights = getSimilarityWeights();
   return (
-    0.35 * pitchClassJaccard +
-    0.30 * rhythmicOverlap +
-    0.20 * velocityCorrelation +
-    0.15 * densityRatio
+    weights.pitchClass * pitchClassJaccard +
+    weights.rhythmic * rhythmicOverlap +
+    weights.velocity * velocityCorrelation +
+    weights.density * densityRatio
   );
 }
 
@@ -284,7 +293,7 @@ export function detectPhraseLength(
     // If there are segments to compare, check average similarity
     if (similarities.length > 0) {
       const avgSimilarity = similarities.reduce((sum, s) => sum + s, 0) / similarities.length;
-      if (avgSimilarity >= 0.7) {
+      if (avgSimilarity >= getPhraseDetectionThreshold()) {
         return candidateBars;
       }
     }
@@ -295,13 +304,6 @@ export function detectPhraseLength(
 }
 
 // ─── Instrument Role Classification ───────────────────────────────────
-
-/** Track name keywords mapped to instrument roles (case-insensitive matching). */
-const DRUM_KEYWORDS = ["drum", "kick", "hat", "snare", "perc"];
-const BASS_KEYWORDS = ["bass"];
-const LEAD_KEYWORDS = ["lead", "melody"];
-const PAD_KEYWORDS = ["pad"];
-const ARP_KEYWORDS = ["arp"];
 
 /**
  * Check if a track name contains any keyword from a list (case-insensitive).
@@ -316,11 +318,12 @@ function trackNameContainsKeyword(trackName: string, keywords: readonly string[]
  * Returns null if no keyword match found.
  */
 function roleFromTrackName(trackName: string): InstrumentRole | null {
-  if (trackNameContainsKeyword(trackName, DRUM_KEYWORDS)) return "drums";
-  if (trackNameContainsKeyword(trackName, BASS_KEYWORDS)) return "bass";
-  if (trackNameContainsKeyword(trackName, LEAD_KEYWORDS)) return "lead";
-  if (trackNameContainsKeyword(trackName, PAD_KEYWORDS)) return "pad";
-  if (trackNameContainsKeyword(trackName, ARP_KEYWORDS)) return "arpeggio";
+  const keywords = getRoleKeywords();
+  if (trackNameContainsKeyword(trackName, keywords.drums)) return "drums";
+  if (trackNameContainsKeyword(trackName, keywords.bass)) return "bass";
+  if (trackNameContainsKeyword(trackName, keywords.lead)) return "lead";
+  if (trackNameContainsKeyword(trackName, keywords.pad)) return "pad";
+  if (trackNameContainsKeyword(trackName, keywords.arp)) return "arpeggio";
   return null;
 }
 
@@ -407,7 +410,7 @@ function computePitchVarietyPerBeat(notes: readonly NoteData[]): number {
  * Returns true if IOI coefficient of variation is below 0.3 (reasonably consistent).
  */
 function hasConsistentSpacing(notes: readonly NoteData[]): boolean {
-  return computeRhythmicRegularity(notes) > 0.7;
+  return computeRhythmicRegularity(notes) > getClassificationThresholds().arpeggio.regularityThreshold;
 }
 
 /**
@@ -430,7 +433,7 @@ export function classifyInstrumentRole(
   }
 
   // Step 1: Track name drum keywords → drums (high confidence)
-  if (trackNameContainsKeyword(trackName, DRUM_KEYWORDS)) {
+  if (trackNameContainsKeyword(trackName, getRoleKeywords().drums)) {
     return "drums";
   }
 
@@ -459,37 +462,38 @@ export function classifyInstrumentRole(
   const pitchVariety = pitchClassSet.size;
 
   // Step 3: Decision rules (checked in order)
+  const thresholds = getClassificationThresholds();
 
   // 3a: Drums — pitches in 35-81 range AND high rhythmic regularity AND low pitch variety per beat
   //     Additional guard: drum hits have short durations (< 0.5 beats) to avoid classifying
   //     bass lines and lead melodies that happen to be in the same pitch range.
-  const allPitchesInDrumRange = notes.every((n) => n.pitch >= 35 && n.pitch <= 81);
-  if (allPitchesInDrumRange && rhythmicRegularity > 0.8 && pitchVarietyPerBeat < 3 && avgDuration < 0.5) {
+  const allPitchesInDrumRange = notes.every((n) => n.pitch >= thresholds.drums.pitchRangeLow && n.pitch <= thresholds.drums.pitchRangeHigh);
+  if (allPitchesInDrumRange && rhythmicRegularity > thresholds.drums.regularityThreshold && pitchVarietyPerBeat < thresholds.drums.pitchVarietyPerBeatCeiling && avgDuration < thresholds.drums.avgDurationCeiling) {
     return "drums";
   }
 
   // 3b: Bass — low pitch AND monophonic
-  if (avgPitch < 60 && avgPolyphony < 1.5) {
+  if (avgPitch < thresholds.bass.avgPitchCeiling && avgPolyphony < thresholds.bass.avgPolyphonyCeiling) {
     return "bass";
   }
 
   // 3c: Arpeggio — high density AND consistent spacing
-  if (density > 4 && hasConsistentSpacing(notes)) {
+  if (density > thresholds.arpeggio.densityThreshold && hasConsistentSpacing(notes)) {
     return "arpeggio";
   }
 
   // 3d: Pad — high polyphony AND long duration
-  if (avgPolyphony > 2.5 && avgDuration > 2) {
+  if (avgPolyphony > thresholds.pad.avgPolyphonyThreshold && avgDuration > thresholds.pad.avgDurationThreshold) {
     return "pad";
   }
 
   // 3e: Chord — moderate polyphony AND moderate duration
-  if (avgPolyphony >= 2 && avgPolyphony <= 4 && avgDuration >= 0.5 && avgDuration <= 2) {
+  if (avgPolyphony >= thresholds.chord.polyphonyLowBound && avgPolyphony <= thresholds.chord.polyphonyHighBound && avgDuration >= thresholds.chord.durationLowBound && avgDuration <= thresholds.chord.durationHighBound) {
     return "chord";
   }
 
   // 3f: Lead — monophonic, higher pitch, melodic movement
-  if (avgPolyphony < 1.5 && avgPitch > 55 && pitchVariety >= 3) {
+  if (avgPolyphony < thresholds.lead.polyphonyCeiling && avgPitch > thresholds.lead.avgPitchThreshold && pitchVariety >= thresholds.lead.pitchVarietyThreshold) {
     return "lead";
   }
 
@@ -620,8 +624,9 @@ export function detectFills(
             ? 1.0 // If loop segment is empty but we have notes, that's a 100% increase
             : 0;
 
-      const hasDensityTrigger = densityIncrease >= 0.5;
-      const hasNewPitchesTrigger = newPitchClassCount >= 2;
+      const fillThresholds = getFillDetectionThresholds();
+      const hasDensityTrigger = densityIncrease >= fillThresholds.densityIncreaseFraction;
+      const hasNewPitchesTrigger = newPitchClassCount >= fillThresholds.newPitchClassCountThreshold;
 
       if (hasDensityTrigger || hasNewPitchesTrigger) {
         // Determine trigger type
@@ -729,7 +734,7 @@ export function classifyPercussionPattern(
     let allSimilar = true;
     for (let i = 0; i < fingerprints.length - 1; i++) {
       const similarity = computeSimilarityScore(fingerprints[i], fingerprints[i + 1]);
-      if (similarity < 0.85) {
+      if (similarity < getPercussionLoopSimilarityThreshold()) {
         allSimilar = false;
         break;
       }

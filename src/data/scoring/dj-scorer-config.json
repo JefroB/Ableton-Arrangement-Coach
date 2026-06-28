@@ -1,0 +1,27 @@
+{
+  "nonDjFamilies": ["ambient", "film-score"],
+  "componentWeights": {
+    "introLength": 0.20,
+    "outroLength": 0.20,
+    "phraseAlignment": 0.20,
+    "mixZoneCleanliness": 0.15,
+    "tempoConsistency": 0.15,
+    "energyPositioning": 0.10
+  },
+  "sectionLengthScoring": {
+    "minBars": 16,
+    "maxBars": 32,
+    "minScore": 50,
+    "maxScore": 100
+  },
+  "mixZoneThresholds": [
+    { "maxEnergy": 3, "score": 100 },
+    { "maxEnergy": 5, "score": 75 },
+    { "maxEnergy": 7, "score": 50 },
+    { "maxEnergy": 999, "score": 0 }
+  ],
+  "energyPositioning": {
+    "safeThreshold": 5,
+    "penaltyPerUnit": 20
+  }
+}
