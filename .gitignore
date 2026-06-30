@@ -1,5 +1,8 @@
 
-# Piggie extension files
+# Vendor SDK/CLI (local copies of @ableton-extensions packages)
+vendor/
+
+# Legacy piggie folder (replaced by vendor/)
 .piggie/
 
 # CodeSearch index (local only)
@@ -20,7 +23,7 @@ dist/
 # Coverage
 coverage/
 
-# Extracted SDK/CLI tarballs (dev copies — .piggie/ has the linked versions)
+# Extracted SDK/CLI tarballs (dev copies)
 ableton-extensions-cli-1.0.0-beta.0/
 ableton-extensions-sdk-1.0.0-beta.0/
 

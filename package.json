@@ -11,12 +11,12 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "@ableton-extensions/sdk": "file:.piggie/sdk",
+    "@ableton-extensions/sdk": "file:vendor/sdk",
     "audio-decode": "^3.10.2",
     "meyda": "^5.6.3"
   },
   "devDependencies": {
-    "@ableton-extensions/cli": "file:.piggie/cli",
+    "@ableton-extensions/cli": "file:vendor/cli",
     "@fast-check/vitest": "0.3.0",
     "@types/node": "^25.9.2",
     "@vitest/coverage-v8": "3.2.1",
