@@ -101,24 +101,11 @@ export async function openWebviewPanel(
       generationError: state.generationError,
     };
 
-    // Try to write a temp file with injected state
-    let url: string;
-    try {
-      const tempDir = (globalThis as any).__AC_TEMP_DIR__ as string | undefined;
-      if (!tempDir) {
-        throw new Error("No temp directory available");
-      }
-      fsMod.mkdirSync(tempDir, { recursive: true });
-      let html = fsMod.readFileSync(htmlPath, "utf-8");
-      const stateScript = `<script>window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};</script>`;
-      html = html.replace("<head>", "<head>" + stateScript);
-      const tempHtmlPath = pathMod.join(tempDir, "_panel.html");
-      fsMod.writeFileSync(tempHtmlPath, html, "utf-8");
-      url = "file:///" + tempHtmlPath.replace(/\\/g, "/").split("/").map(encodeURIComponent).join("/");
-    } catch (e) {
-      console.error("[Arrangement Coach] Temp file write failed, using original HTML:", e);
-      url = "file:///" + htmlPath.replace(/\\/g, "/").split("/").map(encodeURIComponent).join("/");
-    }
+    // Read HTML and inject state
+    let html = fsMod.readFileSync(htmlPath, "utf-8");
+    const stateScript = `<script>window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};</script>`;
+    html = html.replace("<head>", "<head>" + stateScript);
+    const url = `data:text/html,${encodeURIComponent(html)}`;
 
     try {
       // Subscribe to arrangementScore changes and prepare arrangement_score_updated

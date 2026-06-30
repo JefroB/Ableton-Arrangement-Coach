@@ -70,7 +70,7 @@ describe("webview-host", () => {
       );
     });
 
-    it("passes a file:/// URL to showModalDialog", async () => {
+    it("passes a data:text/html URL to showModalDialog", async () => {
       const ui = createMockUi();
       const resources = createMockResources();
       const store = createStore();
@@ -79,7 +79,7 @@ describe("webview-host", () => {
       await openWebviewPanel(ui, resources, store, orchestrator);
 
       const url = (ui.showModalDialog as ReturnType<typeof vi.fn>).mock.calls[0][0] as string;
-      expect(url).toMatch(/^file:\/\/\//);
+      expect(url).toMatch(/^data:text\/html,/);
     });
 
     it("does not throw when store is dispatched after dialog closes", async () => {
