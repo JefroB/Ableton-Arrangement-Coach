@@ -99,10 +99,12 @@ describe("computeArrangementScore", () => {
       expect(result.absoluteProximity).toBeCloseTo(1.0);
     });
 
-    it("returns score 10 for constant identical curves", () => {
+    it("returns null score for constant identical curves (flat guard)", () => {
       const curve = [5, 5, 5, 5];
       const result = computeArrangementScore({ energyCurve: curve, idealCurve: curve });
-      expect(result.score).toBe(10);
+      expect(result.score).toBeNull();
+      expect(result.shapeSimilarity).toBe(0);
+      expect(result.absoluteProximity).toBe(0);
     });
   });
 
@@ -142,19 +144,21 @@ describe("computeArrangementScore", () => {
     });
   });
 
-  describe("zero-length delta vectors", () => {
-    it("defaults shape similarity to 1.0 when all sections have same energy", () => {
-      // Constant actual, varying ideal
+  describe("zero-length delta vectors (flat curves hit guard)", () => {
+    it("returns null when all sections have same energy (flat guard)", () => {
+      // Constant actual → flat curve guard returns null before reaching cosineSimilarity
       const result = computeArrangementScore({ energyCurve: [5, 5, 5], idealCurve: [3, 6, 9] });
-      // Actual deltas are [0, 0], ideal deltas are [3, 3]
-      // Actual has zero magnitude → shape similarity defaults to 1.0
-      expect(result.shapeSimilarity).toBeCloseTo(1.0);
+      expect(result.score).toBeNull();
+      expect(result.shapeSimilarity).toBe(0);
+      expect(result.absoluteProximity).toBe(0);
     });
 
-    it("defaults shape similarity to 1.0 when both curves are constant", () => {
+    it("returns null when both curves are constant (flat guard)", () => {
       const result = computeArrangementScore({ energyCurve: [5, 5, 5], idealCurve: [7, 7, 7] });
-      // Both have zero-magnitude deltas
-      expect(result.shapeSimilarity).toBeCloseTo(1.0);
+      // Both constant → energy curve is flat → guard triggers
+      expect(result.score).toBeNull();
+      expect(result.shapeSimilarity).toBe(0);
+      expect(result.absoluteProximity).toBe(0);
     });
   });
 

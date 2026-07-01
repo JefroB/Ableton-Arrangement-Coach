@@ -156,6 +156,7 @@ function cosineSimilarity(a: number[], b: number[]): number {
  * Returns null score when:
  * - energyCurve has fewer than 2 sections
  * - idealCurve is empty
+ * - energyCurve is flat (no variance — insufficient data for meaningful scoring)
  *
  * When energyCurve length differs from idealCurve length:
  * - Fewer sections: compare against the first N values of idealCurve
@@ -166,6 +167,12 @@ export function computeArrangementScore(input: ArrangementScoreInput): Arrangeme
 
   // Edge case: insufficient data
   if (energyCurve.length < 2 || idealCurve.length === 0) {
+    return { score: null, shapeSimilarity: 0, absoluteProximity: 0 };
+  }
+
+  // Edge case: flat energy curve (no variance — insufficient data for meaningful scoring)
+  const isFlat = energyCurve.every(v => v === energyCurve[0]);
+  if (isFlat) {
     return { score: null, shapeSimilarity: 0, absoluteProximity: 0 };
   }
 
