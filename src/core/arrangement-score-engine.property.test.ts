@@ -88,6 +88,8 @@ describe("Property 1: Score range invariant", () => {
   test.prop([energyCurveArb, idealCurveArb], { numRuns: 100 })(
     "returns a non-null integer score in [1, 10]",
     (energyCurve, idealCurve) => {
+      fc.pre(!energyCurve.every(v => v === energyCurve[0]));
+
       const result = computeArrangementScore({ energyCurve, idealCurve });
 
       expect(result.score).not.toBeNull();
@@ -100,6 +102,8 @@ describe("Property 1: Score range invariant", () => {
   test.prop([energyCurveArb, idealCurveArb], { numRuns: 100 })(
     "calling twice with same inputs produces identical result (determinism)",
     (energyCurve, idealCurve) => {
+      fc.pre(!energyCurve.every(v => v === energyCurve[0]));
+
       const input = { energyCurve, idealCurve };
       const result1 = computeArrangementScore(input);
       const result2 = computeArrangementScore(input);
@@ -124,6 +128,8 @@ describe("Property 2: Score formula consistency", () => {
   test.prop([energyCurveArb, idealCurveArb], { numRuns: 100 })(
     "score equals clamp(1, 10, round((0.5 * shapeSimilarity + 0.5 * absoluteProximity) * 9 + 1))",
     (energyCurve, idealCurve) => {
+      fc.pre(!energyCurve.every(v => v === energyCurve[0]));
+
       const result = computeArrangementScore({ energyCurve, idealCurve });
 
       const raw = 0.5 * result.shapeSimilarity + 0.5 * result.absoluteProximity;
@@ -147,6 +153,8 @@ describe("Property 3: Identical curves yield maximum score", () => {
   test.prop([energyCurveArb], { numRuns: 100 })(
     "score is 10 when energy curve is used as both actual and ideal",
     (energyCurve) => {
+      fc.pre(!energyCurve.every(v => v === energyCurve[0])); // Precondition filter
+
       const result = computeArrangementScore({
         energyCurve,
         idealCurve: energyCurve,
@@ -228,6 +236,43 @@ describe("Property 6: Color tier mapping completeness", () => {
         expect(tier.color).toBe("#f44336");
         expect(tier.label).toBe("Needs Work");
       }
+    },
+  );
+});
+
+
+// ─── Property 7: Bug Condition Exploration ─────────────────────────────────────
+
+/**
+ * **Validates: Requirements 2.1, 2.2**
+ *
+ * For any flat energy curve (single integer repeated 2–20 times) and any ideal curve
+ * of matching length (integers 1–10), computeArrangementScore SHALL return
+ * { score: null, shapeSimilarity: 0, absoluteProximity: 0 }.
+ *
+ * This test is EXPECTED TO FAIL on unfixed code — failure confirms the bug exists.
+ */
+describe("Property 7: Flat energy curve returns null score (bug condition)", () => {
+  test.prop(
+    [
+      fc.integer({ min: 1, max: 10 }),
+      fc.integer({ min: 2, max: 20 }).chain((len) =>
+        fc.tuple(
+          fc.constant(len),
+          fc.array(fc.integer({ min: 1, max: 10 }), { minLength: len, maxLength: len }),
+        ),
+      ),
+    ],
+    { numRuns: 100 },
+  )(
+    "flat energy curve with arbitrary ideal curve of matching length returns null score",
+    (value, [len, idealCurve]) => {
+      const energyCurve = Array(len).fill(value) as number[];
+      const result = computeArrangementScore({ energyCurve, idealCurve });
+
+      expect(result.score).toBeNull();
+      expect(result.shapeSimilarity).toBe(0);
+      expect(result.absoluteProximity).toBe(0);
     },
   );
 });
