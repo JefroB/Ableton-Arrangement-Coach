@@ -329,8 +329,17 @@ function selectCategories(
     }
   }
 
-  // Select first N categories
-  let selected = categoryList.slice(0, count);
+  // Select first N categories (pad by cycling if fewer available than requested)
+  let selected: TransitionCategory[];
+  if (categoryList.length >= count) {
+    selected = categoryList.slice(0, count);
+  } else {
+    // Pad by cycling through available categories
+    selected = [];
+    for (let i = 0; i < count; i++) {
+      selected.push(categoryList[i % categoryList.length]!);
+    }
+  }
 
   // For drop/build/chorus_entry: ensure at least one riser or impact
   if (boundaryType === "drop" || boundaryType === "build" || boundaryType === "chorus_entry") {

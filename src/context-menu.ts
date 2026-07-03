@@ -13,6 +13,9 @@ import type { Ui, Commands } from "@ableton-extensions/sdk";
 import type { AnalysisOrchestrator } from "./core/analysis-orchestrator.js";
 import type { Store } from "./state/store.js";
 import type { BackendMessage } from "./ui/messages.js";
+import type { SdkAdapter } from "./ableton/sdk-adapter.js";
+import type { Section } from "./core/section-scanner.js";
+import { autoPlaceIfNeeded } from "./core/auto-placer.js";
 
 // ─── Dependencies ──────────────────────────────────────────────────────
 
@@ -22,6 +25,8 @@ export interface ContextMenuDependencies {
   readonly commands: Commands;
   readonly orchestrator: AnalysisOrchestrator;
   readonly store: Store;
+  readonly sdk?: SdkAdapter;
+  readonly getSections?: () => readonly Section[];
   readonly sendMessage?: (message: BackendMessage) => void;
   readonly openPanel?: () => void;
   readonly rescan?: () => void;
@@ -38,7 +43,7 @@ export interface ContextMenuDependencies {
  * @param deps - The required dependencies for context menu registration.
  */
 export function registerContextMenu(deps: ContextMenuDependencies): void {
-  const { ui, commands, orchestrator, store, sendMessage, openPanel, rescan } = deps;
+  const { ui, commands, orchestrator, store, sendMessage, openPanel, rescan, sdk, getSections } = deps;
 
   // Register "Analyze Arrangement" command — rescans, runs analysis, then opens the panel.
   commands.registerCommand("arrangement-coach.analyze", (arg: unknown) => {
@@ -59,10 +64,56 @@ export function registerContextMenu(deps: ContextMenuDependencies): void {
       store.dispatch({ type: "CLEAR_SELECTION_RANGE" });
     }
 
-    // Run analysis if sections exist (energy scores, etc.)
-    // Audio analysis is skipped by default — only runs when explicitly requested from the panel.
-    if (store.getState().sections.length > 0) {
-      orchestrator.runAnalysis();
+    // Auto-placement pre-check: detect missing locators and place them if needed (Req 1.1, 1.2, 1.3, 1.4, 5.1, 5.3)
+    if (sdk && getSections) {
+      (async () => {
+        try {
+          const placementResult = await autoPlaceIfNeeded({ sdk, store, getSections });
+
+          if (placementResult.outcome === "placed") {
+            // Re-read locators and rebuild sections after auto-placement
+            if (rescan) {
+              rescan();
+            }
+            // Invalidate cache before new analysis (Req 5.3)
+            orchestrator.invalidateCache();
+            orchestrator.runAnalysis();
+            if (sendMessage) {
+              sendMessage({
+                type: "show_confirmation_dialog",
+                data: {
+                  markersPlaced: placementResult.markersCreated,
+                  warning: placementResult.insufficientWarning,
+                },
+              });
+            }
+          } else if (placementResult.outcome === "skipped") {
+            // Locators already exist — run analysis directly
+            if (store.getState().sections.length > 0) {
+              orchestrator.runAnalysis();
+            }
+          } else if (placementResult.outcome === "aborted") {
+            if (sendMessage) {
+              sendMessage({ type: "show_info_message", message: placementResult.message });
+            }
+          } else if (placementResult.outcome === "failed") {
+            if (sendMessage) {
+              sendMessage({ type: "show_error_message", message: placementResult.message });
+            }
+          }
+        } catch (error) {
+          console.error("[Context Menu] Auto-placement error:", error);
+          // Fall back to standard analysis if auto-placement throws
+          if (store.getState().sections.length > 0) {
+            orchestrator.runAnalysis();
+          }
+        }
+      })();
+    } else {
+      // Fallback: no sdk/getSections available — run analysis directly (legacy path)
+      if (store.getState().sections.length > 0) {
+        orchestrator.runAnalysis();
+      }
     }
 
     // Always open the panel — even with 0 sections, the user may want to generate them.

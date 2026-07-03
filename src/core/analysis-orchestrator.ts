@@ -652,9 +652,14 @@ export function createAnalysisOrchestrator(
           });
         }
 
+        // Step 6–9: Energy scoring — compute weights, scores, update section analysis, dispatch.
+        const sectionsArray = [...sections];
+        const energyScores: number[] = [];
+        let hasAlsData = false;
+        try {
         // Step 6: Get weights for the selected genre.
         // Select appropriate weight profile based on whether .als data is available.
-        const hasAlsData = store.getState().automationData !== null;
+        hasAlsData = store.getState().automationData !== null;
         const weights = getWeightsForGenre(store.getState().selectedGenreId, hasAlsData);
 
         console.log(`[Arrangement Coach] Energy weights: ` +
@@ -664,12 +669,12 @@ export function createAnalysisOrchestrator(
           `poly=${weights.polyphonyScoreWeight}, pitch=${weights.pitchRangeWeight}`);
 
         // Step 7: Compute energy scores.
-        const energyScores = computeEnergyScores(scoringInputs, weights);
+        const computed = computeEnergyScores(scoringInputs, weights);
+        energyScores.push(...computed);
 
         console.log(`[Arrangement Coach] Energy scores: [${energyScores.join(", ")}]`);
 
         // Step 8: Update sectionAnalysis map with actual energy scores.
-        const sectionsArray = [...sections];
         for (let i = 0; i < sectionsArray.length; i++) {
           const section = sectionsArray[i]!;
           const existing = sectionAnalysisMap.get(section.id)!;
@@ -685,6 +690,10 @@ export function createAnalysisOrchestrator(
           sectionAnalysis: sectionAnalysisMap,
           energyCurve: energyScores,
         });
+        } catch (energyScoringError) {
+          console.error("[Analysis Orchestrator] Error during energy scoring:", energyScoringError);
+          sendMessage?.({ type: "show_error_message", message: "Analysis error in Energy Scoring. Partial results are shown for stages that completed successfully." });
+        }
 
         // Step 9b: Content Analysis — call analyzeContent and dispatch results.
         // Skip recomputation when sections and track data have not changed.
@@ -919,6 +928,7 @@ export function createAnalysisOrchestrator(
           store.dispatch({ type: "UPDATE_TRANSITIONS", transitionRecommendations });
         } catch (transitionError) {
           console.error("[Analysis Orchestrator] Error during transition computation:", transitionError);
+          sendMessage?.({ type: "show_error_message", message: "Analysis error in Transition Engine. Partial results are shown for stages that completed successfully." });
         }
 
         // Step 11: Run issue detection on fresh state + intermediate data.
@@ -1185,6 +1195,7 @@ export function createAnalysisOrchestrator(
         } catch (issueError) {
           // On detection error, log and skip — preserve previous issues in state.
           console.error("[Analysis Orchestrator] Error during issue detection:", issueError);
+          sendMessage?.({ type: "show_error_message", message: "Analysis error in Issue Detection. Partial results are shown for stages that completed successfully." });
         }
 
         // Step 11b: Detect contrast gaps and generate automation suggestions.
@@ -1279,6 +1290,7 @@ export function createAnalysisOrchestrator(
         } catch (checklistError) {
           // On auto-generation error, log and skip — preserve previous checklists in state.
           console.error("[Analysis Orchestrator] Error during checklist auto-generation:", checklistError);
+          sendMessage?.({ type: "show_error_message", message: "Analysis error in Checklist Generation. Partial results are shown for stages that completed successfully." });
         }
 
         // Step 13: Compute DJ compatibility score and dispatch result.
@@ -1294,6 +1306,7 @@ export function createAnalysisOrchestrator(
           store.dispatch({ type: "UPDATE_DJ_SCORE", djScore: djResult });
         } catch (djError) {
           console.error("[Analysis Orchestrator] Error during DJ scoring:", djError);
+          sendMessage?.({ type: "show_error_message", message: "Analysis error in DJ Scoring. Partial results are shown for stages that completed successfully." });
         }
 
         // Step 13b: Compute arrangement score and dispatch result.
@@ -1325,6 +1338,7 @@ export function createAnalysisOrchestrator(
           }
         } catch (arrError) {
           console.error("[Analysis Orchestrator] Error during arrangement scoring:", arrError);
+          sendMessage?.({ type: "show_error_message", message: "Analysis error in Arrangement Scoring. Partial results are shown for stages that completed successfully." });
           // On error, retain previous score unchanged (do not dispatch)
         }
 

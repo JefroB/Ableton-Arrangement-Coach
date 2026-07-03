@@ -127,6 +127,8 @@ export function activate(context: ActivationContext) {
       commands: extensionContext.commands,
       orchestrator,
       store,
+      sdk: adapter,
+      getSections: () => store.getState().sections,
       rescan: () => {
         // Re-read locators and tracks from the live set
         try {
