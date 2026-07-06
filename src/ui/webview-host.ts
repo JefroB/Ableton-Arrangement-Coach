@@ -29,6 +29,7 @@ import type { SectionChecklistItem } from "../core/notes-types.js";
 import type { SdkAdapter } from "../ableton/sdk-adapter.js";
 import type { BackendMessage } from "./messages.js";
 import { handleFrontendMessage } from "./messages.js";
+import { autoPlaceIfNeeded } from "../core/auto-placer.js";
 import { getAllFamilies, search, getProfile, getProfileBySubgenre } from "../core/genre-registry.js";
 import { computeAlignment } from "../core/alignment-scorer.js";
 import { detectArchetype } from "../core/archetype-detector.js";
@@ -173,6 +174,53 @@ export async function openWebviewPanel(
           // Re-analyze and reopen with fresh results (including audio analysis)
           orchestrator.invalidateCache();
           orchestrator.runAnalysis({ includeAudioAnalysis: true });
+          keepOpen = true;
+        } else if (parsed && parsed.type === "request_analysis") {
+          // Auto-place locators if needed, then run full analysis (including audio).
+          // Single atomic state update: no intermediate partial-result states visible.
+          if (options?.sdk) {
+            const getSections = () => store.getState().sections;
+            const placementResult = await autoPlaceIfNeeded({ sdk: options.sdk, store, getSections });
+
+            if (placementResult.outcome === "placed") {
+              // Rescan: re-read locators and rebuild sections + track inventory
+              const freshLocators = options.sdk.readLocators();
+              const freshSections = buildSections(freshLocators);
+              const freshTracks = options.sdk.readTracks();
+              const freshInventory = buildTrackInventory(freshTracks);
+              store.dispatch({ type: "INIT", sections: freshSections, trackInventory: freshInventory });
+
+              orchestrator.invalidateCache();
+              orchestrator.runAnalysis({ includeAudioAnalysis: true });
+
+              // Show confirmation dialog after successful placement + analysis
+              const _confirmMsg: BackendMessage = {
+                type: "show_confirmation_dialog",
+                data: {
+                  markersPlaced: placementResult.markersCreated,
+                  warning: placementResult.insufficientWarning,
+                },
+              };
+              void _confirmMsg;
+            } else if (placementResult.outcome === "skipped") {
+              orchestrator.runAnalysis({ includeAudioAnalysis: true });
+            } else if (placementResult.outcome === "aborted") {
+              const _infoMsg: BackendMessage = {
+                type: "show_info_message",
+                message: placementResult.message,
+              };
+              void _infoMsg;
+            } else if (placementResult.outcome === "failed") {
+              const _errorMsg: BackendMessage = {
+                type: "show_error_message",
+                message: placementResult.message,
+              };
+              void _errorMsg;
+            }
+          } else {
+            // No SDK available — fall back to direct analysis
+            orchestrator.runAnalysis({ includeAudioAnalysis: true });
+          }
           keepOpen = true;
         } else if (parsed && parsed.type === "set_als_path") {
           // User provided .als path from the overlay

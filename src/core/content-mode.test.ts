@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
-  detectBoundaries,
+  detectBoundariesScored,
   snapToGrid,
   matchVariant,
   computeContentMarkers,
@@ -8,9 +8,9 @@ import {
 import type { ArrangementVariant } from "./structure-types.js";
 
 describe("Content Mode", () => {
-  describe("detectBoundaries", () => {
+  describe("detectBoundariesScored", () => {
     it("returns empty array when no clips provided", () => {
-      expect(detectBoundaries([], 4)).toEqual([]);
+      expect(detectBoundariesScored([], 4)).toEqual([]);
     });
 
     it("returns empty array when all clips are muted", () => {
@@ -18,55 +18,65 @@ describe("Content Mode", () => {
         { startTime: 0, endTime: 32, muted: true, trackIndex: 0 },
         { startTime: 0, endTime: 64, muted: true, trackIndex: 1 },
       ];
-      expect(detectBoundaries(clips, 4)).toEqual([]);
+      expect(detectBoundariesScored(clips, 4)).toEqual([]);
     });
 
-    it("returns positions where >= 2 clips start or end", () => {
+    it("always includes content-start position with score 4", () => {
       const clips = [
         { startTime: 0, endTime: 32, muted: false, trackIndex: 0 },
         { startTime: 0, endTime: 64, muted: false, trackIndex: 1 },
         { startTime: 32, endTime: 96, muted: false, trackIndex: 2 },
       ];
-      const boundaries = detectBoundaries(clips, 4);
-      // Position 0: 2 clips start → candidate
-      // Position 32: 1 clip ends + 1 clip starts = 2 → candidate
-      expect(boundaries).toContain(0);
-      expect(boundaries).toContain(32);
+      const boundaries = detectBoundariesScored(clips, 4);
+      const contentStartBoundary = boundaries.find(b => b.position === 0);
+      expect(contentStartBoundary).toBeDefined();
+      expect(contentStartBoundary!.score).toBe(4);
     });
 
-    it("does not include positions where only 1 clip starts or ends", () => {
+    it("detects boundaries at positions with track density changes", () => {
+      // Clips on tracks 0-5 active in bars 0-3, then only track 0 active in bars 4+
       const clips = [
-        { startTime: 0, endTime: 32, muted: false, trackIndex: 0 },
-        { startTime: 16, endTime: 48, muted: false, trackIndex: 1 },
+        { startTime: 0, endTime: 16, muted: false, trackIndex: 0 },
+        { startTime: 0, endTime: 16, muted: false, trackIndex: 1 },
+        { startTime: 0, endTime: 16, muted: false, trackIndex: 2 },
+        { startTime: 0, endTime: 16, muted: false, trackIndex: 3 },
+        { startTime: 16, endTime: 32, muted: false, trackIndex: 0 },
       ];
-      const boundaries = detectBoundaries(clips, 4);
-      // Position 0: 1 start only
-      // Position 16: 1 start only
-      // Position 32: 1 end only
-      // Position 48: 1 end only
-      expect(boundaries).toEqual([]);
+      const boundaries = detectBoundariesScored(clips, 4);
+      // Bar position 16 should have a density delta (4 tracks -> 1 track)
+      const pos16 = boundaries.find(b => b.position === 16);
+      expect(pos16).toBeDefined();
+      expect(pos16!.score).toBeGreaterThanOrEqual(1);
     });
 
-    it("excludes muted clips from count", () => {
+    it("excludes muted clips from scoring", () => {
+      // Single unmuted clip; muted clips should not affect scores
       const clips = [
         { startTime: 0, endTime: 32, muted: false, trackIndex: 0 },
         { startTime: 0, endTime: 64, muted: true, trackIndex: 1 },
+        { startTime: 0, endTime: 64, muted: true, trackIndex: 2 },
       ];
-      const boundaries = detectBoundaries(clips, 4);
-      // Position 0: only 1 unmuted clip starts
-      expect(boundaries).toEqual([]);
+      const boundaries = detectBoundariesScored(clips, 4);
+      // Only 1 unmuted clip — content-start is forced with score 4
+      const contentStart = boundaries.find(b => b.position === 0);
+      expect(contentStart).toBeDefined();
+      expect(contentStart!.score).toBe(4);
     });
 
-    it("returns sorted positions", () => {
+    it("returns boundaries sorted by position ascending", () => {
       const clips = [
-        { startTime: 64, endTime: 128, muted: false, trackIndex: 0 },
-        { startTime: 64, endTime: 128, muted: false, trackIndex: 1 },
-        { startTime: 0, endTime: 64, muted: false, trackIndex: 2 },
-        { startTime: 0, endTime: 64, muted: false, trackIndex: 3 },
+        { startTime: 0, endTime: 16, muted: false, trackIndex: 0 },
+        { startTime: 0, endTime: 16, muted: false, trackIndex: 1 },
+        { startTime: 0, endTime: 16, muted: false, trackIndex: 2 },
+        { startTime: 16, endTime: 32, muted: false, trackIndex: 0 },
+        { startTime: 32, endTime: 48, muted: false, trackIndex: 0 },
+        { startTime: 32, endTime: 48, muted: false, trackIndex: 1 },
+        { startTime: 32, endTime: 48, muted: false, trackIndex: 2 },
       ];
-      const boundaries = detectBoundaries(clips, 4);
-      // Position 0: 2 starts, Position 64: 2 ends + 2 starts = 4, Position 128: 2 ends
-      expect(boundaries).toEqual([0, 64, 128]);
+      const boundaries = detectBoundariesScored(clips, 4);
+      for (let i = 1; i < boundaries.length; i++) {
+        expect(boundaries[i]!.position).toBeGreaterThanOrEqual(boundaries[i - 1]!.position);
+      }
     });
   });
 
@@ -183,10 +193,10 @@ describe("Content Mode", () => {
     ];
 
     it("returns empty array when fewer than 3 boundaries detected", () => {
-      // Only 2 clips starting at same position → at most 1 boundary
+      // Single short clip — will produce content-start and possibly 1-2 other scored positions
+      // but after grid snapping (8-bar = 32 beats), very few survive
       const clips = [
-        { startTime: 0, endTime: 64, muted: false, trackIndex: 0 },
-        { startTime: 0, endTime: 128, muted: false, trackIndex: 1 },
+        { startTime: 0, endTime: 8, muted: false, trackIndex: 0 },
       ];
       const result = computeContentMarkers({
         clips,
@@ -198,14 +208,23 @@ describe("Content Mode", () => {
     });
 
     it("returns markers when >= 3 boundaries are detected", () => {
-      // Create clips that produce >= 3 boundaries on the 8-bar grid
+      // Create clips that produce multiple density transitions at 8-bar grid points (0, 32, 64, 96, 128)
+      // Each segment has different track counts to trigger density delta signals
       const clips = [
-        { startTime: 0, endTime: 64, muted: false, trackIndex: 0 },
-        { startTime: 0, endTime: 64, muted: false, trackIndex: 1 },
-        { startTime: 64, endTime: 128, muted: false, trackIndex: 2 },
-        { startTime: 64, endTime: 128, muted: false, trackIndex: 3 },
-        { startTime: 128, endTime: 192, muted: false, trackIndex: 4 },
-        { startTime: 128, endTime: 192, muted: false, trackIndex: 5 },
+        // First segment (0-32): 4 tracks active
+        { startTime: 0, endTime: 32, muted: false, trackIndex: 0 },
+        { startTime: 0, endTime: 32, muted: false, trackIndex: 1 },
+        { startTime: 0, endTime: 32, muted: false, trackIndex: 2 },
+        { startTime: 0, endTime: 32, muted: false, trackIndex: 3 },
+        // Second segment (32-64): 1 track active (density delta = 3 at pos 32)
+        { startTime: 32, endTime: 64, muted: false, trackIndex: 0 },
+        // Third segment (64-96): 4 tracks active (density delta = 3 at pos 64)
+        { startTime: 64, endTime: 96, muted: false, trackIndex: 0 },
+        { startTime: 64, endTime: 96, muted: false, trackIndex: 1 },
+        { startTime: 64, endTime: 96, muted: false, trackIndex: 2 },
+        { startTime: 64, endTime: 96, muted: false, trackIndex: 3 },
+        // Fourth segment (96-128): 1 track active (density delta = 3 at pos 96)
+        { startTime: 96, endTime: 128, muted: false, trackIndex: 0 },
       ];
       const result = computeContentMarkers({
         clips,

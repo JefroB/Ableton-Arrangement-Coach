@@ -751,6 +751,69 @@ html, body {
   background: #2a2a2a;
   color: #e0e0e0;
 }
+/* Confirmation dialog */
+.confirmation-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.confirmation-dialog {
+  background: #252525;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 440px;
+  width: 90%;
+}
+.confirmation-dialog h2 {
+  color: #e0e0e0;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+.confirmation-dialog p {
+  color: #ccc;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+.confirmation-dialog .marker-count {
+  color: #6C9BFF;
+  font-weight: 600;
+}
+.confirmation-dialog .insufficient-warning {
+  background: rgba(255, 202, 40, 0.1);
+  border: 1px solid rgba(255, 202, 40, 0.3);
+  border-radius: 4px;
+  padding: 8px;
+  margin: 8px 0;
+  color: #ffca28;
+  font-size: 11px;
+}
+.confirmation-dialog .dismiss-btn {
+  background: #6C9BFF;
+  border: none;
+  color: #1a1a1a;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 12px;
+  width: 100%;
+}
+.confirmation-dialog .dismiss-btn:hover {
+  background: #8BB0FF;
+}
+.behind-dialog {
+  opacity: 0.3;
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
@@ -909,6 +972,9 @@ var arrangementScore = null;
 // Generation state
 var isGenerating = false;
 var generationError = null;
+
+// Confirmation dialog state (retained if webview closes while dialog is displayed)
+var pendingConfirmationDialog = null;
 
 // Hydrate from injected initial state
 if (window.__INITIAL_STATE__) {
@@ -1625,6 +1691,97 @@ closeWithResult = function(result) {
   _originalCloseWithResult(result);
 };
 
+// Send a message to the extension WITHOUT closing the webview
+function sendMessage(payload) {
+  var message = { method: "send", params: [JSON.stringify(payload)] };
+  if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.live) {
+    window.webkit.messageHandlers.live.postMessage(message);
+  } else if (window.chrome && window.chrome.webview) {
+    window.chrome.webview.postMessage(message);
+  }
+}
+
+// Confirmation dialog: show overlay, hide analysis results behind it
+var _confirmDialogKeyHandler = null;
+
+function showConfirmationDialog(data) {
+  var markersPlaced = data.markersPlaced || 0;
+  var warning = data.warning || null;
+
+  // Build warning HTML if applicable
+  var warningHtml = "";
+  if (warning) {
+    var rangeText = "";
+    if (warning.typicalMin === warning.typicalMax) {
+      rangeText = "typical for this genre is " + warning.typicalMin + " sections";
+    } else {
+      rangeText = "typical for this genre is " + warning.typicalMin + "\u2013" + warning.typicalMax + " sections";
+    }
+    warningHtml = '<div class="insufficient-warning"><p>' + warning.placed + ' sections placed \u2014 ' + rangeText + '</p></div>';
+  }
+
+  // Build the dialog overlay HTML
+  var overlayHtml = '<div class="confirmation-dialog-overlay" id="confirmationDialogOverlay" role="dialog" aria-modal="true" aria-label="Section markers confirmation">' +
+    '<div class="confirmation-dialog">' +
+    '<h2>Section Markers Placed</h2>' +
+    '<p>The section markers were automatically placed based on the arrangement content.</p>' +
+    '<p>We recommend reviewing and adjusting marker positions to match your creative vision.</p>' +
+    '<p class="marker-count">' + markersPlaced + ' locators placed</p>' +
+    warningHtml +
+    '<button class="dismiss-btn" id="dismissConfirmationBtn" type="button">Got it</button>' +
+    '</div></div>';
+
+  // Insert into DOM
+  document.body.insertAdjacentHTML("beforeend", overlayHtml);
+
+  // Hide analysis results behind the overlay
+  var sectionsRow = document.getElementById("sectionsRow");
+  var energyRow = document.getElementById("energyRow");
+  var panels = document.querySelector(".panels");
+  if (sectionsRow) sectionsRow.classList.add("behind-dialog");
+  if (energyRow) energyRow.classList.add("behind-dialog");
+  if (panels) panels.classList.add("behind-dialog");
+
+  // Set up dismiss handlers
+  var dismissBtn = document.getElementById("dismissConfirmationBtn");
+
+  function dismissConfirmationDialog() {
+    // Remove overlay
+    var overlay = document.getElementById("confirmationDialogOverlay");
+    if (overlay) overlay.remove();
+
+    // Reveal analysis results
+    if (sectionsRow) sectionsRow.classList.remove("behind-dialog");
+    if (energyRow) energyRow.classList.remove("behind-dialog");
+    if (panels) panels.classList.remove("behind-dialog");
+
+    // Remove keyboard listener
+    if (_confirmDialogKeyHandler) {
+      document.removeEventListener("keydown", _confirmDialogKeyHandler);
+      _confirmDialogKeyHandler = null;
+    }
+
+    // Clear pending state
+    pendingConfirmationDialog = null;
+
+    // Send acknowledgment to extension (without closing the webview)
+    sendMessage({ type: "dismiss_confirmation_dialog" });
+  }
+
+  // Button click
+  if (dismissBtn) {
+    dismissBtn.addEventListener("click", dismissConfirmationDialog);
+  }
+
+  // Keyboard: Enter or Escape
+  _confirmDialogKeyHandler = function(e) {
+    if (e.key === "Enter" || e.key === "Escape") {
+      dismissConfirmationDialog();
+    }
+  };
+  document.addEventListener("keydown", _confirmDialogKeyHandler);
+}
+
 // Listen for backend messages (e.g. score updates pushed while dialog is open)
 window.addEventListener("message", function(event) {
   var msg = event.data;
@@ -1636,6 +1793,10 @@ window.addEventListener("message", function(event) {
     // If score is null, show the placeholder dash
     arrangementScore = (msg.score !== undefined) ? msg.score : null;
     renderArrangementScore();
+  } else if (msg.type === "show_confirmation_dialog") {
+    // Store dialog data in state (retained even if webview closes)
+    pendingConfirmationDialog = msg.data || {};
+    showConfirmationDialog(pendingConfirmationDialog);
   }
 });
 

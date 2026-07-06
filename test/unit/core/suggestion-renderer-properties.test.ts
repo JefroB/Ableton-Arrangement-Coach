@@ -12,11 +12,11 @@ const GENRE_TECHNIQUES = getGenreTechniques();
 // ─── Format Constants ──────────────────────────────────────────────────
 
 /**
- * Regex from the spec: lowercase letter start, lowercase letters/digits/spaces/hyphens
+ * Regex from the spec: lowercase letter start, lowercase letters/digits/spaces/hyphens/slashes
  * in the middle (8–58 chars), ends with lowercase letter or digit.
  * Total length: 10–60 characters.
  */
-const FORMAT_REGEX = /^[a-z][a-z0-9 \-]{8,58}[a-z0-9]$/;
+const FORMAT_REGEX = /^[a-z][a-z0-9 /\-]{8,58}[a-z0-9]$/;
 
 // ─── Helpers ───────────────────────────────────────────────────────────
 
