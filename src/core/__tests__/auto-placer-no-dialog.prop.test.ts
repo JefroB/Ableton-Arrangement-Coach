@@ -32,6 +32,7 @@ function createMockSdk(opts: {
     endTime: i * 10 + 9,
     muted: false,
     trackIndex: i % opts.trackCount,
+    trackName: `Track ${i % opts.trackCount}`,
   }));
 
   return {

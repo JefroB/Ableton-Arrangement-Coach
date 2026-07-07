@@ -1228,3 +1228,52 @@ describe("SDK Adapter — Property 2: Invalid track indices produce empty result
     },
   );
 });
+
+
+// ─── Bug Exploration: trackName passthrough (Requirement 1.1) ──────────────────
+// This test is EXPECTED TO FAIL on unfixed code.
+// Failure confirms that readAllClips() does NOT include trackName.
+
+describe("SDK Adapter — readAllClips trackName passthrough (exploration)", () => {
+  it("each returned clip has a trackName matching its parent track name", () => {
+    const tracks = [
+      makeMidiTrackWithClips("Kick", [
+        makeMidiClip({ startTime: 0, endTime: 16 }),
+        makeMidiClip({ startTime: 16, endTime: 32 }),
+      ]),
+      makeMidiTrackWithClips("FX Riser", [
+        makeMidiClip({ startTime: 64, endTime: 128 }),
+      ]),
+      makeMidiTrackWithClips("Synth Pad", [
+        makeMidiClip({ startTime: 0, endTime: 256 }),
+        makeMidiClip({ startTime: 256, endTime: 512 }),
+      ]),
+    ];
+
+    const context = buildContext({ tracks });
+    const adapter = createSdkAdapter(context);
+    const clips = adapter.readAllClips();
+
+    // We expect 5 clips total (2 + 1 + 2)
+    expect(clips).toHaveLength(5);
+
+    // Each clip MUST have a trackName field matching its parent track
+    // Clips from track 0 ("Kick") → trackName === "Kick"
+    const kickClips = clips.filter((c) => c.trackIndex === 0);
+    for (const clip of kickClips) {
+      expect(clip).toHaveProperty("trackName", "Kick");
+    }
+
+    // Clips from track 1 ("FX Riser") → trackName === "FX Riser"
+    const fxClips = clips.filter((c) => c.trackIndex === 1);
+    for (const clip of fxClips) {
+      expect(clip).toHaveProperty("trackName", "FX Riser");
+    }
+
+    // Clips from track 2 ("Synth Pad") → trackName === "Synth Pad"
+    const padClips = clips.filter((c) => c.trackIndex === 2);
+    for (const clip of padClips) {
+      expect(clip).toHaveProperty("trackName", "Synth Pad");
+    }
+  });
+});

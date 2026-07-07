@@ -37,6 +37,7 @@ function clipsAboveDensityArb(songDuration: number): fc.Arbitrary<ClipInfo[]> {
           endTime: start + length,
           muted: false,
           trackIndex,
+          trackName: `Track ${trackIndex}`,
         })),
       { minLength: CLIP_COUNT_THRESHOLD, maxLength: 15 },
     );

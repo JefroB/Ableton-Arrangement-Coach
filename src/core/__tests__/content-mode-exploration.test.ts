@@ -1,6 +1,6 @@
 // Validates: Requirements 1.1
 import { describe, it, expect } from 'vitest';
-import { detectBoundaries, computeContentMarkers } from '../content-mode.js';
+import { detectBoundaries, detectBoundariesScored, computeContentMarkers, computeTrackDensityDelta } from '../content-mode.js';
 
 describe('Bug Exploration: Content-start missed detection (Case A)', () => {
   it('should include beat 0 in boundaries when content starts there with a single clip', () => {
@@ -133,5 +133,114 @@ describe('Bug Exploration: Section name cycling (Case D)', () => {
 
     // Assert that no base name appears more than once
     expect(new Set(baseNames).size).toBe(baseNames.length);
+  });
+});
+
+
+// Validates: Requirements 1.2
+describe('Bug Exploration: FX signal dead when trackName missing (Case E)', () => {
+  it('should return no FX signal contribution when clips lack trackName', () => {
+    // Clips on what WOULD be an FX track (index 0), positioned near bar boundary at beat 4.
+    // These clips overlap the ±1 bar window around beat 4 (window: 0 to 8).
+    // WITHOUT trackName, computeFxPresence skips all clips → signal never fires.
+    const clipsWithoutTrackName = [
+      { startTime: 0, endTime: 8, muted: false, trackIndex: 0 },
+      { startTime: 2, endTime: 6, muted: false, trackIndex: 1 },
+    ];
+
+    const result = detectBoundariesScored(clipsWithoutTrackName, 4);
+
+    // Find the boundary at bar position 4 (the bar boundary where FX clips overlap)
+    const boundaryAtBar4 = result.find(b => b.position === 4);
+
+    // Without trackName, FX signal cannot fire. The score at this position
+    // should NOT include the FX signal contribution.
+    // We record the score here to compare with the trackName case below.
+    const scoreWithoutTrackName = boundaryAtBar4?.score ?? 0;
+
+    // Now create the SAME clips WITH trackName: "FX Riser" (matches FX_KEYWORDS via "riser")
+    const clipsWithTrackName = [
+      { startTime: 0, endTime: 8, muted: false, trackIndex: 0, trackName: 'FX Riser' },
+      { startTime: 2, endTime: 6, muted: false, trackIndex: 1, trackName: 'Synth Pad' },
+    ];
+
+    const resultWithTrackName = detectBoundariesScored(clipsWithTrackName, 4);
+    const boundaryAtBar4WithName = resultWithTrackName.find(b => b.position === 4);
+    const scoreWithTrackName = boundaryAtBar4WithName?.score ?? 0;
+
+    // The FX signal should fire when trackName is present and matches FX_KEYWORDS,
+    // making the score higher than without trackName.
+    // This documents the bug: without trackName, FX detection is completely inert.
+    expect(scoreWithTrackName).toBeGreaterThan(scoreWithoutTrackName);
+  });
+});
+
+
+// Validates: Requirements 1.3
+describe('Bug Exploration: Drum signal dead when trackName missing (Case F)', () => {
+  it('should return no drum signal contribution when clips lack trackName', () => {
+    // Clips on what WOULD be a drum track (index 0), positioned near bar boundary at beat 4.
+    // Short clips (2 beats) within the lookback window (barPos - barLength to barPos) = (0 to 4).
+    // WITHOUT trackName, computeDrumFillPresence skips all clips → signal never fires.
+    const clipsWithoutTrackName = [
+      { startTime: 2, endTime: 4, muted: false, trackIndex: 0 },
+      { startTime: 6, endTime: 8, muted: false, trackIndex: 1 },
+    ];
+
+    const result = detectBoundariesScored(clipsWithoutTrackName, 4);
+
+    // Find the boundary at bar position 4 (the bar boundary where drum clips are in the lookback window)
+    const boundaryAtBar4 = result.find(b => b.position === 4);
+
+    // Without trackName, drum signal cannot fire. The score at this position
+    // should NOT include the drum signal contribution.
+    const scoreWithoutTrackName = boundaryAtBar4?.score ?? 0;
+
+    // Now create the SAME clips WITH trackName: "Kick" (matches DRUM_KEYWORDS via "kick")
+    const clipsWithTrackName = [
+      { startTime: 2, endTime: 4, muted: false, trackIndex: 0, trackName: 'Kick' },
+      { startTime: 6, endTime: 8, muted: false, trackIndex: 1, trackName: 'Snare' },
+    ];
+
+    const resultWithTrackName = detectBoundariesScored(clipsWithTrackName, 4);
+    const boundaryAtBar4WithName = resultWithTrackName.find(b => b.position === 4);
+    const scoreWithTrackName = boundaryAtBar4WithName?.score ?? 0;
+
+    // The drum signal should fire when trackName is present and matches DRUM_KEYWORDS,
+    // making the score higher than without trackName.
+    // This documents the bug: without trackName, drum detection is completely inert.
+    expect(scoreWithTrackName).toBeGreaterThan(scoreWithoutTrackName);
+  });
+});
+
+
+// Validates: Requirements 1.4
+describe('Bug Exploration: Single-track density threshold (Case G)', () => {
+  it('should return 1 when track count delta is exactly 1', () => {
+    // We need 5 tracks active in the previous bar and 6 tracks active in the current bar.
+    // barPos = 8, barLength = 4
+    // Previous bar window: clips where startTime < 8 AND endTime > 4
+    // Current bar window: clips where startTime < 12 AND endTime > 8
+
+    const clips = [
+      // 5 tracks active in BOTH bars (span the entire range)
+      { startTime: 0, endTime: 16, muted: false, trackIndex: 0 },
+      { startTime: 0, endTime: 16, muted: false, trackIndex: 1 },
+      { startTime: 0, endTime: 16, muted: false, trackIndex: 2 },
+      { startTime: 0, endTime: 16, muted: false, trackIndex: 3 },
+      { startTime: 0, endTime: 16, muted: false, trackIndex: 4 },
+
+      // 1 additional track active ONLY in the current bar
+      // startTime=8 < 12 ✓, endTime=11 > 8 ✓ (current bar)
+      // startTime=8 NOT < 8 ✗ (previous bar — not active)
+      { startTime: 8, endTime: 11, muted: false, trackIndex: 5 },
+    ];
+
+    const result = computeTrackDensityDelta(clips, 8, 4);
+
+    // Expected: delta = |6 - 5| = 1, so the function SHOULD return 1.
+    // Bug: the current threshold is delta >= 2, so it returns 0 instead.
+    // This test failing (getting 0 instead of 1) confirms the bug exists.
+    expect(result).toBe(1);
   });
 });

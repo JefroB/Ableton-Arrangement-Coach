@@ -18,7 +18,7 @@ import type { SdkAdapter, CuePointHandle, LocatorData } from "../ableton/sdk-ada
  * control over return values and assertions.
  */
 function createInlineMockSdk(overrides: Partial<{
-  clips: { startTime: number; endTime: number; muted: boolean; trackIndex: number }[];
+  clips: { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[];
   songDuration: number;
   tracks: { name: string; type: "midi" | "audio" }[];
   locators: LocatorData[];
@@ -104,14 +104,14 @@ describe("section-generator integration", () => {
     // 5+ unmuted clips at known positions across multiple tracks to trigger content mode
     // Clips at positions that share start/end points (boundaries at beat 0, 128, 256, 384)
     const clips = [
-      { startTime: 0, endTime: 128, muted: false, trackIndex: 0 },
-      { startTime: 0, endTime: 128, muted: false, trackIndex: 1 },
-      { startTime: 128, endTime: 256, muted: false, trackIndex: 0 },
-      { startTime: 128, endTime: 256, muted: false, trackIndex: 1 },
-      { startTime: 256, endTime: 384, muted: false, trackIndex: 0 },
-      { startTime: 256, endTime: 384, muted: false, trackIndex: 1 },
-      { startTime: 384, endTime: 512, muted: false, trackIndex: 0 },
-      { startTime: 384, endTime: 512, muted: false, trackIndex: 1 },
+      { startTime: 0, endTime: 128, muted: false, trackIndex: 0, trackName: "Drums" },
+      { startTime: 0, endTime: 128, muted: false, trackIndex: 1, trackName: "Bass" },
+      { startTime: 128, endTime: 256, muted: false, trackIndex: 0, trackName: "Drums" },
+      { startTime: 128, endTime: 256, muted: false, trackIndex: 1, trackName: "Bass" },
+      { startTime: 256, endTime: 384, muted: false, trackIndex: 0, trackName: "Drums" },
+      { startTime: 256, endTime: 384, muted: false, trackIndex: 1, trackName: "Bass" },
+      { startTime: 384, endTime: 512, muted: false, trackIndex: 0, trackName: "Drums" },
+      { startTime: 384, endTime: 512, muted: false, trackIndex: 1, trackName: "Bass" },
     ];
 
     const sdk = createInlineMockSdk({

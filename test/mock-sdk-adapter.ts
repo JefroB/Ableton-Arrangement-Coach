@@ -65,7 +65,7 @@ export interface MockSdkAdapter extends SdkAdapter {
   setSongDuration(duration: number): void;
 
   /** Set the all-clips data that readAllClips() will return. */
-  setAllClips(clips: { startTime: number; endTime: number; muted: boolean; trackIndex: number }[]): void;
+  setAllClips(clips: { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[]): void;
 }
 
 export interface MockSdkAdapterOptions {
@@ -105,7 +105,7 @@ export function createMockSdkAdapter(
   const mutedTracks: Map<number, boolean> = new Map();
   let renderResultPath = "/tmp/mock-render.wav";
   let songDuration = 0;
-  let allClips: { startTime: number; endTime: number; muted: boolean; trackIndex: number }[] = [];
+  let allClips: { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[] = [];
   const createdCuePoints: CuePointHandle[] = [];
 
   return {
@@ -183,7 +183,7 @@ export function createMockSdkAdapter(
       return songDuration;
     },
 
-    readAllClips(): { startTime: number; endTime: number; muted: boolean; trackIndex: number }[] {
+    readAllClips(): { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[] {
       return allClips;
     },
 
@@ -263,7 +263,7 @@ export function createMockSdkAdapter(
       songDuration = duration;
     },
 
-    setAllClips(clips: { startTime: number; endTime: number; muted: boolean; trackIndex: number }[]): void {
+    setAllClips(clips: { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[]): void {
       allClips = clips;
     },
   };
