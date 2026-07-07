@@ -91,6 +91,7 @@ export interface ClipInfo {
   readonly endTime: number;
   readonly muted: boolean;
   readonly trackIndex: number;
+  readonly trackName: string;
 }
 
 /**

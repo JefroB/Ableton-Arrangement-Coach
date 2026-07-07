@@ -124,9 +124,9 @@ describe("Property 12: Partial Placement Threshold", () => {
       const mockSdk = {
         readLocators: () => [],
         readAllClips: () => [
-          { startTime: 0, endTime: 200, muted: false, trackIndex: 0 },
-          { startTime: 10, endTime: 80, muted: false, trackIndex: 1 },
-          { startTime: 50, endTime: 150, muted: false, trackIndex: 2 },
+          { startTime: 0, endTime: 200, muted: false, trackIndex: 0, trackName: "Track 1" },
+          { startTime: 10, endTime: 80, muted: false, trackIndex: 1, trackName: "Track 2" },
+          { startTime: 50, endTime: 150, muted: false, trackIndex: 2, trackName: "Track 3" },
         ],
         readSongDuration: () => 300,
         readTracks: () => [

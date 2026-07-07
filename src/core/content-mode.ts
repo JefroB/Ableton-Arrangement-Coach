@@ -134,7 +134,7 @@ export function detectBoundaries(
  * Returns 1 if the absolute change in active track count between the current
  * bar and the previous bar is >= 2.
  */
-function computeTrackDensityDelta(
+export function computeTrackDensityDelta(
   clips: readonly { startTime: number; endTime: number; trackIndex: number }[],
   barPos: number,
   barLength: number,
@@ -154,7 +154,7 @@ function computeTrackDensityDelta(
   }
 
   const delta = Math.abs(currentTracks.size - previousTracks.size);
-  return delta >= 2 ? 1 : 0;
+  return delta >= 1 ? 1 : 0;
 }
 
 /**

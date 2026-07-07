@@ -70,6 +70,7 @@ function clipArb(songDuration: number, trackCount: number): fc.Arbitrary<{
   endTime: number;
   muted: boolean;
   trackIndex: number;
+  trackName: string;
 }> {
   return fc
     .tuple(
@@ -83,6 +84,7 @@ function clipArb(songDuration: number, trackCount: number): fc.Arbitrary<{
       endTime: Math.max(a, b) + 0.001, // ensure endTime > startTime
       muted,
       trackIndex,
+      trackName: `Track ${trackIndex}`,
     }));
 }
 
@@ -128,7 +130,7 @@ function meetsContentThreshold(
 /** Create a minimal mock SdkAdapter. */
 function createMockSdk(opts: {
   locators: { name: string; time: number }[];
-  clips: { startTime: number; endTime: number; muted: boolean; trackIndex: number }[];
+  clips: { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[];
   songDuration: number;
   trackCount: number;
 }): SdkAdapter {
