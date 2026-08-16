@@ -43,7 +43,7 @@ const REF_ROLE_KEYWORDS = {
   drums: ["drum", "kick", "hat", "snare", "perc"],
   bass: ["bass"],
   lead: ["lead", "melody"],
-  pad: ["pad"],
+  pad: ["pad", "atmosphere", "atmos", "ambient", "drone", "texture", "strings", "choir", "wash"],
   arp: ["arp"],
 } as const;
 

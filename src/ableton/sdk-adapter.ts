@@ -122,7 +122,7 @@ export interface SdkAdapter extends AudioRenderAdapter {
   readSongDuration(): number;
 
   /** Read all clips across all tracks for mode selection and content analysis. */
-  readAllClips(): { startTime: number; endTime: number; muted: boolean; trackIndex: number }[];
+  readAllClips(): { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[];
 
   /** Get a fingerprint of the current song (name + track names). Used for project-change detection. */
   getSongFingerprint(): string;
@@ -455,12 +455,12 @@ export function createSdkAdapter(context: ExtensionContext): SdkAdapter {
       return maxEnd;
     },
 
-    readAllClips(): { startTime: number; endTime: number; muted: boolean; trackIndex: number }[] {
+    readAllClips(): { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[] {
       const tracks = context.application.song.tracks;
       if (!tracks || tracks.length === 0) {
         return [];
       }
-      const result: { startTime: number; endTime: number; muted: boolean; trackIndex: number }[] = [];
+      const result: { startTime: number; endTime: number; muted: boolean; trackIndex: number; trackName: string }[] = [];
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i]!;
         const clips = track.arrangementClips;
@@ -471,6 +471,7 @@ export function createSdkAdapter(context: ExtensionContext): SdkAdapter {
             endTime: clip.endTime,
             muted: clip.muted,
             trackIndex: i,
+            trackName: track.name,
           });
         }
       }

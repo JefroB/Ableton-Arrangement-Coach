@@ -18,6 +18,22 @@ import type { GenreFamilySummary, GenreSearchResult } from "../core/genre-regist
 import type { ReferenceSection, ComparisonResult } from "../core/reference-types.js";
 import type { DjScoreResult } from "../core/dj-scorer.js";
 
+// ——— Auto-Placement Dialog Types ———————————————————————————————————————————
+
+/** Warning shown when fewer locators than typical were placed. */
+export interface InsufficientCountWarning {
+  readonly placed: number;
+  readonly typicalMin: number;
+  readonly typicalMax: number;
+  readonly average: number;
+}
+
+/** Data payload for the confirmation dialog after auto-placement. */
+export interface ConfirmationDialogData {
+  readonly markersPlaced: number;
+  readonly warning: InsufficientCountWarning | null;
+}
+
 // ─── Backend → Webview Messages ────────────────────────────────────────
 
 /** Messages sent from the Extension backend to the webview. */
@@ -41,7 +57,10 @@ export type BackendMessage =
   | { type: "arrangement_score_updated"; score: number | null }
   | { type: "show_issues" }
   | { type: "generation_status"; generating: boolean; error: string | null }
-  | { type: "generation_complete"; markersCreated: number };
+  | { type: "generation_complete"; markersCreated: number }
+  | { type: "show_confirmation_dialog"; data: ConfirmationDialogData }
+  | { type: "show_info_message"; message: string }
+  | { type: "show_error_message"; message: string };
 
 // ─── Webview → Backend Messages ────────────────────────────────────────
 
@@ -63,7 +82,8 @@ export type FrontendMessage =
   | { type: "set_als_data"; fileName: string; data: string }
   | { type: "save_notes" }
   | { type: "refresh" }
-  | { type: "generate_sections" };
+  | { type: "generate_sections" }
+  | { type: "dismiss_confirmation_dialog" };
 
 // ─── Known Type Constants ──────────────────────────────────────────────
 
@@ -85,6 +105,7 @@ const KNOWN_FRONTEND_MESSAGE_TYPES: ReadonlySet<string> = new Set([
   "save_notes",
   "refresh",
   "generate_sections",
+  "dismiss_confirmation_dialog"
 ]);
 
 // ─── Type Guard ────────────────────────────────────────────────────────

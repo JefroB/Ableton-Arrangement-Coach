@@ -46,3 +46,6 @@ orchestrator/
 __pycache__/
 
 .subagentcoder/
+
+# IntentionMap data directory
+.intent/

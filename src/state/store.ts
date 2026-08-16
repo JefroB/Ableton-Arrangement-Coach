@@ -32,6 +32,22 @@ export interface SectionAnalysisState {
   readonly energyScore: number; // 1–10
 }
 
+// ─── Confirmation Dialog Types ──────────────────────────────────────────────────
+
+/** Warning shown when fewer locators than typical were placed. */
+export interface InsufficientCountWarning {
+  readonly placed: number;
+  readonly typicalMin: number;
+  readonly typicalMax: number;
+  readonly average: number;
+}
+
+/** Data for the confirmation dialog shown after auto-placement. */
+export interface ConfirmationDialogData {
+  readonly markersPlaced: number;
+  readonly warning: InsufficientCountWarning | null;
+}
+
 // ─── State Type ────────────────────────────────────────────────────────
 
 /** The complete application state. All fields are readonly to discourage mutation. */
@@ -65,6 +81,8 @@ export interface AppState {
   readonly arrangementScore: number | null;
   readonly isGenerating: boolean;
   readonly generationError: string | null;
+  readonly autoPlacementInProgress: boolean;
+  readonly confirmationDialog: ConfirmationDialogData | null;
 }
 
 // ─── Action Types ──────────────────────────────────────────────────────
@@ -102,7 +120,10 @@ export type Action =
   | UpdateAudioContentAnalysisAction
   | { type: "UPDATE_ARRANGEMENT_SCORE"; score: number | null }
   | { type: "SET_GENERATING"; generating: boolean }
-  | { type: "SET_GENERATION_ERROR"; error: string | null };
+  | { type: "SET_GENERATION_ERROR"; error: string | null }
+  | { type: "SET_AUTO_PLACEMENT_IN_PROGRESS"; inProgress: boolean }
+  | { type: "SHOW_CONFIRMATION_DIALOG"; data: ConfirmationDialogData }
+  | { type: "DISMISS_CONFIRMATION_DIALOG" };
 
 // ─── Store Interface ───────────────────────────────────────────────────
 
@@ -150,6 +171,8 @@ const INITIAL_STATE: AppState = {
   arrangementScore: null,
   isGenerating: false,
   generationError: null,
+  autoPlacementInProgress: false,
+  confirmationDialog: null,
 };
 
 // ─── Reducer ───────────────────────────────────────────────────────────
@@ -191,6 +214,8 @@ function reducer(state: AppState, action: Action): AppState {
         arrangementScore: null,
         isGenerating: state.isGenerating,
         generationError: state.generationError,
+        autoPlacementInProgress: false,
+        confirmationDialog: null,
       };
 
     case "UPDATE_PLAYHEAD": {
@@ -923,6 +948,15 @@ function reducer(state: AppState, action: Action): AppState {
 
     case "SET_GENERATION_ERROR":
       return { ...state, generationError: action.error };
+
+    case "SET_AUTO_PLACEMENT_IN_PROGRESS":
+      return { ...state, autoPlacementInProgress: action.inProgress };
+
+    case "SHOW_CONFIRMATION_DIALOG":
+      return { ...state, confirmationDialog: action.data };
+
+    case "DISMISS_CONFIRMATION_DIALOG":
+      return { ...state, confirmationDialog: null };
 
     default:
       return state;
